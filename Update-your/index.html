@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Garena - Official Top Up Center</title>
+    <title>Servio - Verification Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -28,7 +28,7 @@
             display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر الأصلي (بدون أي تعديل) --- */
+        /* --- Header الأصلي بالكامل مع دعم التغيير الديناميكي --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -55,7 +55,7 @@
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
         .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
 
-        /* --- محتوى البطاقة --- */
+        /* --- محتوى البطاقة المطور --- */
         .content-area { padding: 20px 16px; }
 
         .verification-card {
@@ -68,31 +68,24 @@
 
         .header-title { font-size: 18px; font-weight: 800; color: #000; margin-bottom: 20px; text-align: right; }
 
-        /* حقول البيانات */
         .data-item {
             display: flex; flex-direction: column; background: #fcfdfe;
             border: 1.5px solid var(--border-gray); border-radius: 12px;
-            margin-bottom: 15px; padding: 12px 15px;
-            text-align: right;
+            margin-bottom: 15px; padding: 12px 15px; text-align: right;
         }
 
         .data-label { font-size: 11px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
         .data-value { font-size: 12px; font-weight: 600; color: #475569; word-break: break-all; }
 
-        /* القوائم المنسدلة */
         .styled-select {
             width: 100%; border: none; background: transparent;
             font-size: 13px; font-weight: 700; color: #1e293b;
             padding: 5px 0; cursor: pointer; outline: none;
-            font-family: 'Inter', sans-serif;
-            appearance: none;
+            font-family: 'Inter', sans-serif; appearance: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: left center;
-            background-size: 14px;
+            background-repeat: no-repeat; background-position: left center; background-size: 14px;
         }
 
-        /* المنصات */
         .platform-section-title { font-size: 11px; font-weight: 700; color: #94a3b8; margin: 0 0 12px 0; text-align: right; }
         .platforms-wrapper { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-bottom: 25px; }
 
@@ -133,7 +126,7 @@
 
         <div class="content-area">
             <div class="verification-card">
-                <div class="header-title" id="main-header-text">مراجعة البيانات</div>
+                <div class="header-title" id="card-main-title">مراجعة البيانات</div>
 
                 <div class="data-item">
                     <div class="data-label" id="lbl-link">الرابط المكتشف</div>
@@ -174,40 +167,59 @@
     </div>
 
     <script>
-        // برمجيات الهيدر الأصلية
+        // مصفوفة الأعلام والبيانات الأصلية (المطابقة للصفحة الأولى)
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, saudi: `https://flagcdn.com/sa.svg`, 
-            morocco: `https://flagcdn.com/ma.svg`, uae: `https://flagcdn.com/ae.svg`, tunisia: `https://flagcdn.com/tn.svg`, 
-            palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`
+            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
+            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
         const shopData = {
             regions: { 
-                ar: ["الشرق الأوسط", "الجزائر", "مصر", "السعودية", "المغرب", "الإمارات", "تونس", "فلسطين", "قطر"], 
-                en: ["MENA", "Algeria", "Egypt", "Saudi Arabia", "Morocco", "UAE", "Tunisia", "Palestine", "Qatar"] 
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
+                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
             },
-            keys: ["mena", "algeria", "egypt", "saudi", "morocco", "uae", "tunisia", "palestine", "qatar"]
+            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
+            nav: { 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", header: "مراجعة البيانات", link: "الرابط", hint: "المنصة", cat: "الفئة", srv: "الخدمة" }, 
+                en: { t1: "Official Top Up", t2: "Center", header: "Review Details", link: "Link", hint: "Platform", cat: "Category", srv: "Service" } 
+            }
         };
 
         function updateUI() {
+            // جلب الإعدادات من الصفحة الأولى
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const savedLink = localStorage.getItem('saved_player_link') || '---';
             const savedPlatform = localStorage.getItem('saved_platform_name') || '';
 
-            // تحديث الهيدر
+            // 1. تحديث نصوص الهيدر واللغة
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            const data = shopData.nav[lang];
+            
+            document.getElementById('nav-t1').innerText = data.t1;
+            document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
-            
+
+            // 2. تحديث العلم بناءً على اختيار الصفحة الأولى
             const flagKey = shopData.keys[regIdx] || 'mena';
             const flagDisplay = document.getElementById('flag-display');
-            flagDisplay.innerHTML = (flagKey === 'mena') ? flags.mena : `<img src="${flags[flagKey]}" class="flag-icon">`;
+            if (flagKey === 'mena' || flagKey === 'other') {
+                flagDisplay.innerHTML = flags[flagKey];
+            } else {
+                flagDisplay.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
+            }
 
-            // تحديث البيانات
+            // 3. تحديث محتوى البطاقة (ترجمة النصوص)
+            document.getElementById('card-main-title').innerText = data.header;
+            document.getElementById('lbl-link').innerText = data.link;
             document.getElementById('val-link').innerText = savedLink;
+            document.getElementById('platform-hint').innerText = data.hint;
+            document.getElementById('lbl-cat').innerText = data.cat;
+            document.getElementById('lbl-srv').innerText = data.srv;
 
-            // تحديث أيقونة المنصة
+            // 4. تفعيل أيقونة المنصة المختارة
             const circles = document.querySelectorAll('.platform-circle');
             circles.forEach(c => c.classList.remove('active'));
             const pKey = savedPlatform.toLowerCase();
