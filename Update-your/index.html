@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Garena - Official Top Up Center</title>
+    <title>Servio - Verification</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -12,8 +12,7 @@
             --bg-light: #f8fbff; 
             --border-gray: #e2e8f0; 
             --text-dark: #1a202c;
-            --primary-blue: #3b82f6;
-            --accent-blue: #007aff;
+            --primary-blue: #2563eb;
         }
 
         body { 
@@ -29,7 +28,7 @@
             display: flex; flex-direction: column; 
         }
 
-        /* --- Header (تمت استعادته بالكامل) --- */
+        /* --- Header (الأصلي) --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -49,7 +48,6 @@
             display: flex; align-items: center; background: #f1f5f9; 
             border: 1px solid #e2e8f0; border-radius: 6px; 
             padding: 0 12px; height: 34px; direction: rtl;
-            pointer-events: none;
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
@@ -57,72 +55,59 @@
         .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
 
         /* --- Content Area --- */
-        .order-section { padding: 16px; animation: fadeInUp 0.5s ease-out; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .content-area { padding: 25px 16px; }
 
-        .order-card {
+        .verification-card {
             background: #ffffff;
             border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            padding: 25px 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
             border: 1px solid #edf2f7;
         }
 
-        .card-header { text-align: center; margin-bottom: 25px; }
-        .card-header h2 { font-size: 19px; font-weight: 800; color: #1e293b; margin: 0; }
+        .header-title { font-size: 20px; font-weight: 800; color: #000; margin-bottom: 22px; text-align: right; }
 
-        .info-box { margin-bottom: 22px; }
-        .label { 
-            font-size: 11px; font-weight: 800; color: var(--primary-blue); 
-            margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
-            text-transform: uppercase;
+        /* صندوق الرابط المدمج (بدون زر) */
+        .input-group {
+            display: flex; align-items: center; background: #fcfdfe;
+            border: 1.5px solid var(--border-gray); border-radius: 14px;
+            margin-bottom: 25px; padding: 15px;
         }
+        .input-content { flex: 1; display: flex; flex-direction: column; text-align: right; }
+        .input-label { font-size: 13px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 6px; }
+        .input-value { font-size: 12px; font-weight: 600; color: #475569; margin-top: 5px; word-break: break-all; }
 
-        .value-text { 
-            background: #f8fafc; border-radius: 14px; padding: 14px 16px;
-            font-size: 13px; font-weight: 600; color: #334155; word-break: break-all;
-            border: 1px solid #f1f5f9;
+        /* قسم المنصات */
+        .platform-section-title { font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 18px; text-align: right; }
+        .platforms-wrapper { display: flex; justify-content: space-around; align-items: center; gap: 10px; }
+
+        .platform-circle {
+            width: 55px; height: 55px; border-radius: 50%; background: #fff;
+            border: 1.5px solid var(--border-gray); display: flex; justify-content: center; align-items: center;
+            transition: all 0.3s ease; opacity: 0.2;
         }
+        .platform-circle.active { opacity: 1; border-color: var(--primary-blue); transform: scale(1.1); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1); }
+        .platform-circle img { width: 28px; height: 28px; object-fit: contain; }
 
-        /* --- Logo Hero Box --- */
-        .platform-hero {
-            background: #ffffff;
-            border: 1.5px solid #f2f2f7; border-radius: 20px;
-            height: 100px; display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
-        }
+        .servio-footer { margin-top: 30px; text-align: center; font-size: 10px; color: #cbd5e0; font-weight: 600; }
 
-        .platform-hero::after {
-            content: ''; position: absolute; width: 60px; height: 60px;
-            background: var(--accent-blue); opacity: 0.03; border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.1; } 100% { transform: scale(2.5); opacity: 0; } }
-
-        .active-logo { height: 42px; width: auto; object-fit: contain; z-index: 2; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
-        .empty-state { font-size: 12px; color: #94a3b8; font-weight: 600; z-index: 2; }
-
-        .footer-note { text-align: center; margin-top: 20px; }
-        .footer-note p { font-size: 10px; color: #cbd5e0; font-weight: 600; line-height: 1.5; }
-
-        [dir="ltr"] .title-box { text-align: left; }
     </style>
 </head>
 <body>
+
     <div class="mobile-container">
         <header>
             <div class="brand-section">
-                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" alt="Garena" class="logo-img">
+                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
                 <div class="v-line"></div>
                 <div class="title-box">
                     <span id="nav-t1">Official Top Up</span>
                     <span id="nav-t2">Center</span>
                 </div>
             </div>
-
             <div class="header-left-group">
                 <div class="info-display-wrapper">
-                    <div id="flag-display" style="display: flex; align-items: center;"></div>
+                    <div id="flag-display"></div>
                     <div class="display-text">
                         <span id="label-reg">---</span>
                         <span style="color:#cbd5e0;">|</span>
@@ -132,28 +117,30 @@
             </div>
         </header>
 
-        <div class="order-section">
-            <div class="order-card">
-                <div class="card-header">
-                    <h2 id="order-title">مراجعة الطلب</h2>
-                </div>
+        <div class="content-area">
+            <div class="verification-card">
+                <div class="header-title" id="main-header-text">Official Account Verification</div>
 
-                <div class="info-box">
-                    <div class="label" id="label-platform-link">رابط المنصة</div>
-                    <div class="value-text" id="platform-link-val">---</div>
-                </div>
-
-                <div class="info-box" style="margin-bottom: 10px;">
-                    <div class="label" id="label-platform-name">المنصة المكتشفة</div>
-                    <div class="platform-hero">
-                        <img id="platform-logo-img" src="" class="active-logo" style="display: none;">
-                        <span id="no-data-text" class="empty-state">في انتظار البيانات...</span>
+                <div class="input-group">
+                    <div class="input-content">
+                        <div class="input-label" id="label-profile">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            Your Profile Link
+                        </div>
+                        <div class="input-value" id="display-link">Paste your link here</div>
                     </div>
                 </div>
 
-                <div class="footer-note">
-                    <p>تم التحقق من البيانات عبر خوادم Servio الآمنة<br>© 2025 Servio Cloud Services</p>
+                <div class="platform-section-title" id="platform-hint">Verified account platform</div>
+
+                <div class="platforms-wrapper">
+                    <div class="platform-circle" id="circle-twitch"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg"></div>
+                    <div class="platform-circle" id="circle-tiktok"><img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"></div>
+                    <div class="platform-circle" id="circle-instagram"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"></div>
+                    <div class="platform-circle" id="circle-facebook"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"></div>
                 </div>
+
+                <div class="servio-footer">Verified via Servio Secure Servers</div>
             </div>
         </div>
     </div>
@@ -165,13 +152,6 @@
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        const logos = {
-            twitch: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg",
-            tiktok: "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
-            instagram: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-            facebook: "https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
-        };
-
         const shopData = {
             regions: { 
                 ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
@@ -179,8 +159,8 @@
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
             nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", order: "مراجعة الطلب", platLink: "رابط المنصة", platName: "المنصة المكتشفة" }, 
-                en: { t1: "Official Top Up", t2: "Center", order: "Review Order", platLink: "Platform Link", platName: "Detected Platform" } 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", header: "مراجعة البيانات", label: "الرابط", hint: "منصة الحساب المكتشفة" }, 
+                en: { t1: "Official Top Up", t2: "Center", header: "Data Review", label: "Link", hint: "Detected account platform" } 
             }
         };
 
@@ -199,35 +179,25 @@
             document.getElementById('label-lng').innerText = (lang === 'ar') ? 'AR' : 'EN';
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
             
-            // تحديث البطاقة
-            document.getElementById('order-title').innerText = data.order;
-            document.getElementById('label-platform-link').innerText = data.platLink;
-            document.getElementById('label-platform-name').innerText = data.platName;
-            document.getElementById('platform-link-val').innerText = savedLink;
-
-            // تحديث الشعار وفحص المنطقة
             const flagDisplay = document.getElementById('flag-display');
             const flagKey = shopData.keys[regIdx];
             flagDisplay.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            const logoImg = document.getElementById('platform-logo-img');
-            const noDataText = document.getElementById('no-data-text');
-            const platformKey = savedPlatform.toLowerCase();
+            // تحديث البطاقة
+            document.getElementById('main-header-text').innerText = data.header;
+            document.getElementById('label-profile').innerText = data.label;
+            document.getElementById('display-link').innerText = savedLink;
+            document.getElementById('platform-hint').innerText = data.hint;
 
-            let foundLogo = "";
-            if (platformKey.includes('twitch')) foundLogo = logos.twitch;
-            else if (platformKey.includes('tiktok')) foundLogo = logos.tiktok;
-            else if (platformKey.includes('instagram')) foundLogo = logos.instagram;
-            else if (platformKey.includes('facebook')) foundLogo = logos.facebook;
-
-            if (foundLogo) {
-                logoImg.src = foundLogo;
-                logoImg.style.display = "block";
-                noDataText.style.display = "none";
-            } else {
-                logoImg.style.display = "none";
-                noDataText.style.display = "block";
-            }
+            // تفعيل أيقونة المنصة
+            const circles = document.querySelectorAll('.platform-circle');
+            circles.forEach(c => c.classList.remove('active'));
+            
+            const pKey = savedPlatform.toLowerCase();
+            if (pKey.includes('twitch')) document.getElementById('circle-twitch').classList.add('active');
+            else if (pKey.includes('tiktok')) document.getElementById('circle-tiktok').classList.add('active');
+            else if (pKey.includes('instagram')) document.getElementById('circle-instagram').classList.add('active');
+            else if (pKey.includes('facebook')) document.getElementById('circle-facebook').classList.add('active');
         }
 
         document.addEventListener('DOMContentLoaded', updateUI);
