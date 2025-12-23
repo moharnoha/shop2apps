@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<html lang="en" dir="rtl"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Garena - مركز الشحن الرسمي</title>
+    <title>Garena - Official Top-up Center</title>
     <style>
         :root {
             --bg-light: #f8fbff;
@@ -26,50 +25,52 @@
             width: 100%; height: 65px;
             background-color: var(--bg-light);
             border-bottom: 1px solid var(--border-gray);
-            display: flex; align-items: center;
+            display: flex; 
+            flex-direction: row; 
+            align-items: center;
             justify-content: space-between;
             padding: 0 12px; box-sizing: border-box;
             position: sticky; top: 0; z-index: 1000;
+            direction: rtl !important; /* تثبيت الشعار يميناً والكبسولة يساراً دائماً */
         }
 
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 32px; width: auto; }
         .v-line { width: 1.5px; height: 28px; background-color: #cbd5e0; margin: 0 10px; }
-        .title-box { display: flex; flex-direction: column; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span { font-size: 11px; font-weight: 800; color: #2d3748; line-height: 1.1; }
 
-        /* تعديل الحاوية لمنع الفراغ */
-        .region-selector-btn {
+        .selector-wrapper {
             display: flex;
             align-items: center;
             background: #ffffff;
             border: 1px solid #cbd5e0;
             border-radius: 6px;
-            padding: 0 8px; /* تقليل البادينج الجانبي */
-            cursor: pointer;
-            width: 145px; /* عرض متوازن */
-            height: 34px;
+            padding: 0 8px;
+            width: 165px; 
+            height: 36px;
             position: relative;
-            justify-content: space-between; /* توزيع العناصر لملء الفراغ */
+            justify-content: space-between;
+            direction: rtl;
         }
 
-        .loc-icon {
-            width: 14px; height: 14px;
-            fill: #718096; flex-shrink: 0;
-            margin-left: 4px;
-        }
+        .loc-icon { width: 14px; height: 14px; fill: #718096; flex-shrink: 0; margin-left: 4px; }
 
-        #current-region-name {
+        .display-text {
             font-size: 10px;
             font-weight: 700;
             color: #4a5568;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            direction: rtl;
-            flex-grow: 1; /* جعل النص يأخذ كل المساحة المتاحة */
-            text-align: center; /* توسيط النص لإلغاء الفراغ */
+            flex-grow: 1;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 4px;
         }
+
+        .lang-sep { color: #cbd5e0; margin: 0 2px; }
 
         .arrow-down {
             width: 6px; height: 6px;
@@ -80,10 +81,12 @@
             margin-bottom: 2px;
         }
 
-        select#hidden-country-select {
+        .hidden-selects {
             position: absolute; top:0; left:0; width: 100%; height: 100%; 
-            opacity: 0; cursor: pointer; z-index: 10;
+            display: flex; opacity: 0; cursor: pointer; z-index: 10;
         }
+        #region-select { width: 60%; }
+        #lang-select { width: 40%; }
 
         main { flex: 1; }
     </style>
@@ -96,36 +99,31 @@
                 <img src="https://i.postimg.cc/KvMWmkZw/servio.png" alt="Logo" class="logo-img">
                 <div class="v-line"></div>
                 <div class="title-box">
-                    <span>مركز الشحن</span>
-                    <span>الرسمي</span>
+                    <span id="nav-t1">Top-up</span>
+                    <span id="nav-t2">Center</span>
                 </div>
             </div>
 
-            <div class="region-selector-btn">
+            <div class="selector-wrapper">
                 <svg class="loc-icon" viewBox="0 0 24 24">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
                 
-                <span id="current-region-name">الشرق الأوسط</span>
-                
+                <div class="display-text">
+                    <span id="label-reg">Middle East</span>
+                    <span class="lang-sep">|</span>
+                    <span id="label-lng">English</span>
+                </div>
+
                 <div class="arrow-down"></div>
 
-                <select id="hidden-country-select" onchange="updateDisplay(this)">
-                    <option value="mena">الشرق الأوسط وشمال أفريقيا</option>
-                    <option value="sa">🇸🇦 المملكة العربية السعودية</option>
-                    <option value="eg">🇪🇬 مصر</option>
-                    <option value="ma">🇲🇦 المغرب</option>
-                    <option value="dz">🇩🇿 الجزائر</option>
-                    <option value="ae">🇦🇪 الإمارات العربية المتحدة</option>
-                    <option value="iq">🇮🇶 العراق</option>
-                    <option value="kw">🇰🇼 الكويت</option>
-                    <option value="ps">🇵🇸 فلسطين</option>
-                    <option value="jo">🇯🇴 الأردن</option>
-                    <option value="qa">🇶🇦 قطر</option>
-                    <option value="om">🇴🇲 عمان</option>
-                    <option value="lb">🇱🇧 لبنان</option>
-                    <option value="tn">🇹🇳 تونس</option>
-                </select>
+                <div class="hidden-selects">
+                    <select id="region-select" onchange="handleRegion(this)"></select>
+                    <select id="lang-select" onchange="handleLang(this)">
+                        <option value="en">English</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </div>
             </div>
         </header>
 
@@ -133,36 +131,55 @@
     </div>
 
     <script>
-        const select = document.getElementById('hidden-country-select');
-        const textSpan = document.getElementById('current-region-name');
+        const shopData = {
+            regions: {
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "المملكة العربية السعودية", "تونس", "الإمارات العربية المتحدة", "منطقة أخرى"],
+                en: ["Middle East", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"]
+            },
+            nav: {
+                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية" },
+                en: { t1: "Top-up", t2: "Center", lName: "English" }
+            }
+        };
 
-        function updateDisplay(selectElement) {
-            const selectedText = selectElement.options[selectElement.selectedIndex].text;
-            const selectedValue = selectElement.value;
-            textSpan.innerText = selectedText;
-            localStorage.setItem('userRegionValue', selectedValue);
-            localStorage.setItem('userRegionText', selectedText);
+        function handleLang(el) {
+            const lang = el.value;
+            localStorage.setItem('pref_lang', lang);
+            updateUI(lang);
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedValue = localStorage.getItem('userRegionValue');
-            const savedText = localStorage.getItem('userRegionText');
+        function updateUI(lang) {
+            document.getElementById('nav-t1').innerText = shopData.nav[lang].t1;
+            document.getElementById('nav-t2').innerText = shopData.nav[lang].t2;
+            document.getElementById('label-lng').innerText = shopData.nav[lang].lName;
 
-            if (savedValue && savedText) {
-                select.value = savedValue;
-                textSpan.innerText = savedText;
-            } else {
-                fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    const code = data.country_code.toLowerCase();
-                    if (select.querySelector(`option[value="${code}"]`)) {
-                        select.value = code;
-                        updateDisplay(select);
-                    }
-                })
-                .catch(e => console.log("Auto-location failed"));
-            }
+            const regSel = document.getElementById('region-select');
+            const currentIdx = regSel.selectedIndex !== -1 ? regSel.selectedIndex : 0;
+            
+            regSel.innerHTML = shopData.regions[lang].map((name, i) => 
+                `<option value="${i}">${name}</option>`
+            ).join('');
+            
+            regSel.selectedIndex = currentIdx;
+            document.getElementById('label-reg').innerText = shopData.regions[lang][currentIdx];
+        }
+
+        function handleRegion(el) {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('label-reg').innerText = shopData.regions[lang][el.selectedIndex];
+            localStorage.setItem('pref_reg_idx', el.selectedIndex);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // جعل الإنجليزية هي الخيار الافتراضي إذا لم يتم الحفظ مسبقاً
+            const lang = localStorage.getItem('pref_lang') || 'en';
+            const regIdx = localStorage.getItem('pref_reg_idx') || 0;
+            
+            document.getElementById('lang-select').value = lang;
+            updateUI(lang);
+            
+            document.getElementById('region-select').selectedIndex = regIdx;
+            document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
         });
     </script>
 </body>
