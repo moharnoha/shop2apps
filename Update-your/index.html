@@ -12,21 +12,23 @@
             --bg-light: #f8fbff; 
             --border-gray: #e2e8f0; 
             --text-dark: #1a202c;
+            --primary-blue: #3b82f6;
         }
 
         body { 
             margin: 0; padding: 0; 
             font-family: 'Inter', sans-serif; 
-            background-color: #f7fafc; 
+            background-color: #f1f5f9; 
             display: flex; justify-content: center; 
         }
 
         .mobile-container { 
             width: 100%; max-width: 480px; 
-            min-height: 100vh; background-color: #ffffff;
+            min-height: 100vh; background-color: #f7fafc;
             display: flex; flex-direction: column; 
         }
 
+        /* --- Header --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -42,13 +44,11 @@
         .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
 
         .header-left-group { display: flex; align-items: center; }
-        
-        /* شكل العرض فقط بدون إمكانية التفاعل */
         .info-display-wrapper { 
             display: flex; align-items: center; background: #f1f5f9; 
             border: 1px solid #e2e8f0; border-radius: 6px; 
             padding: 0 12px; height: 34px; direction: rtl;
-            pointer-events: none; /* يمنع الضغط تماماً */
+            pointer-events: none;
         }
 
         .display-text { 
@@ -58,6 +58,52 @@
 
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
         .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
+
+        /* --- Order Section --- */
+        .order-section { padding: 16px; }
+
+        .order-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #edf2f7;
+        }
+
+        .card-header { display: flex; align-items: center; margin-bottom: 25px; }
+        .card-header h2 { font-size: 20px; font-weight: 800; color: #1e293b; margin: 0; }
+
+        .input-group { margin-bottom: 22px; }
+        .input-group label {
+            display: block; font-size: 15px; font-weight: 700; 
+            color: #334155; margin-bottom: 12px;
+        }
+
+        .custom-select {
+            display: flex; align-items: center; 
+            padding: 14px 16px; min-height: 24px;
+            border: 1.5px solid var(--primary-blue);
+            border-radius: 16px; background: #fff; cursor: pointer;
+        }
+
+        .service-select { border-color: transparent; background: #eef2f7; }
+
+        .select-text {
+            font-size: 14px; font-weight: 600; color: #334155;
+            flex: 1; min-height: 1.2em; /* يحافظ على ارتفاع الزر وهو فارغ */
+        }
+
+        .arrow-down {
+            width: 0; height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #94a3b8;
+            margin-right: 10px;
+        }
+
+        /* LTR Support */
+        [dir="ltr"] .arrow-down { margin-right: 0; margin-left: 10px; }
+        [dir="ltr"] .title-box { text-align: left; }
     </style>
 </head>
 <body>
@@ -83,6 +129,30 @@
                 </div>
             </div>
         </header>
+
+        <div class="order-section">
+            <div class="order-card">
+                <div class="card-header">
+                    <h2 id="order-title">إنشاء طلب</h2>
+                </div>
+
+                <div class="input-group">
+                    <label id="label-category">فئة</label>
+                    <div class="custom-select">
+                        <span id="category-text" class="select-text"></span>
+                        <div class="arrow-down"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label id="label-service">خدمة</label>
+                    <div class="custom-select service-select">
+                        <span id="service-text" class="select-text"></span>
+                        <div class="arrow-down"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -99,35 +169,32 @@
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
             nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية" }, 
-                en: { t1: "Official Top Up", t2: "Center", lName: "EN" } 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", order: "إنشاء طلب", cat: "فئة", serv: "خدمة" }, 
+                en: { t1: "Official Top Up", t2: "Center", lName: "EN", order: "Create Order", cat: "Category", serv: "Service" } 
             }
         };
 
         function updateUI() {
-            // جلب البيانات المخزنة من الصفحة الرئيسية
-            const lang = localStorage.getItem('pref_lang') || 'en';
+            const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const data = shopData.nav[lang];
 
-            // تحديث اتجاه الصفحة والنصوص
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.getElementById('nav-t1').innerText = data.t1;
             document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = (lang === 'ar') ? 'AR' : 'EN';
+            
+            document.getElementById('order-title').innerText = data.order;
+            document.getElementById('label-category').innerText = data.cat;
+            document.getElementById('label-service').innerText = data.serv;
 
-            // عرض اسم المنطقة المختارة
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
-
-            // عرض العلم المختار
             const display = document.getElementById('flag-display');
             const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
         }
 
-        // تحديث الواجهة عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
-
