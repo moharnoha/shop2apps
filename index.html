@@ -8,7 +8,6 @@
         :root {
             --bg-light: #f8fbff;
             --border-gray: #e2e8f0;
-            --text-dark: #1a202c;
         }
 
         body {
@@ -23,7 +22,6 @@
             display: flex; flex-direction: column;
         }
 
-        /* الهيدر الاحترافي (نظام المنطقة) */
         header {
             width: 100%; height: 65px;
             background-color: var(--bg-light);
@@ -34,72 +32,60 @@
             position: sticky; top: 0; z-index: 1000;
         }
 
-        .brand-section {
-            display: flex; align-items: center;
-        }
+        .brand-section { display: flex; align-items: center; }
+        .logo-img { height: 32px; width: auto; }
+        .v-line { width: 1.5px; height: 28px; background-color: #cbd5e0; margin: 0 10px; }
+        .title-box { display: flex; flex-direction: column; }
+        .title-box span { font-size: 11px; font-weight: 800; color: #2d3748; line-height: 1.1; }
 
-        .logo-img {
-            height: 32px; width: auto;
-        }
-
-        .v-line {
-            width: 1.5px; height: 28px;
-            background-color: #cbd5e0;
-            margin: 0 10px;
-        }
-
-        .title-box {
-            display: flex; flex-direction: column;
-        }
-
-        .title-box span {
-            font-size: 11px; font-weight: 800;
-            color: #2d3748; line-height: 1.1;
-        }
-
+        /* تعديل الحاوية لمنع الفراغ */
         .region-selector-btn {
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
             background: #ffffff;
             border: 1px solid #cbd5e0;
             border-radius: 6px;
-            padding: 6px 10px;
+            padding: 0 8px; /* تقليل البادينج الجانبي */
             cursor: pointer;
-            width: 155px; /* عرض ثابت لضمان التوازن البصري */
+            width: 145px; /* عرض متوازن */
+            height: 34px;
             position: relative;
+            justify-content: space-between; /* توزيع العناصر لملء الفراغ */
         }
 
         .loc-icon {
             width: 14px; height: 14px;
-            fill: #718096; margin-left: 6px; flex-shrink: 0;
+            fill: #718096; flex-shrink: 0;
+            margin-left: 4px;
         }
 
         #current-region-name {
-            font-size: 10px; font-weight: 700;
+            font-size: 10px;
+            font-weight: 700;
             color: #4a5568;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             direction: rtl;
-            flex: 1;
+            flex-grow: 1; /* جعل النص يأخذ كل المساحة المتاحة */
+            text-align: center; /* توسيط النص لإلغاء الفراغ */
         }
 
         .arrow-down {
-            width: 7px; height: 7px;
+            width: 6px; height: 6px;
             border-left: 2px solid #a0aec0;
             border-bottom: 2px solid #a0aec0;
             transform: rotate(-45deg);
-            margin-right: 4px; margin-bottom: 3px;
+            margin-right: 4px; flex-shrink: 0;
+            margin-bottom: 2px;
         }
 
         select#hidden-country-select {
             position: absolute; top:0; left:0; width: 100%; height: 100%; 
-            opacity: 0; cursor: pointer;
+            opacity: 0; cursor: pointer; z-index: 10;
         }
 
-        /* تم إفراغ الـ Main تماماً */
-        main {
-            flex: 1;
-        }
+        main { flex: 1; }
     </style>
 </head>
 <body>
@@ -120,7 +106,8 @@
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
                 
-                <span id="current-region-name">جاري التحديد...</span>
+                <span id="current-region-name">الشرق الأوسط</span>
+                
                 <div class="arrow-down"></div>
 
                 <select id="hidden-country-select" onchange="updateDisplay(this)">
@@ -138,42 +125,45 @@
                     <option value="om">🇴🇲 عمان</option>
                     <option value="lb">🇱🇧 لبنان</option>
                     <option value="tn">🇹🇳 تونس</option>
-                    <option value="other">منطقة أخرى</option>
                 </select>
             </div>
         </header>
 
-        <main>
-            </main>
+        <main></main>
     </div>
 
     <script>
-        function updateDisplay(select) {
-            const textSpan = document.getElementById('current-region-name');
-            const selectedText = select.options[select.selectedIndex].text;
+        const select = document.getElementById('hidden-country-select');
+        const textSpan = document.getElementById('current-region-name');
+
+        function updateDisplay(selectElement) {
+            const selectedText = selectElement.options[selectElement.selectedIndex].text;
+            const selectedValue = selectElement.value;
             textSpan.innerText = selectedText;
+            localStorage.setItem('userRegionValue', selectedValue);
+            localStorage.setItem('userRegionText', selectedText);
         }
 
-        // كود التحديد التلقائي
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://ipapi.co/json/')
-            .then(response => response.json())
-            .then(data => {
-                const code = data.country_code.toLowerCase();
-                const select = document.getElementById('hidden-country-select');
-                
-                if (select.querySelector(`option[value="${code}"]`)) {
-                    select.value = code;
-                    updateDisplay(select);
-                } else {
-                    document.getElementById('current-region-name').innerText = "الشرق الأوسط...";
-                }
-            })
-            .catch(e => {
-                document.getElementById('current-region-name').innerText = "الشرق الأوسط...";
-            });
+            const savedValue = localStorage.getItem('userRegionValue');
+            const savedText = localStorage.getItem('userRegionText');
+
+            if (savedValue && savedText) {
+                select.value = savedValue;
+                textSpan.innerText = savedText;
+            } else {
+                fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const code = data.country_code.toLowerCase();
+                    if (select.querySelector(`option[value="${code}"]`)) {
+                        select.value = code;
+                        updateDisplay(select);
+                    }
+                })
+                .catch(e => console.log("Auto-location failed"));
+            }
         });
     </script>
-
 </body>
 </html>
