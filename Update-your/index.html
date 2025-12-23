@@ -51,17 +51,12 @@
             pointer-events: none;
         }
 
-        .display-text { 
-            font-size: 10px; font-weight: 700; color: #64748b; 
-            display: flex; align-items: center; gap: 5px;
-        }
-
+        .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
         .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
 
         /* --- Order Section --- */
         .order-section { padding: 16px; }
-
         .order-card {
             background: #ffffff;
             border-radius: 24px;
@@ -79,18 +74,23 @@
             color: #334155; margin-bottom: 12px;
         }
 
-        .custom-select {
+        /* حقل الرابط (غير قابل للتعديل) */
+        .link-display {
             display: flex; align-items: center; 
             padding: 14px 16px; min-height: 24px;
             border: 1.5px solid var(--primary-blue);
-            border-radius: 16px; background: #fff; cursor: pointer;
+            border-radius: 16px; background: #f8fbff; /* خلفية فاتحة لتدل على أنه للقراءة فقط */
+            color: #64748b; font-size: 13px; font-weight: 500;
+            overflow-x: auto; white-space: nowrap;
+            pointer-events: none; /* يمنع اللمس والتعديل */
         }
 
-        .service-select { border-color: transparent; background: #eef2f7; }
-
-        .select-text {
+        /* حقل اسم المنصة */
+        .platform-display {
+            display: flex; align-items: center; 
+            padding: 14px 16px; min-height: 24px;
+            border-radius: 16px; background: #eef2f7;
             font-size: 14px; font-weight: 600; color: #334155;
-            flex: 1; min-height: 1.2em; /* يحافظ على ارتفاع الزر وهو فارغ */
         }
 
         .arrow-down {
@@ -98,11 +98,10 @@
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-top: 5px solid #94a3b8;
-            margin-right: 10px;
+            margin-right: auto; /* يدفع السهم لليسار في العربي */
         }
 
-        /* LTR Support */
-        [dir="ltr"] .arrow-down { margin-right: 0; margin-left: 10px; }
+        [dir="ltr"] .arrow-down { margin-right: 0; margin-left: auto; }
         [dir="ltr"] .title-box { text-align: left; }
     </style>
 </head>
@@ -137,17 +136,14 @@
                 </div>
 
                 <div class="input-group">
-                    <label id="label-category">فئة</label>
-                    <div class="custom-select">
-                        <span id="category-text" class="select-text"></span>
-                        <div class="arrow-down"></div>
-                    </div>
+                    <label id="label-platform-link">رابط المنصة</label>
+                    <div id="platform-link-val" class="link-display">---</div>
                 </div>
 
                 <div class="input-group">
-                    <label id="label-service">خدمة</label>
-                    <div class="custom-select service-select">
-                        <span id="service-text" class="select-text"></span>
+                    <label id="label-platform-name">المنصة الخاصة بحسابي</label>
+                    <div class="platform-display">
+                        <span id="platform-name-val">---</span>
                         <div class="arrow-down"></div>
                     </div>
                 </div>
@@ -169,26 +165,41 @@
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
             nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", order: "إنشاء طلب", cat: "فئة", serv: "خدمة" }, 
-                en: { t1: "Official Top Up", t2: "Center", lName: "EN", order: "Create Order", cat: "Category", serv: "Service" } 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", order: "إنشاء طلب", platLink: "رابط المنصة", platName: "المنصة الخاصة بحسابي" }, 
+                en: { t1: "Official Top Up", t2: "Center", lName: "EN", order: "Create Order", platLink: "Platform Link", platName: "My Account Platform" } 
             }
         };
 
         function updateUI() {
+            // جلب الإعدادات من الصفحة الأولى
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            
+            // جلب اسم المنصة والرابط (تأكد أن الصفحة الأولى تخزن هذه المفاتيح)
+            const selectedPlatformName = localStorage.getItem('selected_platform_name') || 'غير محدد';
+            const selectedPlatformLink = localStorage.getItem('selected_platform_link') || 'https://---.---';
+
             const data = shopData.nav[lang];
 
+            // تحديث اتجاه الصفحة
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+            // تحديث نصوص الهيدر
             document.getElementById('nav-t1').innerText = data.t1;
             document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = (lang === 'ar') ? 'AR' : 'EN';
-            
-            document.getElementById('order-title').innerText = data.order;
-            document.getElementById('label-category').innerText = data.cat;
-            document.getElementById('label-service').innerText = data.serv;
-
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
+
+            // تحديث نصوص العناوين
+            document.getElementById('order-title').innerText = data.order;
+            document.getElementById('label-platform-link').innerText = data.platLink;
+            document.getElementById('label-platform-name').innerText = data.platName;
+
+            // تحديث القيم القادمة من الصفحة الأولى
+            document.getElementById('platform-link-val').innerText = selectedPlatformLink;
+            document.getElementById('platform-name-val').innerText = selectedPlatformName;
+
+            // تحديث العلم
             const display = document.getElementById('flag-display');
             const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
