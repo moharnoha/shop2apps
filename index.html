@@ -11,177 +11,95 @@
             --border-gray: #e2e8f0; 
             --text-dark: #2d3748;
             --accent-blue: #3182ce;
+            --gold-gradient: linear-gradient(90deg, #d4af37, #f1d592, #d4af37);
         }
 
         body { 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; padding: 0; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
             background-color: #ffffff; 
-            display: flex; 
-            justify-content: center; 
+            display: flex; justify-content: center; 
         }
 
         .mobile-container { 
-            width: 100%; 
-            max-width: 480px; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
+            width: 100%; max-width: 480px; 
+            min-height: 100vh; display: flex; flex-direction: column; 
         }
 
         header { 
-            width: 100%; 
-            height: 65px; 
-            background-color: var(--bg-light); 
-            border-bottom: 1px solid var(--border-gray); 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 12px; 
-            box-sizing: border-box; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            direction: rtl !important; 
+            width: 100%; height: 65px; background-color: var(--bg-light); 
+            border-bottom: 1px solid var(--border-gray); display: flex; 
+            align-items: center; justify-content: space-between; 
+            padding: 0 12px; box-sizing: border-box; position: sticky; 
+            top: 0; z-index: 1000; direction: rtl !important; 
         }
 
-        .brand-section { 
-            display: flex; 
-            align-items: center; 
+        .brand-section { display: flex; align-items: center; }
+        .logo-img { height: 28px; width: auto; }
+        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
+
+        .header-left-group { display: flex; align-items: center; gap: 12px; }
+        .selector-wrapper { 
+            display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e0; 
+            border-radius: 6px; padding: 0 8px; width: 145px; height: 34px; 
+            position: relative; justify-content: space-between; direction: rtl; 
         }
 
-        .logo-img { 
-            height: 28px; 
-            width: auto; 
-            object-fit: contain;
+        .display-text { font-size: 10px; font-weight: 700; color: #4a5568; display: flex; align-items: center; flex-grow: 1; justify-content: center; }
+        .profile-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; }
+        .profile-icon-svg { width: 30px; height: 30px; fill: #cbd5e0; }
+
+        .hidden-selects { position: absolute; top:0; left:0; width: 100%; height: 100%; display: flex; opacity: 0; z-index: 10; cursor: pointer; }
+        #region-select { width: 65%; } #lang-select { width: 35%; }
+
+        /* Golden Bar - الحركة سريعة ومنتظمة */
+        .golden-bar {
+            width: 100%;
+            height: 26px;
+            background: var(--gold-gradient);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .v-line { 
-            width: 1px; 
-            height: 22px; 
-            background-color: #cbd5e0; 
-            margin: 0 10px; 
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            will-change: transform;
+            /* تم تقليل الوقت لزيادة السرعة */
+            animation: marquee-fast 10s linear infinite; 
         }
 
-        .title-box { 
-            display: flex; 
-            flex-direction: column; 
-            text-align: right; 
-        }
-
-        .title-box span { 
-            font-size: 10px; 
-            font-weight: 800; 
-            color: var(--text-dark); 
-            line-height: 1.1; 
+        .marquee-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: #4a3701;
+            padding: 0 50px;
             text-transform: uppercase;
         }
 
-        .header-left-group { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
+        @keyframes marquee-fast {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* حركة نصف الحاوية تضمن التكرار السلس */
         }
 
-        .selector-wrapper { 
-            display: flex; 
-            align-items: center; 
-            background: #ffffff; 
-            border: 1px solid #cbd5e0; 
-            border-radius: 6px; 
-            padding: 0 8px; 
-            width: 145px; 
-            height: 34px; 
-            position: relative; 
-            justify-content: space-between; 
-            direction: rtl; 
+        /* تعديل الحركة للـ RTL لضمان عدم القفز */
+        [dir="rtl"] .marquee-content {
+            animation: marquee-fast-rtl 10s linear infinite;
         }
 
-        .flag-icon { 
-            width: 20px; 
-            height: 14px; 
-            margin-left: 6px; 
-            flex-shrink: 0; 
-            border: 0.5px solid #eee; 
-            border-radius: 2px;
+        @keyframes marquee-fast-rtl {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50%); }
         }
 
-        .display-text { 
-            font-size: 10px; 
-            font-weight: 700; 
-            color: #4a5568; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            flex-grow: 1; 
-            justify-content: center; 
-        }
-
-        .lang-sep { 
-            color: #cbd5e0; 
-            margin: 0 4px; 
-        }
-
-        .arrow-down { 
-            width: 5px; 
-            height: 5px; 
-            border-left: 1.5px solid #a0aec0; 
-            border-bottom: 1.5px solid #a0aec0; 
-            transform: rotate(-45deg); 
-            margin-right: 4px; 
-            flex-shrink: 0; 
-            margin-bottom: 2px; 
-        }
-
-        .profile-btn { 
-            width: 34px; 
-            height: 34px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer; 
-            text-decoration: none; 
-            transition: opacity 0.2s;
-        }
-
-        .profile-btn:active {
-            opacity: 0.7;
-        }
-
-        .profile-icon-svg { 
-            width: 30px; 
-            height: 30px; 
-            fill: #cbd5e0; 
-        }
-
-        .hidden-selects { 
-            position: absolute; 
-            top:0; 
-            left:0; 
-            width: 100%; 
-            height: 100%; 
-            display: flex; 
-            opacity: 0; 
-            cursor: pointer; 
-            z-index: 10; 
-        }
-
-        #region-select { width: 65%; height: 100%; }
-        #lang-select { width: 35%; height: 100%; }
-
-        .mena-icon { 
-            width: 16px; 
-            height: 16px; 
-            margin-left: 6px; 
-            fill: #718096; 
-        }
-
-        main {
-            padding: 20px;
-            text-align: center;
-        }
+        .flag-icon { width: 20px; height: 14px; margin-left: 6px; border-radius: 2px; }
+        .mena-icon { width: 16px; height: 16px; margin-left: 6px; fill: #718096; }
+        main { padding: 20px; text-align: center; }
     </style>
 </head>
 <body>
@@ -201,11 +119,10 @@
                     <div id="flag-display" style="display: flex; align-items: center;"></div>
                     <div class="display-text">
                         <span id="label-reg">MENA</span>
-                        <span class="lang-sep">|</span>
+                        <span style="color:#cbd5e0; margin: 0 4px;">|</span>
                         <span id="label-lng">EN</span>
                     </div>
-                    <div class="arrow-down"></div>
-                    
+                    <div style="width:5px; height:5px; border-left:1.5px solid #a0aec0; border-bottom:1.5px solid #a0aec0; transform:rotate(-45deg); margin-bottom:2px;"></div>
                     <div class="hidden-selects">
                         <select id="region-select" onchange="handleRegion(this)"></select>
                         <select id="lang-select" onchange="handleLang(this)">
@@ -215,7 +132,7 @@
                     </div>
                 </div>
 
-                <a href="./servio-top-up-center/" class="profile-btn" aria-label="Profile">
+                <a href="./servio-top-up-center/" class="profile-btn">
                     <svg class="profile-icon-svg" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
@@ -223,24 +140,17 @@
             </div>
         </header>
 
-        <main>
-            </main>
+        <div class="golden-bar">
+            <div class="marquee-content" id="marquee-box"></div>
+        </div>
+
+        <main></main>
     </div>
 
     <script>
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            algeria: `https://flagcdn.com/dz.svg`, 
-            egypt: `https://flagcdn.com/eg.svg`, 
-            iraq: `https://flagcdn.com/iq.svg`, 
-            morocco: `https://flagcdn.com/ma.svg`, 
-            nigeria: `https://flagcdn.com/ng.svg`, 
-            oman: `https://flagcdn.com/om.svg`, 
-            palestine: `https://flagcdn.com/ps.svg`, 
-            qatar: `https://flagcdn.com/qa.svg`, 
-            saudi: `https://flagcdn.com/sa.svg`, 
-            tunisia: `https://flagcdn.com/tn.svg`, 
-            uae: `https://flagcdn.com/ae.svg`,
+            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
@@ -251,8 +161,8 @@
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
             nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية" }, 
-                en: { t1: "Official Top Up", t2: "Center", lName: "EN" } 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", marquee: "مركز الشحن الرسمي لـ SERVIO" }, 
+                en: { t1: "Official Top Up", t2: "Center", lName: "EN", marquee: "OFFICIAL GARENA TOP UP SERVIO" } 
             }
         };
 
@@ -260,42 +170,29 @@
             const lang = localStorage.getItem('pref_lang') || 'en';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
 
-            // تحديث النصوص
             document.getElementById('nav-t1').innerText = shopData.nav[lang].t1;
             document.getElementById('nav-t2').innerText = shopData.nav[lang].t2;
             document.getElementById('label-lng').innerText = shopData.nav[lang].lName;
             document.getElementById('lang-select').value = lang;
 
-            // تحديث قائمة المناطق
             const regSel = document.getElementById('region-select');
             regSel.innerHTML = shopData.regions[lang].map((name, i) => `<option value="${i}">${name}</option>`).join('');
             regSel.selectedIndex = regIdx;
-            
-            // تحديث اسم المنطقة المختارة
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
 
-            // تحديث العلم أو الأيقونة
             const key = shopData.keys[regIdx];
             const display = document.getElementById('flag-display');
-            if (key === 'mena' || key === 'other') {
-                display.innerHTML = flags[key];
-            } else {
-                display.innerHTML = `<img src="${flags[key]}" class="flag-icon" alt="flag">`;
-            }
+            display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
+
+            // تكرار النص 6 مرات لضمان حركة متصلة بدون فراغات
+            const marqueeText = shopData.nav[lang].marquee;
+            const content = Array(6).fill(`<span class="marquee-text">${marqueeText}</span>`).join('');
+            document.getElementById('marquee-box').innerHTML = content;
         }
 
-        function handleLang(el) { 
-            localStorage.setItem('pref_lang', el.value); 
-            updateUI(); 
-        }
-
-        function handleRegion(el) { 
-            localStorage.setItem('pref_reg_idx', el.selectedIndex); 
-            updateUI(); 
-        }
-
+        function handleLang(el) { localStorage.setItem('pref_lang', el.value); updateUI(); }
+        function handleRegion(el) { localStorage.setItem('pref_reg_idx', el.selectedIndex); updateUI(); }
         document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
-
