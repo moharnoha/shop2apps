@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Full Interface</title>
+    <title>Garena - Official Top Up Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -28,7 +28,7 @@
             display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر الأصلي المستعاد بالكامل --- */
+        /* --- الهيدر الأصلي (بدون أي تعديل) --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -55,7 +55,7 @@
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
         .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
 
-        /* --- محتوى الصفحة --- */
+        /* --- محتوى البطاقة --- */
         .content-area { padding: 20px 16px; }
 
         .verification-card {
@@ -92,7 +92,7 @@
             background-size: 14px;
         }
 
-        /* المنصات - الترتيب الثاني */
+        /* المنصات */
         .platform-section-title { font-size: 11px; font-weight: 700; color: #94a3b8; margin: 0 0 12px 0; text-align: right; }
         .platforms-wrapper { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-bottom: 25px; }
 
@@ -133,14 +133,14 @@
 
         <div class="content-area">
             <div class="verification-card">
-                <div class="header-title" id="main-header-text">Review Details</div>
+                <div class="header-title" id="main-header-text">مراجعة البيانات</div>
 
                 <div class="data-item">
-                    <div class="data-label" id="lbl-link">Your Profile Link</div>
+                    <div class="data-label" id="lbl-link">الرابط المكتشف</div>
                     <div class="data-value" id="val-link">---</div>
                 </div>
 
-                <div class="platform-section-title" id="platform-hint">Detected Platform</div>
+                <div class="platform-section-title" id="platform-hint">المنصة</div>
                 <div class="platforms-wrapper">
                     <div class="platform-circle" id="circle-twitch"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg"></div>
                     <div class="platform-circle" id="circle-tiktok"><img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"></div>
@@ -149,22 +149,22 @@
                 </div>
 
                 <div class="data-item">
-                    <div class="data-label" id="lbl-cat">Choose Category</div>
+                    <div class="data-label" id="lbl-cat">اختر الفئة</div>
                     <select class="styled-select" id="select-category">
-                        <option value="" disabled selected>Select category...</option>
-                        <option value="followers">Followers</option>
-                        <option value="likes">Likes</option>
-                        <option value="views">Views</option>
+                        <option value="" disabled selected>حدد النوع...</option>
+                        <option value="followers">متابعين</option>
+                        <option value="likes">إعجابات</option>
+                        <option value="views">مشاهدات</option>
                     </select>
                 </div>
 
                 <div class="data-item">
-                    <div class="data-label" id="lbl-srv">Choose Service</div>
+                    <div class="data-label" id="lbl-srv">اختر الخدمة</div>
                     <select class="styled-select" id="select-service">
-                        <option value="" disabled selected>Select service...</option>
-                        <option value="basic">Standard Quality</option>
-                        <option value="premium">Premium Quality</option>
-                        <option value="turbo">Instant Delivery</option>
+                        <option value="" disabled selected>حدد الباقة...</option>
+                        <option value="standard">باقة عادية</option>
+                        <option value="premium">باقة مميزة</option>
+                        <option value="instant">تسليم فوري</option>
                     </select>
                 </div>
 
@@ -174,22 +174,20 @@
     </div>
 
     <script>
-        // مصفوفة الأعلام والبيانات الأصلية للهيدر
+        // برمجيات الهيدر الأصلية
         const flags = {
-            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>`,
-            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, saudi: `https://flagcdn.com/sa.svg`
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, saudi: `https://flagcdn.com/sa.svg`, 
+            morocco: `https://flagcdn.com/ma.svg`, uae: `https://flagcdn.com/ae.svg`, tunisia: `https://flagcdn.com/tn.svg`, 
+            palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`
         };
 
         const shopData = {
             regions: { 
-                ar: ["الشرق الأوسط", "الجزائر", "مصر", "السعودية"], 
-                en: ["MENA", "Algeria", "Egypt", "Saudi Arabia"] 
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "السعودية", "المغرب", "الإمارات", "تونس", "فلسطين", "قطر"], 
+                en: ["MENA", "Algeria", "Egypt", "Saudi Arabia", "Morocco", "UAE", "Tunisia", "Palestine", "Qatar"] 
             },
-            keys: ["mena", "algeria", "egypt", "saudi"],
-            nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", header: "مراجعة البيانات", link: "الرابط المكتشف", hint: "المنصة", cat: "اختر الفئة", srv: "اختر الخدمة" }, 
-                en: { t1: "Official Top Up", t2: "Center", header: "Review Details", link: "Detected Link", hint: "Platform", cat: "Select Category", srv: "Select Service" } 
-            }
+            keys: ["mena", "algeria", "egypt", "saudi", "morocco", "uae", "tunisia", "palestine", "qatar"]
         };
 
         function updateUI() {
@@ -198,27 +196,18 @@
             const savedLink = localStorage.getItem('saved_player_link') || '---';
             const savedPlatform = localStorage.getItem('saved_platform_name') || '';
 
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            const data = shopData.nav[lang];
-
             // تحديث الهيدر
-            document.getElementById('nav-t1').innerText = data.t1;
-            document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
             
             const flagKey = shopData.keys[regIdx] || 'mena';
-            document.getElementById('flag-display').innerHTML = (flagKey === 'mena') ? flags.mena : `<img src="${flags[flagKey]}" class="flag-icon">`;
+            const flagDisplay = document.getElementById('flag-display');
+            flagDisplay.innerHTML = (flagKey === 'mena') ? flags.mena : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // تحديث البطاقة
-            document.getElementById('main-header-text').innerText = data.header;
-            document.getElementById('lbl-link').innerText = data.link;
+            // تحديث البيانات
             document.getElementById('val-link').innerText = savedLink;
-            document.getElementById('platform-hint').innerText = data.hint;
-            document.getElementById('lbl-cat').innerText = data.cat;
-            document.getElementById('lbl-srv').innerText = data.srv;
 
-            // تفعيل أيقونة المنصة
+            // تحديث أيقونة المنصة
             const circles = document.querySelectorAll('.platform-circle');
             circles.forEach(c => c.classList.remove('active'));
             const pKey = savedPlatform.toLowerCase();
