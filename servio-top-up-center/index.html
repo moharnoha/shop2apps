@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Garena - Official Top Up Center</title>
+    <title>Garena - Verification</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -12,6 +12,7 @@
             --bg-light: #f8fbff; 
             --border-gray: #e2e8f0; 
             --text-dark: #1a202c;
+            --garena-red: #e51e1e;
         }
 
         body { 
@@ -43,17 +44,63 @@
 
         .header-left-group { display: flex; align-items: center; }
         
-        /* شكل العرض فقط بدون إمكانية التفاعل */
         .info-display-wrapper { 
             display: flex; align-items: center; background: #f1f5f9; 
             border: 1px solid #e2e8f0; border-radius: 6px; 
             padding: 0 12px; height: 34px; direction: rtl;
-            pointer-events: none; /* يمنع الضغط تماماً */
+            pointer-events: none; 
         }
 
         .display-text { 
             font-size: 10px; font-weight: 700; color: #64748b; 
             display: flex; align-items: center; gap: 5px;
+        }
+
+        /* قسم عرض البيانات المستلمة */
+        .data-summary-section {
+            padding: 20px 15px;
+        }
+
+        .data-card {
+            background: #fff;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f7fafc;
+        }
+
+        .data-row:last-child { border-bottom: none; }
+
+        .label {
+            font-size: 13px;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .value {
+            font-size: 14px;
+            color: #2d3748;
+            font-weight: 700;
+            max-width: 60%;
+            word-break: break-all;
+            text-align: left;
+        }
+
+        .platform-tag {
+            background: #fff1f1;
+            color: var(--garena-red);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
         }
 
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
@@ -83,6 +130,19 @@
                 </div>
             </div>
         </header>
+
+        <div class="data-summary-section">
+            <div class="data-card">
+                <div class="data-row">
+                    <span class="label" id="lbl-platform">المنصة المختارة:</span>
+                    <span class="value platform-tag" id="val-platform">Loading...</span>
+                </div>
+                <div class="data-row">
+                    <span class="label" id="lbl-link">الرابط:</span>
+                    <span class="value" id="val-link">Loading...</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -99,35 +159,41 @@
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
             nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية" }, 
-                en: { t1: "Official Top Up", t2: "Center", lName: "EN" } 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "AR", lblPlatform: "المنصة المختارة:", lblLink: "الرابط المستلم:" }, 
+                en: { t1: "Official Top Up", t2: "Center", lName: "EN", lblPlatform: "Selected Platform:", lblLink: "Received Link:" } 
             }
         };
 
         function updateUI() {
-            // جلب البيانات المخزنة من الصفحة الرئيسية
+            // 1. جلب الإعدادات (لغة ومنطقة)
             const lang = localStorage.getItem('pref_lang') || 'en';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const data = shopData.nav[lang];
 
-            // تحديث اتجاه الصفحة والنصوص
+            // 2. جلب بيانات المستخدم المخزنة من الصفحة السابقة
+            const savedLink = localStorage.getItem('saved_player_link') || "No data";
+            const savedPlatform = localStorage.getItem('saved_platform_name') || "Not specified";
+
+            // تحديث الهيدر
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.getElementById('nav-t1').innerText = data.t1;
             document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = (lang === 'ar') ? 'AR' : 'EN';
-
-            // عرض اسم المنطقة المختارة
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
 
-            // عرض العلم المختار
+            // عرض العلم
             const display = document.getElementById('flag-display');
             const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
+
+            // 3. عرض البيانات في الكرت
+            document.getElementById('lbl-platform').innerText = data.lblPlatform;
+            document.getElementById('lbl-link').innerText = data.lblLink;
+            document.getElementById('val-platform').innerText = savedPlatform;
+            document.getElementById('val-link').innerText = savedLink;
         }
 
-        // تحديث الواجهة عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
-
