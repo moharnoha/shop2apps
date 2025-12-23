@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مركز الشحن الرسمي</title>
+    <title>Garena - مركز الشحن الرسمي</title>
     <style>
         :root {
-            --header-bg: #f4f7fd;
-            --border-ui: #d1d9e6;
-            --divider-color: #d1d9e6;
+            --bg-light: #f8fbff;
+            --border-gray: #e2e8f0;
+            --text-dark: #1a202c;
         }
 
         body {
@@ -20,82 +20,86 @@
 
         .mobile-container {
             width: 100%; max-width: 480px; min-height: 100vh;
+            display: flex; flex-direction: column;
         }
 
+        /* الهيدر الاحترافي (نظام المنطقة) */
         header {
-            width: 100%; height: 70px; /* زيادة الارتفاع قليلاً لتناسب الشعار */
-            background-color: var(--header-bg);
-            border-bottom: 1px solid #eef2f8;
+            width: 100%; height: 65px;
+            background-color: var(--bg-light);
+            border-bottom: 1px solid var(--border-gray);
             display: flex; align-items: center;
             justify-content: space-between;
-            padding: 0 10px; box-sizing: border-box;
-            position: sticky; top: 0; z-index: 9999;
+            padding: 0 12px; box-sizing: border-box;
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        /* حاوية الشعار والاسم */
         .brand-section {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: flex; align-items: center;
         }
 
         .logo-img {
-            width: 35px; /* حجم الشعار */
-            height: auto;
-            display: block;
+            height: 32px; width: auto;
         }
 
-        .divider {
-            width: 1px;
-            height: 25px;
-            background-color: var(--divider-color);
-            margin: 0 2px;
+        .v-line {
+            width: 1.5px; height: 28px;
+            background-color: #cbd5e0;
+            margin: 0 10px;
         }
 
-        .main-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: #2c3e50;
-            line-height: 1.3;
-            text-align: center;
+        .title-box {
+            display: flex; flex-direction: column;
         }
 
-        /* حاوية اختيار الدولة المحمية */
-        .country-selector-isolated {
+        .title-box span {
+            font-size: 11px; font-weight: 800;
+            color: #2d3748; line-height: 1.1;
+        }
+
+        .region-selector-btn {
             display: flex; align-items: center;
-            background: #ffffff !important;
-            border: 1px solid var(--border-ui);
-            border-radius: 20px;
-            padding: 4px 6px;
-            width: 150px; 
-            overflow: hidden;
-        }
-
-        .fixed-icon-svg {
-            width: 14px; height: 14px;
-            fill: #3498db; margin-left: 4px; flex-shrink: 0;
-        }
-
-        .fixed-select {
-            border: none !important;
-            background: none !important;
-            font-size: 10px; font-weight: 700;
-            color: #444; outline: none !important;
-            -webkit-appearance: none; appearance: none;
+            background: #ffffff;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            padding: 6px 10px;
             cursor: pointer;
-            width: 100%;
-            text-align: right;
-            direction: rtl;
-            text-overflow: ellipsis;
+            width: 155px; /* عرض ثابت لضمان التوازن البصري */
+            position: relative;
+        }
+
+        .loc-icon {
+            width: 14px; height: 14px;
+            fill: #718096; margin-left: 6px; flex-shrink: 0;
+        }
+
+        #current-region-name {
+            font-size: 10px; font-weight: 700;
+            color: #4a5568;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            direction: rtl;
+            flex: 1;
         }
 
-        .fixed-arrow-svg {
-            width: 10px; height: 10px;
-            fill: #95a5a6; margin-right: 2px; flex-shrink: 0;
+        .arrow-down {
+            width: 7px; height: 7px;
+            border-left: 2px solid #a0aec0;
+            border-bottom: 2px solid #a0aec0;
+            transform: rotate(-45deg);
+            margin-right: 4px; margin-bottom: 3px;
         }
 
-        .page-content { padding: 20px; }
+        select#hidden-country-select {
+            position: absolute; top:0; left:0; width: 100%; height: 100%; 
+            opacity: 0; cursor: pointer;
+        }
+
+        /* تم إفراغ الـ Main تماماً */
+        main {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -103,51 +107,73 @@
     <div class="mobile-container">
         <header>
             <div class="brand-section">
-                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" alt="Garena" class="logo-img">
-                <div class="divider"></div>
-                <div class="main-title">مركز الشحن<br>الرسمي</div>
+                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" alt="Logo" class="logo-img">
+                <div class="v-line"></div>
+                <div class="title-box">
+                    <span>مركز الشحن</span>
+                    <span>الرسمي</span>
+                </div>
             </div>
 
-            <div class="country-selector-isolated">
-                <svg class="fixed-icon-svg" viewBox="0 0 24 24">
+            <div class="region-selector-btn">
+                <svg class="loc-icon" viewBox="0 0 24 24">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
+                
+                <span id="current-region-name">جاري التحديد...</span>
+                <div class="arrow-down"></div>
 
-                <select class="fixed-select" id="country">
+                <select id="hidden-country-select" onchange="updateDisplay(this)">
                     <option value="mena">الشرق الأوسط وشمال أفريقيا</option>
-                    <option value="sa">🇸🇦 السعودية</option>
+                    <option value="sa">🇸🇦 المملكة العربية السعودية</option>
                     <option value="eg">🇪🇬 مصر</option>
                     <option value="ma">🇲🇦 المغرب</option>
                     <option value="dz">🇩🇿 الجزائر</option>
-                    <option value="ae">🇦🇪 الإمارات</option>
+                    <option value="ae">🇦🇪 الإمارات العربية المتحدة</option>
                     <option value="iq">🇮🇶 العراق</option>
                     <option value="kw">🇰🇼 الكويت</option>
-                    <option value="qa">🇶🇦 قطر</option>
-                    <option value="jo">🇯🇴 الأردن</option>
                     <option value="ps">🇵🇸 فلسطين</option>
+                    <option value="jo">🇯🇴 الأردن</option>
+                    <option value="qa">🇶🇦 قطر</option>
+                    <option value="om">🇴🇲 عمان</option>
                     <option value="lb">🇱🇧 لبنان</option>
                     <option value="tn">🇹🇳 تونس</option>
-                    <option value="ly">🇱🇾 ليبيا</option>
-                    <option value="om">🇴🇲 عمان</option>
-                    <option value="bh">🇧🇭 البحرين</option>
-                    <option value="sy">🇸🇾 سوريا</option>
-                    <option value="ye">🇾🇪 اليمن</option>
-                    <option value="sd">🇸🇩 السودان</option>
-                    <option value="mr">🇲🇷 موريتانيا</option>
-                    <option value="so">🇸🇴 الصومال</option>
-                    <option value="dj">🇩🇯 جيبوتي</option>
-                    <option value="other">خيار آخر</option>
+                    <option value="other">منطقة أخرى</option>
                 </select>
-
-                <svg class="fixed-arrow-svg" viewBox="0 0 20 20">
-                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-                </svg>
             </div>
         </header>
 
-        <main class="page-content">
+        <main>
             </main>
     </div>
+
+    <script>
+        function updateDisplay(select) {
+            const textSpan = document.getElementById('current-region-name');
+            const selectedText = select.options[select.selectedIndex].text;
+            textSpan.innerText = selectedText;
+        }
+
+        // كود التحديد التلقائي
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                const code = data.country_code.toLowerCase();
+                const select = document.getElementById('hidden-country-select');
+                
+                if (select.querySelector(`option[value="${code}"]`)) {
+                    select.value = code;
+                    updateDisplay(select);
+                } else {
+                    document.getElementById('current-region-name').innerText = "الشرق الأوسط...";
+                }
+            })
+            .catch(e => {
+                document.getElementById('current-region-name').innerText = "الشرق الأوسط...";
+            });
+        });
+    </script>
 
 </body>
 </html>
