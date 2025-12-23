@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl"> <head>
+<html lang="en" dir="rtl" class="notranslate" translate="no"> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google" content="notranslate">
+    
     <title>Garena - Official Top-up Center</title>
     <style>
         :root {
@@ -31,7 +34,7 @@
             justify-content: space-between;
             padding: 0 12px; box-sizing: border-box;
             position: sticky; top: 0; z-index: 1000;
-            direction: rtl !important; /* تثبيت الشعار يميناً والكبسولة يساراً دائماً */
+            direction: rtl !important; 
         }
 
         .brand-section { display: flex; align-items: center; }
@@ -87,8 +90,6 @@
         }
         #region-select { width: 60%; }
         #lang-select { width: 40%; }
-
-        main { flex: 1; }
     </style>
 </head>
 <body>
@@ -171,7 +172,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // جعل الإنجليزية هي الخيار الافتراضي إذا لم يتم الحفظ مسبقاً
             const lang = localStorage.getItem('pref_lang') || 'en';
             const regIdx = localStorage.getItem('pref_reg_idx') || 0;
             
