@@ -31,16 +31,22 @@
             flex-direction: row; 
             align-items: center;
             justify-content: space-between;
-            padding: 0 12px; box-sizing: border-box;
+            padding: 0 10px; box-sizing: border-box;
             position: sticky; top: 0; z-index: 1000;
             direction: rtl !important; 
         }
 
-        .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 32px; width: auto; }
-        .v-line { width: 1.5px; height: 28px; background-color: #cbd5e0; margin: 0 10px; }
+        .brand-section { display: flex; align-items: center; flex-shrink: 0; }
+        .logo-img { height: 30px; width: auto; }
+        .v-line { width: 1px; height: 25px; background-color: #cbd5e0; margin: 0 8px; }
         .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span { font-size: 11px; font-weight: 700; color: #2d3748; line-height: 1.2; }
+        .title-box span { font-size: 10px; font-weight: 700; color: #2d3748; line-height: 1.2; }
+
+        .header-left-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
         .selector-wrapper {
             display: flex;
@@ -48,24 +54,18 @@
             background: #ffffff;
             border: 1px solid #cbd5e0;
             border-radius: 6px;
-            padding: 0 8px;
-            width: 180px; 
-            height: 38px;
+            padding: 0 6px;
+            width: 155px; 
+            height: 34px;
             position: relative;
             justify-content: space-between;
             direction: rtl;
         }
 
-        .flag-icon {
-            width: 18px;
-            height: 13px;
-            margin-left: 6px;
-            flex-shrink: 0;
-            border: 1px solid #f0f0f0;
-        }
+        .flag-icon { width: 18px; height: 13px; margin-left: 4px; flex-shrink: 0; }
 
         .display-text {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
             color: #4a5568;
             white-space: nowrap;
@@ -76,15 +76,32 @@
             justify-content: center;
         }
 
-        .lang-sep { color: #cbd5e0; margin: 0 4px; }
+        .lang-sep { color: #cbd5e0; margin: 0 3px; }
 
         .arrow-down {
-            width: 6px; height: 6px;
-            border-left: 2px solid #a0aec0;
-            border-bottom: 2px solid #a0aec0;
+            width: 5px; height: 5px;
+            border-left: 1.5px solid #a0aec0;
+            border-bottom: 1.5px solid #a0aec0;
             transform: rotate(-45deg);
-            margin-right: 4px; flex-shrink: 0;
+            margin-right: 2px; flex-shrink: 0;
             margin-bottom: 2px;
+        }
+
+        /* أيقونة البروفايل */
+        .profile-btn {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .profile-icon-svg {
+            width: 28px;
+            height: 28px;
+            fill: #cbd5e0; /* لون رمادي فاتح مثل الصورة */
         }
 
         .hidden-selects {
@@ -94,7 +111,7 @@
         #region-select { width: 65%; }
         #lang-select { width: 35%; }
 
-        .mena-icon { width: 15px; height: 15px; margin-left: 5px; fill: #718096; }
+        .mena-icon { width: 14px; height: 14px; margin-left: 4px; fill: #718096; }
     </style>
 </head>
 <body>
@@ -110,24 +127,28 @@
                 </div>
             </div>
 
-            <div class="selector-wrapper">
-                <div id="flag-display" style="display: flex; align-items: center;">
+            <div class="header-left-group">
+                <div class="selector-wrapper">
+                    <div id="flag-display" style="display: flex; align-items: center;"></div>
+                    <div class="display-text">
+                        <span id="label-reg">MENA</span>
+                        <span class="lang-sep">|</span>
+                        <span id="label-lng">EN</span>
                     </div>
-                
-                <div class="display-text">
-                    <span id="label-reg">MENA</span>
-                    <span class="lang-sep">|</span>
-                    <span id="label-lng">EN</span>
+                    <div class="arrow-down"></div>
+                    <div class="hidden-selects">
+                        <select id="region-select" onchange="handleRegion(this)"></select>
+                        <select id="lang-select" onchange="handleLang(this)">
+                            <option value="en">EN</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="arrow-down"></div>
-
-                <div class="hidden-selects">
-                    <select id="region-select" onchange="handleRegion(this)"></select>
-                    <select id="lang-select" onchange="handleLang(this)">
-                        <option value="en">EN</option>
-                        <option value="ar">العربية</option>
-                    </select>
+                <div class="profile-btn">
+                    <svg class="profile-icon-svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
                 </div>
             </div>
         </header>
@@ -164,48 +185,36 @@
             }
         };
 
-        // وظيفة التحديث الشاملة
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'en';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
 
-            // تحديث نصوص الهيدر واللغة المختارة
             document.getElementById('nav-t1').innerText = shopData.nav[lang].t1;
             document.getElementById('nav-t2').innerText = shopData.nav[lang].t2;
             document.getElementById('label-lng').innerText = shopData.nav[lang].lName;
             document.getElementById('lang-select').value = lang;
 
-            // تحديث قائمة الدول بناءً على اللغة
             const regSel = document.getElementById('region-select');
             regSel.innerHTML = shopData.regions[lang].map((name, i) => `<option value="${i}">${name}</option>`).join('');
-            
-            // استرجاع الدولة المختارة
             regSel.selectedIndex = regIdx;
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
             
-            // تحديث العلم المختار
             const key = shopData.keys[regIdx];
             const display = document.getElementById('flag-display');
-            if (key === 'mena' || key === 'other') {
-                display.innerHTML = flags[key];
-            } else {
-                display.innerHTML = `<img src="${flags[key]}" class="flag-icon">`;
-            }
+            display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
         }
 
         function handleLang(el) {
             localStorage.setItem('pref_lang', el.value);
-            updateUI(); // إعادة تحديث الواجهة فوراً
+            updateUI();
         }
 
         function handleRegion(el) {
             localStorage.setItem('pref_reg_idx', el.selectedIndex);
-            updateUI(); // إعادة تحديث الواجهة فوراً
+            updateUI();
         }
 
-        // تشغيل التحديث عند تحميل الصفحة لأول مرة
         document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
-
