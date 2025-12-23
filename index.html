@@ -112,14 +112,16 @@
             transition: all 0.3s ease;
         }
 
-        .platform-btn.loading {
-            opacity: 0.8;
-            cursor: not-allowed;
+        /* حالة القفل أثناء التحميل */
+        .locked-interaction {
+            pointer-events: none !important;
+            opacity: 0.7;
+            cursor: not-allowed !important;
         }
 
         .player-input-field {
             flex: 1; border: none; padding: 12px; outline: none;
-            font-size: 14px; text-align: right;
+            font-size: 14px; text-align: right; background: white;
         }
 
         .social-login-label { font-size: 13px; color: #666; margin-bottom: 15px; line-height: 1.4; font-weight: 500; }
@@ -133,8 +135,8 @@
         }
 
         .social-item.active-social {
-            border-color: var(--garena-red);
-            background-color: #fff1f1;
+            border-color: var(--garena-red) !important;
+            background-color: #fff1f1 !important;
             transform: scale(1.1);
             box-shadow: 0 0 10px rgba(229, 30, 30, 0.2);
         }
@@ -213,7 +215,7 @@
 
                 <div class="social-login-label" id="text-social-info">اختر منصة الحساب الخاص بك</div>
                 
-                <div class="social-icons-row">
+                <div class="social-icons-row" id="social-container">
                     <div class="social-item" onclick="handleSocialClick(this)">
                         <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </div>
@@ -270,27 +272,34 @@
             const inputField = document.getElementById('input-player');
             const inputWrapper = document.getElementById('input-wrapper');
             const actionBtn = document.getElementById('text-platform-btn');
+            const socialContainer = document.getElementById('social-container');
             const lang = localStorage.getItem('pref_lang') || 'en';
 
-            // إذا كان الحقل فارغاً
             if (inputField.value.trim() === "") {
                 inputWrapper.classList.add('error-border');
                 inputField.focus();
-                
-                // إزالة تأثير الاهتزاز بعد انتهائه لإمكانية تكراره
                 setTimeout(() => {
                     inputWrapper.classList.remove('error-border');
-                    inputWrapper.style.borderColor = "var(--garena-red)"; // اترك اللون أحمر
+                    inputWrapper.style.borderColor = "var(--garena-red)";
                 }, 400);
                 return;
             }
 
-            // إذا كان الرابط موجوداً
+            // --- عملية القفل (Lock) ---
+            // 1. تجميد حقل الإدخال
+            inputField.disabled = true;
+            inputWrapper.classList.add('locked-interaction');
+            
+            // 2. تجميد جميع الأيقونات ومنع الضغط عليها مرة أخرى
+            socialContainer.classList.add('locked-interaction');
+
+            // 3. تمييز الأيقونة المختارة فقط
             document.querySelectorAll('.social-item').forEach(item => {
                 item.classList.remove('active-social');
             });
             element.classList.add('active-social');
 
+            // 4. تحديث حالة الزر
             actionBtn.classList.add('loading');
             actionBtn.innerText = shopData.nav[lang].loadingText;
 
@@ -299,7 +308,6 @@
             }, 3000);
         }
 
-        // إزالة اللون الأحمر عند البدء في الكتابة
         function removeError() {
             const inputWrapper = document.getElementById('input-wrapper');
             inputWrapper.style.borderColor = "#dee2e6";
