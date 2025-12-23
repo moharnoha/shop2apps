@@ -72,35 +72,36 @@
 
         .data-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
+            flex-direction: column; /* جعل العنوان فوق القيمة لشكل أوضح */
+            gap: 8px;
+            padding: 12px 0;
             border-bottom: 1px solid #f7fafc;
         }
 
         .data-row:last-child { border-bottom: none; }
 
         .label {
-            font-size: 13px;
+            font-size: 12px;
             color: #718096;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .value {
+        .value-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
             font-size: 14px;
             color: #2d3748;
             font-weight: 700;
-            max-width: 60%;
             word-break: break-all;
-            text-align: left;
+            min-height: 20px;
         }
 
-        .platform-tag {
-            background: #fff1f1;
+        .platform-style {
             color: var(--garena-red);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+            border-left: 4px solid var(--garena-red);
         }
 
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
@@ -135,11 +136,11 @@
             <div class="data-card">
                 <div class="data-row">
                     <span class="label" id="lbl-platform">المنصة المختارة:</span>
-                    <span class="value platform-tag" id="val-platform">Loading...</span>
+                    <div class="value-box platform-style" id="val-platform">Loading...</div>
                 </div>
                 <div class="data-row">
-                    <span class="label" id="lbl-link">الرابط:</span>
-                    <span class="value" id="val-link">Loading...</span>
+                    <span class="label" id="lbl-link">الرابط المكتوب:</span>
+                    <div class="value-box" id="val-link">Loading...</div>
                 </div>
             </div>
         </div>
@@ -170,29 +171,30 @@
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const data = shopData.nav[lang];
 
-            // 2. جلب بيانات المستخدم المخزنة من الصفحة السابقة
-            const savedLink = localStorage.getItem('saved_player_link') || "No data";
-            const savedPlatform = localStorage.getItem('saved_platform_name') || "Not specified";
+            // 2. جلب البيانات التي خزنها المستخدم في الصفحة الأولى
+            const savedLink = localStorage.getItem('saved_player_link') || (lang === 'ar' ? "لم يتم إدخال رابط" : "No link provided");
+            const savedPlatform = localStorage.getItem('saved_platform_name') || (lang === 'ar' ? "لم يتم اختيار منصة" : "No platform selected");
 
-            // تحديث الهيدر
+            // تحديث نصوص الهيدر واتجاه الصفحة
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.getElementById('nav-t1').innerText = data.t1;
             document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = (lang === 'ar') ? 'AR' : 'EN';
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
 
-            // عرض العلم
+            // تحديث العلم
             const display = document.getElementById('flag-display');
             const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
 
-            // 3. عرض البيانات في الكرت
+            // 3. تحديث مربعات عرض البيانات
             document.getElementById('lbl-platform').innerText = data.lblPlatform;
             document.getElementById('lbl-link').innerText = data.lblLink;
             document.getElementById('val-platform').innerText = savedPlatform;
             document.getElementById('val-link').innerText = savedLink;
         }
 
+        // تنفيذ الوظيفة عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
