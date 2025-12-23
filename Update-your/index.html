@@ -4,133 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Garena - Identity Verification</title>
+    <title>Garena - Official Top Up Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root { 
-            --bg-body: #f0f2f5; 
+            --bg-light: #f8fbff; 
+            --border-gray: #e2e8f0; 
+            --text-dark: #1a202c;
+            --primary-blue: #3b82f6;
             --accent-blue: #007aff;
-            --text-main: #1d1d1f;
-            --text-muted: #86868b;
-            --card-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
         body { 
-            margin: 0; padding: 0; font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-body); color: var(--text-main);
-            display: flex; justify-content: center; overflow-x: hidden;
+            margin: 0; padding: 0; 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f1f5f9; 
+            display: flex; justify-content: center; 
         }
 
-        .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
+        .mobile-container { 
+            width: 100%; max-width: 480px; 
+            min-height: 100vh; background-color: #f7fafc;
+            display: flex; flex-direction: column; 
+        }
 
-        /* --- Header Premium --- */
+        /* --- Header (تمت استعادته بالكامل) --- */
         header { 
-            width: 100%; height: 70px; background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 20px; box-sizing: border-box; position: sticky; top: 0; z-index: 1000;
+            width: 100%; height: 65px; background-color: var(--bg-light); 
+            border-bottom: 1px solid var(--border-gray); display: flex; 
+            align-items: center; justify-content: space-between; 
+            padding: 0 12px; box-sizing: border-box; position: sticky; 
+            top: 0; z-index: 1000; direction: rtl !important; 
         }
 
         .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-        .v-line { width: 1px; height: 18px; background-color: #d2d2d7; margin: 0 14px; }
-        .title-box span { font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: #333; display: block; }
+        .logo-img { height: 28px; width: auto; }
+        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
 
-        /* --- Content Layout --- */
-        .content-area { padding: 25px 20px; animation: scaleUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-        .main-card { 
-            background: #ffffff; border-radius: 28px; padding: 30px 24px; 
-            box-shadow: var(--card-shadow); border: 1px solid rgba(255,255,255,0.7);
+        .header-left-group { display: flex; align-items: center; }
+        .info-display-wrapper { 
+            display: flex; align-items: center; background: #f1f5f9; 
+            border: 1px solid #e2e8f0; border-radius: 6px; 
+            padding: 0 12px; height: 34px; direction: rtl;
+            pointer-events: none;
         }
 
-        .status-header { text-align: center; margin-bottom: 30px; }
-        .status-header h2 { font-size: 22px; font-weight: 800; margin: 0; color: #000; }
-        .status-header p { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+        .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
+        .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
+        .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
 
-        /* --- Data Display Styling --- */
-        .info-box { margin-bottom: 24px; }
+        /* --- Content Area --- */
+        .order-section { padding: 16px; animation: fadeInUp 0.5s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .order-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #edf2f7;
+        }
+
+        .card-header { text-align: center; margin-bottom: 25px; }
+        .card-header h2 { font-size: 19px; font-weight: 800; color: #1e293b; margin: 0; }
+
+        .info-box { margin-bottom: 22px; }
         .label { 
-            font-size: 12px; font-weight: 700; color: var(--accent-blue); 
+            font-size: 11px; font-weight: 800; color: var(--primary-blue); 
             margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+            text-transform: uppercase;
         }
 
         .value-text { 
-            background: #f5f5f7; border-radius: 14px; padding: 14px 18px;
-            font-size: 14px; font-weight: 600; color: #424245; word-break: break-all;
-            border: 1px solid #e5e5ea;
+            background: #f8fafc; border-radius: 14px; padding: 14px 16px;
+            font-size: 13px; font-weight: 600; color: #334155; word-break: break-all;
+            border: 1px solid #f1f5f9;
         }
 
-        /* --- Logo Container (The Hero Element) --- */
+        /* --- Logo Hero Box --- */
         .platform-hero {
-            background: linear-gradient(145deg, #ffffff, #f0f0f3);
-            border: 1px solid #d2d2d7; border-radius: 22px;
-            height: 110px; display: flex; align-items: center; justify-content: center;
+            background: #ffffff;
+            border: 1.5px solid #f2f2f7; border-radius: 20px;
+            height: 100px; display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        /* نبض خلف الشعار ليعطي طابع حيوي */
         .platform-hero::after {
             content: ''; position: absolute; width: 60px; height: 60px;
-            background: var(--accent-blue); opacity: 0.05; border-radius: 50%;
+            background: var(--accent-blue); opacity: 0.03; border-radius: 50%;
             animation: pulse 2s infinite;
         }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.1; } 100% { transform: scale(2.5); opacity: 0; } }
 
-        .active-logo { height: 50px; width: auto; object-fit: contain; z-index: 2; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
+        .active-logo { height: 42px; width: auto; object-fit: contain; z-index: 2; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+        .empty-state { font-size: 12px; color: #94a3b8; font-weight: 600; z-index: 2; }
 
-        .empty-state { font-size: 13px; color: #a1a1a6; font-weight: 500; z-index: 2; }
+        .footer-note { text-align: center; margin-top: 20px; }
+        .footer-note p { font-size: 10px; color: #cbd5e0; font-weight: 600; line-height: 1.5; }
 
+        [dir="ltr"] .title-box { text-align: left; }
     </style>
 </head>
 <body>
     <div class="mobile-container">
         <header>
             <div class="brand-section">
-                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
+                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" alt="Garena" class="logo-img">
                 <div class="v-line"></div>
-                <div class="title-box"><span>OFFICIAL TOP UP</span><span>GARENA CENTER</span></div>
+                <div class="title-box">
+                    <span id="nav-t1">Official Top Up</span>
+                    <span id="nav-t2">Center</span>
+                </div>
+            </div>
+
+            <div class="header-left-group">
+                <div class="info-display-wrapper">
+                    <div id="flag-display" style="display: flex; align-items: center;"></div>
+                    <div class="display-text">
+                        <span id="label-reg">---</span>
+                        <span style="color:#cbd5e0;">|</span>
+                        <span id="label-lng">--</span>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <div class="content-area">
-            <div class="main-card">
-                <div class="status-header">
-                    <h2>تم استلام البيانات</h2>
-                    <p>يرجى مراجعة التفاصيل أدناه بدقة</p>
+        <div class="order-section">
+            <div class="order-card">
+                <div class="card-header">
+                    <h2 id="order-title">مراجعة الطلب</h2>
                 </div>
 
                 <div class="info-box">
-                    <div class="label">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                        رابط الملف الشخصي
-                    </div>
+                    <div class="label" id="label-platform-link">رابط المنصة</div>
                     <div class="value-text" id="platform-link-val">---</div>
                 </div>
 
-                <div class="info-box">
-                    <div class="label">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                        المنصة المكتشفة
-                    </div>
+                <div class="info-box" style="margin-bottom: 10px;">
+                    <div class="label" id="label-platform-name">المنصة المكتشفة</div>
                     <div class="platform-hero">
                         <img id="platform-logo-img" src="" class="active-logo" style="display: none;">
                         <span id="no-data-text" class="empty-state">في انتظار البيانات...</span>
                     </div>
                 </div>
 
-                <div style="text-align: center; margin-top: 20px;">
-                    <p style="font-size: 11px; color: #a1a1a6; font-weight: 500;">جاري معالجة الطلب عبر خوادم Garena الآمنة</p>
+                <div class="footer-note">
+                    <p>تم التحقق من البيانات عبر خوادم Servio الآمنة<br>© 2025 Servio Cloud Services</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        const flags = {
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
+            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
+        };
+
         const logos = {
             twitch: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg",
             tiktok: "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
@@ -138,11 +172,43 @@
             facebook: "https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
         };
 
+        const shopData = {
+            regions: { 
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
+                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
+            },
+            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
+            nav: { 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", order: "مراجعة الطلب", platLink: "رابط المنصة", platName: "المنصة المكتشفة" }, 
+                en: { t1: "Official Top Up", t2: "Center", order: "Review Order", platLink: "Platform Link", platName: "Detected Platform" } 
+            }
+        };
+
         function updateUI() {
-            const savedLink = localStorage.getItem('saved_player_link') || 'لم يتم العثور على رابط';
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const savedLink = localStorage.getItem('saved_player_link') || '---';
             const savedPlatform = localStorage.getItem('saved_platform_name') || '';
 
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            const data = shopData.nav[lang];
+
+            // تحديث الهيدر
+            document.getElementById('nav-t1').innerText = data.t1;
+            document.getElementById('nav-t2').innerText = data.t2;
+            document.getElementById('label-lng').innerText = (lang === 'ar') ? 'AR' : 'EN';
+            document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
+            
+            // تحديث البطاقة
+            document.getElementById('order-title').innerText = data.order;
+            document.getElementById('label-platform-link').innerText = data.platLink;
+            document.getElementById('label-platform-name').innerText = data.platName;
             document.getElementById('platform-link-val').innerText = savedLink;
+
+            // تحديث الشعار وفحص المنطقة
+            const flagDisplay = document.getElementById('flag-display');
+            const flagKey = shopData.keys[regIdx];
+            flagDisplay.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
             const logoImg = document.getElementById('platform-logo-img');
             const noDataText = document.getElementById('no-data-text');
@@ -160,7 +226,7 @@
                 noDataText.style.display = "none";
             } else {
                 logoImg.style.display = "none";
-                noDataText.innerText = "تعذر التعرف على المنصة";
+                noDataText.style.display = "block";
             }
         }
 
