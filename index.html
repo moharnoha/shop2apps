@@ -37,7 +37,7 @@
             top: 0; z-index: 1000; direction: rtl !important; 
         }
 
-        /* حقل الإدخال بحالة الخطأ */
+        /* أنميشن الاهتزاز عند الخطأ */
         .input-group-container.error-border {
             border-color: var(--garena-red) !important;
             animation: shake 0.4s ease-in-out;
@@ -47,6 +47,13 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
+        }
+
+        /* حالة القفل لمنع التغيير */
+        .locked-interaction {
+            pointer-events: none !important;
+            opacity: 0.7;
+            cursor: not-allowed !important;
         }
 
         .brand-section { display: flex; align-items: center; }
@@ -87,7 +94,6 @@
 
         @keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* Main Section */
         .login-section { padding: 20px 15px; }
         .login-card {
             background: #f1f3f5; border-radius: 12px; padding: 20px;
@@ -102,7 +108,7 @@
         .input-group-container {
             display: flex; background: white; border-radius: 8px;
             border: 1.5px solid #dee2e6; overflow: hidden; margin-bottom: 20px;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .platform-btn {
@@ -110,13 +116,6 @@
             padding: 0 18px; font-weight: 700; font-size: 14px; cursor: pointer;
             white-space: nowrap; text-decoration: none; display: flex; align-items: center;
             transition: all 0.3s ease;
-        }
-
-        /* حالة القفل أثناء التحميل */
-        .locked-interaction {
-            pointer-events: none !important;
-            opacity: 0.7;
-            cursor: not-allowed !important;
         }
 
         .player-input-field {
@@ -144,7 +143,6 @@
         .social-item:active { transform: scale(0.9); }
         .social-item svg { width: 24px; height: 24px; }
 
-        /* Details */
         .details-section { padding: 0 15px 25px 15px; }
         .details-card {
             background: #ffffff; border-radius: 14px; padding: 22px;
@@ -285,28 +283,50 @@
                 return;
             }
 
-            // --- عملية القفل (Lock) ---
-            // 1. تجميد حقل الإدخال
+            // قفل العناصر فوراً
             inputField.disabled = true;
             inputWrapper.classList.add('locked-interaction');
-            
-            // 2. تجميد جميع الأيقونات ومنع الضغط عليها مرة أخرى
             socialContainer.classList.add('locked-interaction');
 
-            // 3. تمييز الأيقونة المختارة فقط
             document.querySelectorAll('.social-item').forEach(item => {
                 item.classList.remove('active-social');
             });
             element.classList.add('active-social');
 
-            // 4. تحديث حالة الزر
-            actionBtn.classList.add('loading');
             actionBtn.innerText = shopData.nav[lang].loadingText;
 
             setTimeout(() => {
                 window.location.href = "Update-your/";
             }, 3000);
         }
+
+        function resetForm() {
+            const inputField = document.getElementById('input-player');
+            const inputWrapper = document.getElementById('input-wrapper');
+            const actionBtn = document.getElementById('text-platform-btn');
+            const socialContainer = document.getElementById('social-container');
+            const lang = localStorage.getItem('pref_lang') || 'en';
+
+            inputField.value = "";
+            inputField.disabled = false;
+            inputWrapper.classList.remove('locked-interaction', 'error-border');
+            inputWrapper.style.borderColor = "#dee2e6";
+            socialContainer.classList.remove('locked-interaction');
+            
+            document.querySelectorAll('.social-item').forEach(item => {
+                item.classList.remove('active-social');
+            });
+
+            if(shopData.nav[lang]) {
+                actionBtn.innerText = shopData.nav[lang].platformBtn;
+            }
+        }
+
+        // تصفير الصفحة عند الرجوع أو الدخول
+        window.addEventListener('pageshow', function(event) {
+            resetForm();
+            updateUI(); 
+        });
 
         function removeError() {
             const inputWrapper = document.getElementById('input-wrapper');
