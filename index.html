@@ -5,25 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
     <title>Garena - Official Top Up Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root { 
             --bg-light: #f8fbff; 
             --border-gray: #e2e8f0; 
-            --text-dark: #2d3748;
-            --accent-blue: #3182ce;
+            --text-dark: #1a202c;
             --gold-gradient: linear-gradient(90deg, #d4af37, #f1d592, #d4af37);
         }
 
         body { 
             margin: 0; padding: 0; 
-            font-family: 'Segoe UI', Tahoma, sans-serif; 
-            background-color: #ffffff; 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f7fafc; 
             display: flex; justify-content: center; 
         }
 
         .mobile-container { 
             width: 100%; max-width: 480px; 
-            min-height: 100vh; display: flex; flex-direction: column; 
+            min-height: 100vh; background-color: #ffffff;
+            display: flex; flex-direction: column; 
         }
 
         header { 
@@ -48,28 +50,34 @@
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #4a5568; display: flex; align-items: center; flex-grow: 1; justify-content: center; }
-        .profile-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; }
+        
+        /* تحسين رابط الحساب */
+        .profile-link { 
+            width: 34px; height: 34px; 
+            display: flex; align-items: center; justify-content: center; 
+            text-decoration: none; border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .profile-link:active { background-color: #edf2f7; }
         .profile-icon-svg { width: 30px; height: 30px; fill: #cbd5e0; }
 
         .hidden-selects { position: absolute; top:0; left:0; width: 100%; height: 100%; display: flex; opacity: 0; z-index: 10; cursor: pointer; }
-        #region-select { width: 65%; } #lang-select { width: 35%; }
 
-        /* --- تحسين الشريط الذهبي ليصبح كما في الأكواد السابقة --- */
         .golden-bar {
             width: 100%; height: 26px; background: var(--gold-gradient);
-            overflow: hidden; position: relative; display: flex; align-items: center;
+            overflow: hidden; display: flex; align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            direction: ltr !important; /* ثابت لضمان سلاسة حركة الأنيميشن في اللغتين */
+            direction: ltr !important; 
         }
 
         .marquee-content {
-            display: flex; white-space: nowrap; will-change: transform;
-            animation: marquee-scroll 15s linear infinite; 
+            display: flex; white-space: nowrap; 
+            animation: marquee-scroll 18s linear infinite; 
         }
 
         .marquee-text {
-            font-size: 11px; font-weight: 700; color: #4a3701;
-            padding: 0 40px; text-transform: uppercase; flex-shrink: 0;
+            font-size: 11px; font-weight: 800; color: #4a3701;
+            padding: 0 40px; text-transform: uppercase;
         }
 
         @keyframes marquee-scroll {
@@ -77,9 +85,28 @@
             100% { transform: translateX(-50%); }
         }
 
+        .details-section { padding: 15px; }
+        .details-card {
+            background: #ffffff; border-radius: 14px; padding: 22px;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            text-align: left !important; 
+            direction: ltr !important;
+        }
+
+        .info-line {
+            font-size: 15px; color: #2d3748; margin-bottom: 9px;
+            font-weight: 500; display: block;
+        }
+
+        .notes-area {
+            margin-top: 18px; padding-top: 15px; border-top: 1px solid #f7fafc;
+            font-size: 13px; color: #4a5568; line-height: 1.6;
+        }
+        .note-row { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; }
+
         .flag-icon { width: 20px; height: 14px; margin-left: 6px; border-radius: 2px; }
         .mena-icon { width: 16px; height: 16px; margin-left: 6px; fill: #718096; }
-        main { padding: 20px; text-align: center; }
     </style>
 </head>
 <body>
@@ -112,7 +139,7 @@
                     </div>
                 </div>
 
-                <a href="./servio-top-up-center/" class="profile-btn">
+                <a href="./servio-top-up-center/" class="profile-link">
                     <svg class="profile-icon-svg" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
@@ -124,7 +151,10 @@
             <div id="marquee-box" class="marquee-content"></div>
         </div>
 
-        <main></main>
+        <div class="details-section">
+            <div class="details-card" id="details-card">
+                </div>
+        </div>
     </div>
 
     <script>
@@ -141,18 +171,42 @@
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
             nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", marquee: "مركز الشحن الرسمي لـ SERVIO" }, 
-                en: { t1: "Official Top Up", t2: "Center", lName: "EN", marquee: "OFFICIAL GARENA TOP UP SERVIO" } 
+                ar: { 
+                    t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", marquee: "مركز الشحن الرسمي لـ SERVIO",
+                    info: {
+                        link: "الرابط: رابط المنصة",
+                        speed: "السرعة: 500 ألف/يوم",
+                        refill: "إعادة التعبئة: مدى الحياة",
+                        drop: "نسبة الانخفاض: 0%",
+                        country: "البلد: عالمي",
+                        n1: "↳ ملاحظة: في حال تحديث المنصة، قد تنخفض الطلبات وقد تتغير السرعة.",
+                        n2: "↳ تواصل مع الدعم الفني في حال وجود أي مشاكل."
+                    }
+                }, 
+                en: { 
+                    t1: "Official Top Up", t2: "Center", lName: "EN", marquee: "OFFICIAL GARENA TOP UP SERVIO",
+                    info: {
+                        link: "Link: Platform Link",
+                        speed: "Speed: 500K/D",
+                        refill: "Refill: Lifetime",
+                        drop: "Drop: 0%",
+                        country: "Country: World Wide",
+                        n1: "↳ Note: If the platform updates, orders might drop and speed might change.",
+                        n2: "↳ Contact support for issues."
+                    }
+                } 
             }
         };
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'en';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const data = shopData.nav[lang];
 
-            document.getElementById('nav-t1').innerText = shopData.nav[lang].t1;
-            document.getElementById('nav-t2').innerText = shopData.nav[lang].t2;
-            document.getElementById('label-lng').innerText = shopData.nav[lang].lName;
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            document.getElementById('nav-t1').innerText = data.t1;
+            document.getElementById('nav-t2').innerText = data.t2;
+            document.getElementById('label-lng').innerText = data.lName;
             document.getElementById('lang-select').value = lang;
 
             const regSel = document.getElementById('region-select');
@@ -160,15 +214,23 @@
             regSel.selectedIndex = regIdx;
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
 
-            const key = shopData.keys[regIdx];
             const display = document.getElementById('flag-display');
+            const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
 
-            // تحسين منطق تكرار النص ليعمل بشكل انسيابي بدون فراغات
-            const marqueeText = shopData.nav[lang].marquee;
-            const mBox = document.getElementById('marquee-box');
-            // نكرر النص عدد كافي من المرات (مثلاً 10) لملء الشاشة وضمان استمرار الحركة
-            mBox.innerHTML = Array(10).fill(`<span class="marquee-text">${marqueeText}</span>`).join('');
+            document.getElementById('marquee-box').innerHTML = Array(10).fill(`<span class="marquee-text">${data.marquee}</span>`).join('');
+
+            document.getElementById('details-card').innerHTML = `
+                <span class="info-line">${data.info.link}</span>
+                <span class="info-line">${data.info.speed}</span>
+                <span class="info-line">${data.info.refill}</span>
+                <span class="info-line">${data.info.drop}</span>
+                <span class="info-line">${data.info.country}</span>
+                <div class="notes-area">
+                    <div class="note-row">${data.info.n1}</div>
+                    <div class="note-row">${data.info.n2}</div>
+                </div>
+            `;
         }
 
         function handleLang(el) { localStorage.setItem('pref_lang', el.value); updateUI(); }
