@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    
-    <title>Garena - Official Top-up Center</title>
+    <title>Garena - Official Top Up Center</title>
     <style>
         :root {
             --bg-light: #f8fbff;
@@ -14,7 +13,7 @@
 
         body {
             margin: 0; padding: 0;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             background-color: #ffffff;
             display: flex; justify-content: center;
         }
@@ -41,7 +40,7 @@
         .logo-img { height: 32px; width: auto; }
         .v-line { width: 1.5px; height: 28px; background-color: #cbd5e0; margin: 0 10px; }
         .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span { font-size: 11px; font-weight: 800; color: #2d3748; line-height: 1.1; }
+        .title-box span { font-size: 11px; font-weight: 700; color: #2d3748; line-height: 1.2; }
 
         .selector-wrapper {
             display: flex;
@@ -50,14 +49,21 @@
             border: 1px solid #cbd5e0;
             border-radius: 6px;
             padding: 0 8px;
-            width: 165px; 
-            height: 36px;
+            width: 180px; 
+            height: 38px;
             position: relative;
             justify-content: space-between;
             direction: rtl;
         }
 
-        .loc-icon { width: 14px; height: 14px; fill: #718096; flex-shrink: 0; margin-left: 4px; }
+        /* تنسيق الأعلام */
+        .flag-icon {
+            width: 18px;
+            height: 13px;
+            margin-left: 6px;
+            flex-shrink: 0;
+            border: 1px solid #f0f0f0;
+        }
 
         .display-text {
             font-size: 10px;
@@ -65,15 +71,13 @@
             color: #4a5568;
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis;
-            flex-grow: 1;
-            text-align: center;
             display: flex;
+            align-items: center;
+            flex-grow: 1;
             justify-content: center;
-            gap: 4px;
         }
 
-        .lang-sep { color: #cbd5e0; margin: 0 2px; }
+        .lang-sep { color: #cbd5e0; margin: 0 4px; }
 
         .arrow-down {
             width: 6px; height: 6px;
@@ -88,8 +92,10 @@
             position: absolute; top:0; left:0; width: 100%; height: 100%; 
             display: flex; opacity: 0; cursor: pointer; z-index: 10;
         }
-        #region-select { width: 60%; }
-        #lang-select { width: 40%; }
+        #region-select { width: 65%; }
+        #lang-select { width: 35%; }
+
+        .mena-icon { width: 15px; height: 15px; margin-left: 5px; fill: #718096; }
     </style>
 </head>
 <body>
@@ -97,23 +103,23 @@
     <div class="mobile-container">
         <header>
             <div class="brand-section">
-                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" alt="Logo" class="logo-img">
+                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" alt="Garena" class="logo-img">
                 <div class="v-line"></div>
                 <div class="title-box">
-                    <span id="nav-t1">Top-up</span>
+                    <span id="nav-t1">Official Top Up</span>
                     <span id="nav-t2">Center</span>
                 </div>
             </div>
 
             <div class="selector-wrapper">
-                <svg class="loc-icon" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
+                <div id="flag-display" style="display: flex; align-items: center;">
+                    <svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                </div>
                 
                 <div class="display-text">
-                    <span id="label-reg">Middle East</span>
+                    <span id="label-reg">MENA</span>
                     <span class="lang-sep">|</span>
-                    <span id="label-lng">English</span>
+                    <span id="label-lng">EN</span>
                 </div>
 
                 <div class="arrow-down"></div>
@@ -121,7 +127,7 @@
                 <div class="hidden-selects">
                     <select id="region-select" onchange="handleRegion(this)"></select>
                     <select id="lang-select" onchange="handleLang(this)">
-                        <option value="en">English</option>
+                        <option value="en">EN</option>
                         <option value="ar">العربية</option>
                     </select>
                 </div>
@@ -132,22 +138,34 @@
     </div>
 
     <script>
-        const shopData = {
-            regions: {
-                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "المملكة العربية السعودية", "تونس", "الإمارات العربية المتحدة", "منطقة أخرى"],
-                en: ["Middle East", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"]
-            },
-            nav: {
-                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية" },
-                en: { t1: "Top-up", t2: "Center", lName: "English" }
-            }
+        // الأعلام كـ SVG Base64 لسرعة الأداء
+        const flags = {
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            algeria: `https://flagcdn.com/dz.svg`,
+            egypt: `https://flagcdn.com/eg.svg`,
+            iraq: `https://flagcdn.com/iq.svg`,
+            morocco: `https://flagcdn.com/ma.svg`,
+            nigeria: `https://flagcdn.com/ng.svg`,
+            oman: `https://flagcdn.com/om.svg`,
+            palestine: `https://flagcdn.com/ps.svg`,
+            qatar: `https://flagcdn.com/qa.svg`,
+            saudi: `https://flagcdn.com/sa.svg`,
+            tunisia: `https://flagcdn.com/tn.svg`,
+            uae: `https://flagcdn.com/ae.svg`,
+            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        function handleLang(el) {
-            const lang = el.value;
-            localStorage.setItem('pref_lang', lang);
-            updateUI(lang);
-        }
+        const shopData = {
+            regions: {
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"],
+                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"]
+            },
+            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
+            nav: {
+                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية" },
+                en: { t1: "Official Top Up", t2: "Center", lName: "EN" }
+            }
+        };
 
         function updateUI(lang) {
             document.getElementById('nav-t1').innerText = shopData.nav[lang].t1;
@@ -156,30 +174,42 @@
 
             const regSel = document.getElementById('region-select');
             const currentIdx = regSel.selectedIndex !== -1 ? regSel.selectedIndex : 0;
-            
-            regSel.innerHTML = shopData.regions[lang].map((name, i) => 
-                `<option value="${i}">${name}</option>`
-            ).join('');
-            
+            regSel.innerHTML = shopData.regions[lang].map((name, i) => `<option value="${i}">${name}</option>`).join('');
             regSel.selectedIndex = currentIdx;
+            
             document.getElementById('label-reg').innerText = shopData.regions[lang][currentIdx];
+            updateFlag(currentIdx);
+        }
+
+        function updateFlag(idx) {
+            const key = shopData.keys[idx];
+            const display = document.getElementById('flag-display');
+            if (key === 'mena' || key === 'other') {
+                display.innerHTML = flags[key];
+            } else {
+                display.innerHTML = `<img src="${flags[key]}" class="flag-icon">`;
+            }
+        }
+
+        function handleLang(el) {
+            localStorage.setItem('pref_lang', el.value);
+            updateUI(el.value);
         }
 
         function handleRegion(el) {
             const lang = document.getElementById('lang-select').value;
             document.getElementById('label-reg').innerText = shopData.regions[lang][el.selectedIndex];
+            updateFlag(el.selectedIndex);
             localStorage.setItem('pref_reg_idx', el.selectedIndex);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const lang = localStorage.getItem('pref_lang') || 'en';
             const regIdx = localStorage.getItem('pref_reg_idx') || 0;
-            
             document.getElementById('lang-select').value = lang;
             updateUI(lang);
-            
             document.getElementById('region-select').selectedIndex = regIdx;
-            document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
+            updateFlag(regIdx);
         });
     </script>
 </body>
