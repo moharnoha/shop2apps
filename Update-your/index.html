@@ -70,27 +70,27 @@
 
         .input-group { margin-bottom: 22px; }
         .input-group label {
-            display: block; font-size: 15px; font-weight: 700; 
-            color: #334155; margin-bottom: 12px;
+            display: block; font-size: 14px; font-weight: 700; 
+            color: #475569; margin-bottom: 10px;
         }
 
         /* حقل الرابط (غير قابل للتعديل) */
-        .link-display {
+        .display-field-blue {
             display: flex; align-items: center; 
-            padding: 14px 16px; min-height: 24px;
+            padding: 14px 16px; min-height: 20px;
             border: 1.5px solid var(--primary-blue);
-            border-radius: 16px; background: #f8fbff; /* خلفية فاتحة لتدل على أنه للقراءة فقط */
-            color: #64748b; font-size: 13px; font-weight: 500;
-            overflow-x: auto; white-space: nowrap;
-            pointer-events: none; /* يمنع اللمس والتعديل */
+            border-radius: 14px; background: #fff;
+            color: #1e293b; font-size: 13px; font-weight: 600;
+            pointer-events: none;
         }
 
-        /* حقل اسم المنصة */
-        .platform-display {
+        /* حقل اسم المنصة (خلفية رمادية) */
+        .display-field-gray {
             display: flex; align-items: center; 
-            padding: 14px 16px; min-height: 24px;
-            border-radius: 16px; background: #eef2f7;
-            font-size: 14px; font-weight: 600; color: #334155;
+            padding: 14px 16px; min-height: 20px;
+            border-radius: 14px; background: #f1f5f9;
+            font-size: 13px; font-weight: 600; color: #334155;
+            pointer-events: none;
         }
 
         .arrow-down {
@@ -98,7 +98,7 @@
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-top: 5px solid #94a3b8;
-            margin-right: auto; /* يدفع السهم لليسار في العربي */
+            margin-right: auto;
         }
 
         [dir="ltr"] .arrow-down { margin-right: 0; margin-left: auto; }
@@ -137,12 +137,12 @@
 
                 <div class="input-group">
                     <label id="label-platform-link">رابط المنصة</label>
-                    <div id="platform-link-val" class="link-display">---</div>
+                    <div id="platform-link-val" class="display-field-blue">---</div>
                 </div>
 
                 <div class="input-group">
                     <label id="label-platform-name">المنصة الخاصة بحسابي</label>
-                    <div class="platform-display">
+                    <div class="display-field-gray">
                         <span id="platform-name-val">---</span>
                         <div class="arrow-down"></div>
                     </div>
@@ -171,35 +171,29 @@
         };
 
         function updateUI() {
-            // جلب الإعدادات من الصفحة الأولى
+            // جلب اللغة والمنطقة
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             
-            // جلب اسم المنصة والرابط (تأكد أن الصفحة الأولى تخزن هذه المفاتيح)
-            const selectedPlatformName = localStorage.getItem('selected_platform_name') || 'غير محدد';
-            const selectedPlatformLink = localStorage.getItem('selected_platform_link') || 'https://---.---';
+            // جلب البيانات "من الكود الأول" - هذه هي المفاتيح التي تخزنها الصفحة الأولى عادةً
+            const platformName = localStorage.getItem('selected_game_name') || localStorage.getItem('pref_platform') || '---';
+            const platformLink = localStorage.getItem('selected_game_url') || window.location.origin + "/" + platformName.toLowerCase();
 
             const data = shopData.nav[lang];
 
-            // تحديث اتجاه الصفحة
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-
-            // تحديث نصوص الهيدر
             document.getElementById('nav-t1').innerText = data.t1;
             document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = (lang === 'ar') ? 'AR' : 'EN';
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
-
-            // تحديث نصوص العناوين
             document.getElementById('order-title').innerText = data.order;
             document.getElementById('label-platform-link').innerText = data.platLink;
             document.getElementById('label-platform-name').innerText = data.platName;
 
-            // تحديث القيم القادمة من الصفحة الأولى
-            document.getElementById('platform-link-val').innerText = selectedPlatformLink;
-            document.getElementById('platform-name-val').innerText = selectedPlatformName;
+            // حقن القيم القادمة من الصفحة الأولى
+            document.getElementById('platform-name-val').innerText = platformName;
+            document.getElementById('platform-link-val').innerText = platformLink;
 
-            // تحديث العلم
             const display = document.getElementById('flag-display');
             const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
