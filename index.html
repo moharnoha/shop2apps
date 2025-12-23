@@ -62,7 +62,7 @@
             direction: rtl;
         }
 
-        .flag-icon { width: 18px; height: 13px; margin-left: 4px; flex-shrink: 0; }
+        .flag-icon { width: 18px; height: 13px; margin-left: 4px; flex-shrink: 0; border: 0.5px solid #eee; }
 
         .display-text {
             font-size: 9px;
@@ -87,7 +87,6 @@
             margin-bottom: 2px;
         }
 
-        /* أيقونة البروفايل */
         .profile-btn {
             width: 34px;
             height: 34px;
@@ -96,12 +95,13 @@
             justify-content: center;
             cursor: pointer;
             flex-shrink: 0;
+            text-decoration: none;
         }
 
         .profile-icon-svg {
             width: 28px;
             height: 28px;
-            fill: #cbd5e0; /* لون رمادي فاتح مثل الصورة */
+            fill: #cbd5e0; 
         }
 
         .hidden-selects {
@@ -145,18 +145,20 @@
                     </div>
                 </div>
 
-                <div class="profile-btn">
+                <a href="servio-top-up-center/" class="profile-btn">
                     <svg class="profile-icon-svg" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
-                </div>
+                </a>
             </div>
         </header>
 
-        <main></main>
+        <main>
+            </main>
     </div>
 
     <script>
+        // روابط الأعلام الرسمية SVG
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`,
@@ -189,19 +191,26 @@
             const lang = localStorage.getItem('pref_lang') || 'en';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
 
+            // تحديث النصوص
             document.getElementById('nav-t1').innerText = shopData.nav[lang].t1;
             document.getElementById('nav-t2').innerText = shopData.nav[lang].t2;
             document.getElementById('label-lng').innerText = shopData.nav[lang].lName;
             document.getElementById('lang-select').value = lang;
 
+            // تحديث قائمة الدول بناء على اللغة
             const regSel = document.getElementById('region-select');
             regSel.innerHTML = shopData.regions[lang].map((name, i) => `<option value="${i}">${name}</option>`).join('');
             regSel.selectedIndex = regIdx;
             document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
             
+            // تحديث العلم المختار
             const key = shopData.keys[regIdx];
             const display = document.getElementById('flag-display');
-            display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
+            if (key === 'mena' || key === 'other') {
+                display.innerHTML = flags[key];
+            } else {
+                display.innerHTML = `<img src="${flags[key]}" class="flag-icon">`;
+            }
         }
 
         function handleLang(el) {
@@ -214,7 +223,9 @@
             updateUI();
         }
 
+        // تشغيل التحديث فور تحميل الصفحة لضمان الثبات
         document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
+
