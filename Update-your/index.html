@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Full Review Center</title>
+    <title>Servio - Details Review</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -28,7 +28,7 @@
             display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر الأصلي الكامل --- */
+        /* --- الهيدر المطلوب --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -54,7 +54,6 @@
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
         .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
 
-        /* --- منطقة البطاقة والمحتوى --- */
         .content-area { padding: 20px 16px; }
 
         .verification-card {
@@ -87,10 +86,6 @@
         [dir="rtl"] .styled-select { 
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-position: left center; text-align: right;
-        }
-        [dir="ltr"] .styled-select { 
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-position: right center; text-align: left;
         }
 
         .platform-section-title { font-size: 11px; font-weight: 700; color: #94a3b8; margin: 0 0 12px 0; text-align: right; }
@@ -164,46 +159,59 @@
     </div>
 
     <script>
-        // مصفوفة الهيدر الكاملة (الأعلام والمناطق)
+        // --- مصفوفة الهيدر والأعلام الكاملة التي طلبتها ---
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        const shopData = {
+        const regionData = {
             regions: { 
                 ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
                 en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
             },
-            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
-            nav: { 
-                ar: { t1: "مركز الشحن", t2: "الرسمي", header: "مراجعة البيانات", link: "الرابط المكتشف", hint: "المنصة", cat: "اختر الفئة", srv: "اختر الخدمة", cats: ["حدد النوع...", "متابعين", "إعجابات", "مشاهدات"], srvs: ["حدد الباقة...", "باقة عادية", "باقة مميزة", "تسليم فوري"] }, 
-                en: { t1: "Official Top Up", t2: "Center", header: "Review Details", link: "Detected Link", hint: "Platform", cat: "Select Category", srv: "Select Service", cats: ["Select type...", "Followers", "Likes", "Views"], srvs: ["Select package...", "Standard Quality", "Premium Quality", "Instant Delivery"] } 
+            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
+        };
+
+        const translations = {
+            ar: {
+                t1: "مركز الشحن", t2: "الرسمي", header: "مراجعة البيانات", link: "الرابط المكتشف", hint: "المنصة", cat: "اختر الفئة", srv: "اختر الخدمة",
+                catsByPlatform: {
+                    facebook: ["فيسبوك - المتابعون [بيانات البوت] [الأرخص]", "فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]", "فيسبوك - عدد الإعجابات والمتابعين", "فيسبوك - الإعجابات على المنشورات", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "فيسبوك - ردود الفعل على المنشور", "فيسبوك - وقت المشاهدة [ 60 ألف دقيقة ]", "فيسبوك - المشاهدات", "فيسبوك - مشاهدات القصص", "فيسبوك - ردود الفعل على القصة", "فيسبوك - مشاركة المنشور", "فيسبوك - أعضاء المجموعة", "فيسبوك - مشاهدات مباشرة", "فيسبوك - خدمات [حقيقي]", "فيسبوك - خدمات [عالية]"],
+                    instagram: ["إنستغرام - المتابعون", "إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]", "إنستغرام - الإعجابات", "إنستغرام - الإعجابات الجديدة", "إنستغرام - عدد المشاهدات", "إنستغرام - يحفظ", "إنستغرام - التعليقات", "إنستغرام - مشاهدات القصص", "إنستغرام - مشاهدات مباشرة"],
+                    tiktok: ["تيك توك - المتابعون [بيانات البوت] [الأرخص]", "تيك توك - متابعون [جودة حقيقية]", "تيك توك - مشاهدات [سريعة للغاية]", "تيك توك - المشاهدات", "تيك توك - مشاهدات [جودة عالية]", "تيك توك - المشاهدات [المستهدف]", "تيك توك - الإعجابات [سريعة]", "تيك توك - الإعجابات [سريعة للغاية]", "تيك توك - الإعجابات", "تيك توك - الإعجابات [ملف تعريف مخفي]", "تيك توك - الإعجابات [دولي]", "تيك توك - لايكات [ GLOBAL ]", "تيك توك - الإعجابات + المشاهدات", "تيك توك - التعليقات", "تيك توك - يحفظ", "تيك توك - مشاهدات مباشرة", "تيك توك - الإعجابات تعيد", "تيك توك - الرد الرد", "تيك توك - مشاركات مباشرة"],
+                    discord: ["ديكورد - الأعضاء [الصوت الإلكتروني]", "ديسكو - الأعضاء [غير متصلين]", "ديسورد - رد كلام", "ديكورد - رمز مميز", "ديسكواد - تعزيز الخدمة [شهر واحد]", "ديسكو - تعزيز الخدمة [3 أشهر]"],
+                    twitch: ["تويتش - المشاهدات", "تويتش - المتابعون", "تويتش - مشاهدات مباشرة [جودة منخفضة]", "تويتش - مشاهدات مباشرة [جودة متوسطة]", "تويتش - مشاهدات مباشرة [جودة عالية]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 1]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 2]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 3]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 4]"]
+                },
+                srvs: ["حدد الباقة...", "باقة عادية", "باقة مميزة", "تسليم فوري"]
             }
         };
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const savedPlatform = localStorage.getItem('saved_platform_name') || 'facebook';
             const savedLink = localStorage.getItem('saved_player_link') || '---';
-            const savedPlatform = localStorage.getItem('saved_platform_name') || '';
 
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            const t = shopData.nav[lang];
+            const t = translations[lang] || translations['ar'];
 
-            // 1. تحديث الهيدر بالكامل
+            // 1. تحديث الهيدر بكامل بياناته
             document.getElementById('nav-t1').innerText = t.t1;
             document.getElementById('nav-t2').innerText = t.t2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
-            document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
+            document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
             
-            const flagKey = shopData.keys[regIdx] || 'mena';
+            const flagKey = regionData.keys[regIdx] || 'mena';
             const flagBox = document.getElementById('flag-display');
-            if (flagKey === 'mena' || flagKey === 'other') flagBox.innerHTML = flags[flagKey];
-            else flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
+            if (flagKey === 'mena' || flagKey === 'other') {
+                flagBox.innerHTML = flags[flagKey];
+            } else {
+                flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
+            }
 
-            // 2. تحديث محتوى البطاقة
+            // 2. تحديث نصوص البطاقة
             document.getElementById('card-main-title').innerText = t.header;
             document.getElementById('lbl-link').innerText = t.link;
             document.getElementById('val-link').innerText = savedLink;
@@ -211,18 +219,29 @@
             document.getElementById('lbl-cat').innerText = t.cat;
             document.getElementById('lbl-srv').innerText = t.srv;
 
-            // 3. تحديث القوائم المنسدلة
-            document.getElementById('select-category').innerHTML = t.cats.map((c, i) => `<option value="${i}" ${i===0?'disabled selected':''}>${c}</option>`).join('');
-            document.getElementById('select-service').innerHTML = t.srvs.map((s, i) => `<option value="${i}" ${i===0?'disabled selected':''}>${s}</option>`).join('');
+            // 3. تحديث القوائم (بدون أسماء دول)
+            let pKey = 'facebook';
+            const platformLower = savedPlatform.toLowerCase();
+            if (platformLower.includes('twitch')) pKey = 'twitch';
+            else if (platformLower.includes('tiktok')) pKey = 'tiktok';
+            else if (platformLower.includes('instagram')) pKey = 'instagram';
+            else if (platformLower.includes('discord')) pKey = 'discord';
 
-            // 4. تفعيل المنصة المكتشفة
+            const categories = t.catsByPlatform[pKey] || t.catsByPlatform['facebook'];
+            document.getElementById('select-category').innerHTML = 
+                `<option value="" disabled selected>حدد الفئة...</option>` +
+                categories.map((c, i) => `<option value="${i}">${c}</option>`).join('');
+
+            document.getElementById('select-service').innerHTML = 
+                t.srvs.map((s, i) => `<option value="${i}" ${i===0?'disabled selected':''}>${s}</option>`).join('');
+
+            // 4. تفعيل أيقونة المنصة
             const circles = document.querySelectorAll('.platform-circle');
             circles.forEach(c => c.classList.remove('active'));
-            const pKey = savedPlatform.toLowerCase();
-            if (pKey.includes('twitch')) document.getElementById('circle-twitch').classList.add('active');
-            else if (pKey.includes('tiktok')) document.getElementById('circle-tiktok').classList.add('active');
-            else if (pKey.includes('instagram')) document.getElementById('circle-instagram').classList.add('active');
-            else if (pKey.includes('facebook')) document.getElementById('circle-facebook').classList.add('active');
+            if (pKey === 'twitch') document.getElementById('circle-twitch')?.classList.add('active');
+            else if (pKey === 'tiktok') document.getElementById('circle-tiktok')?.classList.add('active');
+            else if (pKey === 'instagram') document.getElementById('circle-instagram')?.classList.add('active');
+            else if (pKey === 'facebook') document.getElementById('circle-facebook')?.classList.add('active');
         }
 
         document.addEventListener('DOMContentLoaded', updateUI);
