@@ -56,7 +56,6 @@
             direction: rtl;
         }
 
-        /* تنسيق الأعلام */
         .flag-icon {
             width: 18px;
             height: 13px;
@@ -113,8 +112,7 @@
 
             <div class="selector-wrapper">
                 <div id="flag-display" style="display: flex; align-items: center;">
-                    <svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                </div>
+                    </div>
                 
                 <div class="display-text">
                     <span id="label-reg">MENA</span>
@@ -138,7 +136,6 @@
     </div>
 
     <script>
-        // الأعلام كـ SVG Base64 لسرعة الأداء
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`,
@@ -167,22 +164,27 @@
             }
         };
 
-        function updateUI(lang) {
+        // وظيفة التحديث الشاملة
+        function updateUI() {
+            const lang = localStorage.getItem('pref_lang') || 'en';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+
+            // تحديث نصوص الهيدر واللغة المختارة
             document.getElementById('nav-t1').innerText = shopData.nav[lang].t1;
             document.getElementById('nav-t2').innerText = shopData.nav[lang].t2;
             document.getElementById('label-lng').innerText = shopData.nav[lang].lName;
+            document.getElementById('lang-select').value = lang;
 
+            // تحديث قائمة الدول بناءً على اللغة
             const regSel = document.getElementById('region-select');
-            const currentIdx = regSel.selectedIndex !== -1 ? regSel.selectedIndex : 0;
             regSel.innerHTML = shopData.regions[lang].map((name, i) => `<option value="${i}">${name}</option>`).join('');
-            regSel.selectedIndex = currentIdx;
             
-            document.getElementById('label-reg').innerText = shopData.regions[lang][currentIdx];
-            updateFlag(currentIdx);
-        }
-
-        function updateFlag(idx) {
-            const key = shopData.keys[idx];
+            // استرجاع الدولة المختارة
+            regSel.selectedIndex = regIdx;
+            document.getElementById('label-reg').innerText = shopData.regions[lang][regIdx];
+            
+            // تحديث العلم المختار
+            const key = shopData.keys[regIdx];
             const display = document.getElementById('flag-display');
             if (key === 'mena' || key === 'other') {
                 display.innerHTML = flags[key];
@@ -193,24 +195,17 @@
 
         function handleLang(el) {
             localStorage.setItem('pref_lang', el.value);
-            updateUI(el.value);
+            updateUI(); // إعادة تحديث الواجهة فوراً
         }
 
         function handleRegion(el) {
-            const lang = document.getElementById('lang-select').value;
-            document.getElementById('label-reg').innerText = shopData.regions[lang][el.selectedIndex];
-            updateFlag(el.selectedIndex);
             localStorage.setItem('pref_reg_idx', el.selectedIndex);
+            updateUI(); // إعادة تحديث الواجهة فوراً
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const lang = localStorage.getItem('pref_lang') || 'en';
-            const regIdx = localStorage.getItem('pref_reg_idx') || 0;
-            document.getElementById('lang-select').value = lang;
-            updateUI(lang);
-            document.getElementById('region-select').selectedIndex = regIdx;
-            updateFlag(regIdx);
-        });
+        // تشغيل التحديث عند تحميل الصفحة لأول مرة
+        document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
+
