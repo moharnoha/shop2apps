@@ -90,10 +90,6 @@
             background-size: 16px;
         }
 
-        .styled-select:focus {
-            border-color: var(--primary-blue);
-        }
-
         optgroup { font-weight: 700; color: var(--primary-blue); background: #fff; }
         option { padding: 10px; color: #1a202c; }
 
@@ -217,23 +213,20 @@
     </div>
 
     <script>
-        // دالة إرسال الخيار والعودة
+        // دالة الحفظ والعودة
         document.getElementById('service-selector').addEventListener('change', function() {
             const selectedValue = this.value;
             
             if (selectedValue) {
-                // تخزين الاختيار مؤقتاً إذا كنت تحتاجه في الصفحة السابقة
-                localStorage.setItem('last_selected_service', selectedValue);
-
-                // هنا يمكنك وضع الرابط الذي تريد إرسال البيانات إليه
-                // مثال: سيفتح نافذة جديدة ثم يغلقها أو يرجع للخلف
-                alert("تم اختيار: " + selectedValue + "\nسيتم إرسالك والعودة الآن.");
+                // حفظ الاختيار في ذاكرة المتصفح
+                localStorage.setItem('selected_category_service', selectedValue);
                 
-                // العودة للصفحة السابقة
+                // العودة للصفحة السابقة فوراً
                 window.history.back();
             }
         });
 
+        // بقية كود الأعلام واللغة كما هو
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
@@ -267,4 +260,3 @@
     </script>
 </body>
 </html>
-
