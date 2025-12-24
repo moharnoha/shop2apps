@@ -51,7 +51,7 @@
             display: flex; align-items: center; background: #f1f5f9; 
             border: 1px solid #e2e8f0; border-radius: 6px; 
             padding: 0 12px; height: 34px; gap: 8px;
-            direction: ltr !important; /* الحفاظ على محتوى المعلومات مرتباً داخلياً */
+            direction: ltr !important; 
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
@@ -124,8 +124,8 @@
                 <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
                 <div class="v-line"></div>
                 <div class="title-box">
-                    <span>مركز الشحن</span>
-                    <span>الرسمي</span>
+                    <span id="nav-t1">مركز الشحن</span>
+                    <span id="nav-t2">الرسمي</span>
                 </div>
             </div>
             <div class="header-left-group">
@@ -189,8 +189,14 @@
         };
 
         const translations = {
-            ar: { title: "إنشاء طلب", lblLink: "رابط المنصة", lblCat: "الفئة المختارة", cats: ["اختر الفئة المستهدفة", "شحن ألعاب مباشر", "بطاقات رقمية", "اشتراكات بريميوم"] },
-            en: { title: "Create Order", lblLink: "Platform Link", lblCat: "Selected Category", cats: ["Select Target Category", "Direct Game Top-up", "Digital Cards", "Premium Subscriptions"] }
+            ar: { 
+                h1: "مركز الشحن", h2: "الرسمي",
+                title: "إنشاء طلب", lblLink: "رابط المنصة", lblCat: "الفئة المختارة", cats: ["اختر الفئة المستهدفة", "شحن ألعاب مباشر", "بطاقات رقمية", "اشتراكات بريميوم"] 
+            },
+            en: { 
+                h1: "Official Top Up", h2: "Center",
+                title: "Create Order", lblLink: "Platform Link", lblCat: "Selected Category", cats: ["Select Target Category", "Direct Game Top-up", "Digital Cards", "Premium Subscriptions"] 
+            }
         };
 
         function updateUI() {
@@ -201,7 +207,9 @@
 
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             
-            // تحديث بيانات الهيدر مع بقاء التنسيق العربي ثابتاً
+            // تحديث نصوص الهيدر (مع بقاء التنسيق العربي الثابت)
+            document.getElementById('nav-t1').innerText = t.h1;
+            document.getElementById('nav-t2').innerText = t.h2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
             
@@ -209,7 +217,7 @@
             const flagBox = document.getElementById('flag-display');
             flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // تحديث المحتوى تحت الهيدر فقط
+            // تحديث المحتوى تحت الهيدر
             document.getElementById('card-main-title').innerText = t.title;
             document.getElementById('lbl-platform-link').innerText = t.lblLink;
             document.getElementById('lbl-category').innerText = t.lblCat;
