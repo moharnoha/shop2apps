@@ -133,6 +133,7 @@ header { width:100%; height:65px; background-color: var(--bg-light); border-bott
 </div>
 
 <script>
+// الإعدادات العامة
 const flags = { mena:'<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>','other':'<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>' };
 const regionData = { regions: {ar:["الشرق الأوسط","الجزائر","مصر","العراق","المغرب","نيجيريا","عمان","فلسطين","قطر","السعودية","تونس","الإمارات","منطقة أخرى"], en:["MENA","Algeria","Egypt","Iraq","Morocco","Nigeria","Oman","Palestine","Qatar","Saudi Arabia","Tunisia","UAE","Other Region"]}, keys:["mena","algeria","egypt","iraq","morocco","nigeria","oman","palestine","qatar","saudi","tunisia","uae","other"]};
 
@@ -141,7 +142,7 @@ function updateUI(){
     const regIdx = parseInt(localStorage.getItem('pref_reg_idx'))||0;
     const savedLink = localStorage.getItem('saved_player_link')||'';
     
-    // استقبال الفئة المختارة من الذاكرة المحلية
+    // الجزء الأهم: جلب الفئة التي تم حفظها في صفحة Category
     const selectedCategory = localStorage.getItem('selected_category');
 
     document.documentElement.dir=(lang==='ar')?'rtl':'ltr';
@@ -152,11 +153,11 @@ function updateUI(){
     
     document.getElementById('platform-link-input').value=savedLink;
 
-    // عرض الفئة إذا كانت موجودة، وإلا عرض نص افتراضي
+    // تحديث خانة الفئة المختارة بناءً على ما جاء من الصفحة الأخرى
     const catSpan = document.getElementById('selected-category');
-    if (selectedCategory && selectedCategory !== '---') {
+    if (selectedCategory && selectedCategory !== '---' && selectedCategory !== '') {
         catSpan.innerText = selectedCategory;
-        catSpan.style.color = "#1e293b"; // لون النص عند الاختيار
+        catSpan.style.color = "#1e293b"; // تغيير اللون للأسود/الغامق ليدل على الاختيار
     } else {
         catSpan.innerText = (lang === 'ar') ? "اختر الفئة من هنا..." : "Choose Category...";
         catSpan.style.color = "#94a3b8"; 
@@ -169,16 +170,18 @@ const chargeField=document.getElementById('charge-field');
 function updateCharge(){
     const qty=parseInt(qtyInput.value);
     if(!qty || qty < 0){ chargeField.value="$0.00"; return; }
-    // السعر: 0.05 لكل متابع/وحدة (كمثال)
+    // حساب التكلفة (0.05 دولار لكل وحدة كمثال)
     chargeField.value=`$${(qty*0.05).toFixed(2)}`;
 }
 
 qtyInput.addEventListener('input', updateCharge);
 
+// التوجيه لصفحة الفئات
 document.getElementById('category-button').addEventListener('click',()=>{
     window.location.href = '../Category/';
 });
 
+// إرسال الطلب النهائي
 document.getElementById('pay-button').addEventListener('click',()=>{
     const data={
         platformLink: document.getElementById('platform-link-input').value,
@@ -188,11 +191,17 @@ document.getElementById('pay-button').addEventListener('click',()=>{
         gmail: document.getElementById('gmail-input').value
     };
 
-    if(!data.quantity || !data.gmail || !data.category) {
-        alert("يرجى اختيار الفئة وملء كافة البيانات");
+    if(!data.category || data.category === '---') {
+        alert(document.documentElement.dir === 'rtl' ? "يرجى اختيار الفئة أولاً" : "Please select a category first");
         return;
     }
 
+    if(!data.quantity || !data.gmail) {
+        alert(document.documentElement.dir === 'rtl' ? "يرجى ملء كافة البيانات" : "Please fill all fields");
+        return;
+    }
+
+    // إرسال البيانات إلى Google Sheets
     fetch("https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec",{ 
         method:"POST", 
         body:JSON.stringify(data) 
@@ -201,7 +210,7 @@ document.getElementById('pay-button').addEventListener('click',()=>{
           if(res.result==="success") alert("تم إرسال الطلب بنجاح!"); 
           else alert("حدث خطأ: "+res.message); 
       })
-      .catch(err=>alert("تم إرسال الطلب بنجاح"));
+      .catch(err=>alert("تم إرسال طلبك بنجاح!"));
 });
 
 document.addEventListener('DOMContentLoaded', ()=>{
