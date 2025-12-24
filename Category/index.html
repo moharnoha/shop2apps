@@ -3,257 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="google" content="notranslate">
     <title>Servio - Details Review</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
-        :root { 
-            --bg-light: #f8fbff; 
-            --border-gray: #e2e8f0; 
-            --text-dark: #1a202c;
-            --primary-blue: #2563eb;
-        }
-
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f1f5f9; 
-            display: flex; justify-content: center; 
-        }
-
-        .mobile-container { 
-            width: 100%; max-width: 480px; 
-            min-height: 100vh; background-color: #f7fafc;
-            display: flex; flex-direction: column; 
-        }
-
-        header { 
-            width: 100%; height: 65px; background-color: var(--bg-light); 
-            border-bottom: 1px solid var(--border-gray); display: flex; 
-            align-items: center; justify-content: space-between; 
-            padding: 0 12px; box-sizing: border-box; position: sticky; 
-            top: 0; z-index: 1000; direction: rtl !important; 
-        }
-
+        :root { --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c; --primary-blue: #2563eb; }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f1f5f9; display: flex; justify-content: center; }
+        .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; background-color: #f7fafc; display: flex; flex-direction: column; }
+        header { width: 100%; height: 65px; background-color: var(--bg-light); border-bottom: 1px solid var(--border-gray); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box; direction: rtl !important; }
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 28px; width: auto; }
         .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
         .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
-
-        .header-left-group { display: flex; align-items: center; }
-        .info-display-wrapper { 
-            display: flex; align-items: center; background: #f1f5f9; 
-            border: 1px solid #e2e8f0; border-radius: 6px; 
-            padding: 0 12px; height: 34px; direction: rtl;
-        }
-
-        .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
-        .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
-        .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
-
         .content-area { padding: 20px 16px; }
-
-        .verification-card {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 22px 18px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
-            border: 1px solid #edf2f7;
-            min-height: 200px;
-        }
-
-        .selection-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .styled-select {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            background-color: #f8fafc;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: #475569;
-            outline: none;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: left 12px center;
-            background-size: 18px;
-        }
-
-        optgroup { font-weight: 700; color: var(--primary-blue); background: #fff; }
-        option { padding: 10px; color: #1a202c; }
-
-        .servio-footer { margin-top: 25px; text-align: center; font-size: 9px; color: #cbd5e0; font-weight: 600; }
+        .verification-card { background: #ffffff; border-radius: 24px; padding: 22px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); border: 1px solid #edf2f7; }
+        .selection-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; display: block; }
+        .styled-select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; background-color: #f8fafc; font-size: 14px; color: #475569; outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: left 12px center; background-size: 18px; }
+        optgroup { font-weight: 700; color: var(--primary-blue); }
     </style>
 </head>
 <body>
-
     <div class="mobile-container">
         <header>
             <div class="brand-section">
                 <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
                 <div class="v-line"></div>
-                <div class="title-box">
-                    <span id="nav-t1">Official Top Up</span>
-                    <span id="nav-t2">Center</span>
-                </div>
-            </div>
-            <div class="header-left-group">
-                <div class="info-display-wrapper">
-                    <div id="flag-display"></div>
-                    <div class="display-text">
-                        <span id="label-reg">---</span>
-                        <span style="color:#cbd5e0;">|</span>
-                        <span id="label-lng">--</span>
-                    </div>
-                </div>
+                <div class="title-box"><span>Official Top Up</span><span>Center</span></div>
             </div>
         </header>
-
         <div class="content-area">
             <div class="verification-card">
                 <label class="selection-title">اختر الفئة</label>
                 <select id="auto-selector" class="styled-select">
                     <option value="" disabled selected>تحديد الخدمة...</option>
-                    
                     <optgroup label="فيسبوك">
-                        <option>فيسبوك - المتابعون [بيانات البوت] [الأرخص]</option>
-                        <option>فيسبوك - متابعون [جودة بوت]</option>
-                        <option>فيسبوك - عدد المتابعين [حقيقي]</option>
-                        <option>فيسبوك - ردود الفعل على المنشورات [أسماء إنجليزية]</option>
-                        <option>فيسبوك - المتابعون</option>
-                        <option>فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]</option>
-                        <option>فيسبوك - عدد الإعجابات والمتابعين</option>
-                        <option>فيسبوك - الإعجابات على المنشورات</option>
-                        <option>فيسبوك - ردود الفعل على المنشورات [رخيصة]</option>
-                        <option>فيسبوك - ردود الفعل على المنشور</option>
-                        <option>فيسبوك - وقت المشاهدة [60 ألف دقيقة]</option>
-                        <option>فيسبوك - مشاهدات مباشرة</option>
-                        <option>فيسبوك - المشاهدات</option>
-                        <option>فيسبوك - مشاهدات القصص</option>
-                        <option>فيسبوك - ردود الفعل على القصة</option>
-                        <option>فيسبوك - مشاركة المنشور</option>
-                        <option>فيسبوك - أعضاء المجموعة</option>
-                        <option>فيسبوك - مشاهدات مباشرة</option>
+                        <option>فيسبوك - المتابعون [بيانات البوت]</option>
+                        <option>فيسبوك - إعجابات الصفحة والمتابعين</option>
                     </optgroup>
-
-                    <optgroup label="إنستغرام">
-                        <option>إنستغرام - المتابعون</option>
-                        <option>إنستغرام - عدد المشاهدات</option>
-                        <option>إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]</option>
-                        <option>إنستغرام - الإعجابات</option>
-                        <option>إنستغرام - عدد المشاهدات</option>
-                        <option>إنستغرام - يحفظ</option>
-                        <option>إنستغرام - التعليقات</option>
-                        <option>إنستغرام - مشاهدات القصص</option>
-                        <option>إنستغرام - الإعجابات المباشرة</option>
-                        <option>إنستغرام - مشاهدات مباشرة</option>
-                    </optgroup>
-
                     <optgroup label="تيك توك">
-                        <option>تيك توك - المتابعون [بيانات البوت] [الأرخص]</option>
-                        <option>تيك توك - متابعون جودة حقيقية</option>
-                        <option>تيك توك - المشاهدات سريعة للغاية</option>
-                        <option>تيك توك - المشاهدات</option>
-                        <option>تيك توك - مشاهدات [جودة عالية]</option>
-                        <option>تيك توك - المشاهدات البلد المستهدف</option>
-                        <option>تيك توك - [الإعجابات سريعة]</option>
-                        <option>تيك توك - [الإعجابات سريعة للغاية]</option>
-                        <option>تيك توك - الإعجابات</option>
-                        <option>تيك توك - الإعجابات [ملف تعريف مخفي]</option>
-                        <option>تيك توك - الإعجابات + المشاهدات</option>
-                        <option>تيك توك - التعليقات</option>
-                        <option>تيك توك - يحفظ</option>
-                        <option>تيك توك - أسهم</option>
-                        <option>تيك توك - مشاهدات مباشرة</option>
-                        <option>تيك توك - الإعجابات المباشرة</option>
-                        <option>تيك توك - ( التعليقات المباشرة )</option>
-                        <option>تيك توك - مشاركات مباشرة</option>
+                        <option>تيك توك - المتابعون [الأرخص]</option>
+                        <option>تيك توك - المشاهدات سريعة</option>
                     </optgroup>
-
-                    <optgroup label="ديسكورد">
-                        <option>دیسکورد - الأعضاء [متصلون بالإنترنت]</option>
-                        <option>ديسكورد - الأعضاء [غير متصلين]</option>
-                        <option>دیسکورد - رد فعل</option>
-                        <option>دیسکورد - رمز مميز</option>
-                        <option>دیسکورد - تعزيز الخادم [شهر واحد]</option>
-                        <option>ديسكورد - تعزيز الخادم [3 أشهر]</option>
-                    </optgroup>
-
-                    <optgroup label="تويتش">
-                        <option>تويتش - المشاهدات</option>
-                        <option>تويتش - المتابعون</option>
-                        <option>تويتش - مشاهدات مباشرة [جودة منخفضة]</option>
-                        <option>تويتش - مشاهدات مباشرة [جودة متوسطة]</option>
-                        <option>تويتش - مشاهدات مباشرة [جودة عالية]</option>
-                        <option>تويتش - مشاهدات مباشرة جودة عالية | الولايات المتحدة الأمريكية ]</option>
-                        <option>تويتش - مشاهدات مباشرة جودة عالية | روسيا ]</option>
-                        <option>تويتش - مشاهدات مباشرة جودة عالية | فرنسا ]</option>
-                        <option>تويتش - مشاهدات مباشرة جودة عالية | ألمانيا ]</option>
-                    </optgroup>
-
-                    <optgroup label="إضافات">
-                        <option>خاص - واجهة برمجة التطبيقات</option>
-                    </optgroup>
-                </select>
+                    </select>
             </div>
-            
-            <div class="servio-footer">Verified via Servio Secure Gateway</div>
         </div>
     </div>
-
     <script>
-        // النظام السلس: حفظ ثم عودة فورية بدون نوافذ منبثقة
         document.getElementById('auto-selector').addEventListener('change', function() {
             const val = this.value;
             if (val) {
-                // حفظ البيانات في المتصفح لتقرأها الصفحة السابقة
+                // حفظ الاختيار
                 localStorage.setItem('chosen_service', val);
-                
-                // العودة فوراً للصفحة التي جاء منها المستخدم
+                // الرجوع فوراً
                 window.history.back();
             }
         });
-
-        // كود الهوية والأعلام
-        const flags = {
-            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
-            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
-        };
-
-        function updateUI() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const regionData = {
-                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
-                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"],
-                keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
-            };
-
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            document.getElementById('label-lng').innerText = lang.toUpperCase();
-            document.getElementById('label-reg').innerText = regionData[lang][regIdx];
-            const flagKey = regionData.keys[regIdx] || 'mena';
-            const flagBox = document.getElementById('flag-display');
-            if (flagKey === 'mena' || flagKey === 'other') {
-                flagBox.innerHTML = flags[flagKey];
-            } else {
-                flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
