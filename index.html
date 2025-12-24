@@ -63,10 +63,7 @@
             width: 38px; height: 38px; 
             display: flex; align-items: center; justify-content: center; 
             text-decoration: none; border-radius: 50%; flex-shrink: 0;
-            transition: background 0.2s;
         }
-        .profile-link:active { background-color: #edf2f7; }
-        .profile-icon-svg { width: 28px; height: 28px; fill: #cbd5e0; }
 
         .hidden-selects { position: absolute; top:0; left:0; width: 100%; height: 100%; display: flex; opacity: 0; z-index: 10; cursor: pointer; }
 
@@ -101,11 +98,15 @@
             transition: all 0.3s ease;
         }
 
+        .input-group-container.error-border { border-color: var(--garena-red) !important; animation: shake 0.4s ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        .locked-interaction { pointer-events: none !important; opacity: 0.7; cursor: not-allowed !important; }
+
         .platform-btn {
             background-color: var(--garena-red); color: white; border: none;
             padding: 0 25px; font-weight: 700; font-size: 15px; cursor: pointer;
-            white-space: nowrap; text-decoration: none; display: flex; align-items: center;
-            transition: all 0.3s ease;
+            white-space: nowrap; transition: all 0.3s ease;
         }
 
         .player-input-field {
@@ -113,7 +114,7 @@
             font-size: 15px; text-align: right; background: white;
         }
 
-        .social-login-label { font-size: 14px; color: #666; margin-bottom: 15px; line-height: 1.4; font-weight: 500; }
+        .social-login-label { font-size: 14px; color: #666; margin-bottom: 15px; font-weight: 500; }
         
         .social-icons-row { display: flex; gap: 15px; justify-content: flex-start; margin-bottom: 25px; }
         .social-item {
@@ -122,115 +123,30 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.08); border: 1.5px solid #eee;
             cursor: pointer; transition: transform 0.2s;
         }
-        .social-item:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .social-item:hover { transform: scale(1.1); }
 
-        /* --- الأضافة التفاعلية المطورة --- */
+        /* --- قسم الإحصائيات --- */
         .live-impact-box {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 15px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            background: #ffffff; border-radius: 12px; padding: 15px;
+            border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
             margin-top: 5px;
         }
 
-        .impact-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f1f5f9;
-        }
+        .impact-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; }
+        .pulse-indicator { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--success-green); }
+        .dot { width: 8px; height: 8px; background-color: var(--success-green); border-radius: 50%; position: relative; }
+        .dot::after { content: ''; position: absolute; width: 100%; height: 100%; background: var(--success-green); border-radius: 50%; animation: pulse-ring 1.5s infinite; }
+        @keyframes pulse-ring { 0% { transform: scale(.7); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 
-        .pulse-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--success-green);
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .impact-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .impact-value { 
+            font-size: 15px; font-weight: 800; color: #2d3748; 
+            display: flex; align-items: center; gap: 2px; direction: ltr !important; 
         }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--success-green);
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .dot::after {
-            content: '';
-            position: absolute;
-            width: 100%; height: 100%;
-            background: var(--success-green);
-            border-radius: 50%;
-            animation: pulse-ring 1.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% { transform: scale(.7); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .impact-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .impact-value {
-            font-size: 15px;
-            font-weight: 800;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            direction: ltr !important; /* الرقم ثم K */
-        }
-
-        .impact-label {
-            font-size: 10px;
-            color: #718096;
-            font-weight: 600;
-        }
-
-        .up-indicator {
-            font-size: 10px;
-            color: var(--success-green);
-            margin-left: 4px;
-            animation: bounce-up 1s infinite alternate;
-        }
-
-        @keyframes bounce-up {
-            from { transform: translateY(0); }
-            to { transform: translateY(-3px); }
-        }
-
-        .input-group-container.error-border {
-            border-color: var(--garena-red) !important;
-            animation: shake 0.4s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .locked-interaction {
-            pointer-events: none !important;
-            opacity: 0.7;
-            cursor: not-allowed !important;
-        }
+        .impact-label { font-size: 10px; color: #718096; font-weight: 600; }
+        .up-indicator { font-size: 10px; color: var(--success-green); animation: bounce-up 1s infinite alternate; }
+        @keyframes bounce-up { from { transform: translateY(0); } to { transform: translateY(-3px); } }
 
         .flag-icon { width: 20px; height: 14px; margin-left: 6px; border-radius: 2px; }
         .mena-icon { width: 18px; height: 18px; margin-left: 6px; fill: #718096; }
@@ -273,7 +189,7 @@
                 </div>
 
                 <a href="./servio-top-up-center/" class="profile-link">
-                    <svg class="profile-icon-svg" viewBox="0 0 24 24">
+                    <svg style="width: 28px; height: 28px; fill: #cbd5e0;" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                 </a>
@@ -293,7 +209,7 @@
                 
                 <div class="input-group-container" id="input-wrapper">
                     <button class="platform-btn" id="text-platform-btn" onclick="startLoginProcess()">تسجيل الدخول</button>
-                    <input type="text" class="player-input-field" id="input-player" placeholder="يرجى إدخال الرابط هنا" oninput="removeError()">
+                    <input type="text" class="player-input-field" id="input-player" placeholder="يرجى إدخال الرابط هنا" oninput="removeError()" autocomplete="off">
                 </div>
 
                 <div class="social-login-label" id="text-social-info">اختر منصة الحساب الخاص بك</div>
@@ -316,21 +232,21 @@
                     <div class="stats-grid">
                         <div class="impact-item">
                             <div class="impact-value">
-                                <span id="count-likes">12.5</span>K
+                                <span id="count-likes">12.5</span><span>K</span>
                                 <span class="up-indicator">▲</span>
                             </div>
                             <span class="impact-label" id="label-likes">إعجابات</span>
                         </div>
                         <div class="impact-item">
                             <div class="impact-value">
-                                <span id="count-views">84.2</span>K
+                                <span id="count-views">84.2</span><span>K</span>
                                 <span class="up-indicator">▲</span>
                             </div>
                             <span class="impact-label" id="label-views">مشاهدات</span>
                         </div>
                         <div class="impact-item">
                             <div class="impact-value">
-                                <span id="count-comments">3.1</span>K
+                                <span id="count-comments">3.1</span><span>K</span>
                                 <span class="up-indicator">▲</span>
                             </div>
                             <span class="impact-label" id="label-comments">تعليقات</span>
@@ -342,26 +258,14 @@
     </div>
 
     <script>
-        function updateLiveImpact() {
-            const likes = document.getElementById('count-likes');
-            const views = document.getElementById('count-views');
-            const comments = document.getElementById('count-comments');
-
-            setInterval(() => {
-                let addLikes = (Math.random() * 0.2).toFixed(1);
-                let addViews = (Math.random() * 0.5).toFixed(1);
-                let addComments = (Math.random() * 0.1).toFixed(1);
-
-                likes.innerText = (parseFloat(likes.innerText) + parseFloat(addLikes)).toFixed(1);
-                views.innerText = (parseFloat(views.innerText) + parseFloat(addViews)).toFixed(1);
-                comments.innerText = (parseFloat(comments.innerText) + parseFloat(addComments)).toFixed(1);
-                
-                [likes, views, comments].forEach(el => {
-                    el.style.color = 'var(--success-green)';
-                    setTimeout(() => el.style.color = '#2d3748', 500);
-                });
-            }, 2500);
-        }
+        const shopData = {
+            regions: { ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] },
+            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
+            nav: { 
+                ar: { t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", marquee: "مركز الشحن الرسمي لـ SERVIO", loginHead: "رابط المنصة", platformBtn: "تسجيل الدخول", inputPlace: "يرجى إدخال الرابط هنا", socialInfo: "اختر منصة الحساب الخاص بك", loadingText: "جاري التحميل...", likes: "إعجابات", views: "مشاهدات", comments: "تعليقات", liveNow: "نشط الآن" }, 
+                en: { t1: "Official Top Up", t2: "Center", lName: "EN", marquee: "OFFICIAL GARENA TOP UP SERVIO", loginHead: "Platform Link", platformBtn: "Login", inputPlace: "Enter link here", socialInfo: "Select your account platform", loadingText: "Loading...", likes: "Likes", views: "Views", comments: "Comments", liveNow: "Active Now" } 
+            }
+        };
 
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
@@ -369,29 +273,18 @@
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        const shopData = {
-            regions: { 
-                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
-                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
-            },
-            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"],
-            nav: { 
-                ar: { 
-                    t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", marquee: "مركز الشحن الرسمي لـ SERVIO",
-                    loginHead: "رابط المنصة", platformBtn: "تسجيل الدخول", inputPlace: "يرجى إدخال الرابط هنا",
-                    socialInfo: "اختر منصة الحساب الخاص بك",
-                    loadingText: "جاري التحميل...",
-                    likes: "إعجابات", views: "مشاهدات", comments: "تعليقات", liveNow: "نشط الآن"
-                }, 
-                en: { 
-                    t1: "Official Top Up", t2: "Center", lName: "EN", marquee: "OFFICIAL GARENA TOP UP SERVIO",
-                    loginHead: "Platform Link", platformBtn: "Login", inputPlace: "Enter link here",
-                    socialInfo: "Select your account platform",
-                    loadingText: "Loading...",
-                    likes: "Likes", views: "Views", comments: "Comments", liveNow: "Active Now"
-                } 
-            }
-        };
+        // دالة التصفير عند تحميل الصفحة
+        function resetInputs() {
+            const inputField = document.getElementById('input-player');
+            const actionBtn = document.getElementById('text-platform-btn');
+            const inputWrapper = document.getElementById('input-wrapper');
+            const lang = localStorage.getItem('pref_lang') || 'en';
+
+            inputField.value = ""; // مسح النص
+            inputField.disabled = false; // تفعيل الحقل
+            inputWrapper.classList.remove('locked-interaction', 'error-border'); // فك القفل
+            actionBtn.innerText = shopData.nav[lang].platformBtn; // إعادة نص الزر
+        }
 
         function startLoginProcess() {
             const inputField = document.getElementById('input-player');
@@ -407,7 +300,6 @@
                 return;
             }
 
-            localStorage.setItem('saved_player_link', playerLink);
             inputField.disabled = true;
             inputWrapper.classList.add('locked-interaction');
             actionBtn.innerText = shopData.nav[lang].loadingText;
@@ -447,14 +339,26 @@
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
         }
 
+        function updateLiveImpact() {
+            const likes = document.getElementById('count-likes');
+            const views = document.getElementById('count-views');
+            const comments = document.getElementById('count-comments');
+            setInterval(() => {
+                likes.innerText = (parseFloat(likes.innerText) + (Math.random() * 0.2)).toFixed(1);
+                views.innerText = (parseFloat(views.innerText) + (Math.random() * 0.5)).toFixed(1);
+                comments.innerText = (parseFloat(comments.innerText) + (Math.random() * 0.1)).toFixed(1);
+            }, 2500);
+        }
+
         function handleLang(el) { localStorage.setItem('pref_lang', el.value); updateUI(); }
         function handleRegion(el) { localStorage.setItem('pref_reg_idx', el.selectedIndex); updateUI(); }
         function removeError() { document.getElementById('input-wrapper').classList.remove('error-border'); }
-        
-        document.addEventListener('DOMContentLoaded', () => {
+
+        window.onload = () => {
             updateUI();
-            updateLiveImpact(); 
-        });
+            updateLiveImpact();
+            resetInputs(); // تصفير البيانات عند كل تحميل للصفحة
+        };
     </script>
 </body>
 </html>
