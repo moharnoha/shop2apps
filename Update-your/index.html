@@ -30,14 +30,13 @@
             display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر الثابت بتنسيق عربي دائماً --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
             padding: 0 12px; box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000;
-            direction: rtl !important; /* تثبيت تنسيق اليمين لليسار */
+            direction: rtl !important; 
         }
 
         .brand-section { display: flex; align-items: center; }
@@ -58,7 +57,6 @@
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
         .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
 
-        /* --- ما تحت الهيدر --- */
         .content-area { padding: 20px 16px; }
 
         .verification-card {
@@ -161,13 +159,83 @@
                     </div>
                 </div>
 
+                <!-- تحسين الفئة المختارة -->
                 <div class="data-item">
                     <div class="icon-box">
                         <svg class="field-icon" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
                     </div>
                     <div class="input-main-content">
                         <div class="data-label" id="lbl-category">الفئة المختارة</div>
-                        <select class="styled-select" id="category-select"></select>
+                        <select class="styled-select" id="category-select">
+                            <option>فيسبوك - المتابعون [بيانات البوت] [الأرخص]</option>
+                            <option>فيسبوك - متابعون [جودة بوت]</option>
+                            <option>فيسبوك - عدد المتابعين [حقيقي]</option>
+                            <option>فيسبوك - ردود الفعل على المنشورات [أسماء إنجليزية]</option>
+                            <option>فيسبوك - المتابعون</option>
+                            <option>فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]</option>
+                            <option>فيسبوك - عدد الإعجابات والمتابعين</option>
+                            <option>فيسبوك - الإعجابات على المنشورات</option>
+                            <option>فيسبوك - ردود الفعل على المنشورات [رخيصة]</option>
+                            <option>فيسبوك - ردود الفعل على المنشور</option>
+                            <option>فيسبوك - وقت المشاهدة [60 ألف دقيقة]</option>
+                            <option>فيسبوك - مشاهدات مباشرة</option>
+                            <option>فيسبوك - المشاهدات</option>
+                            <option>فيسبوك - مشاهدات القصص</option>
+                            <option>فيسبوك - ردود الفعل على القصة</option>
+                            <option>فيسبوك - مشاركة المنشور</option>
+                            <option>فيسبوك - أعضاء المجموعة</option>
+                            <option>فيسبوك - مشاهدات مباشرة</option>
+
+                            <option>إنستغرام - المتابعون</option>
+                            <option>إنستغرام - عدد المشاهدات</option>
+                            <option>إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]</option>
+                            <option>إنستغرام - الإعجابات</option>
+                            <option>إنستغرام - عدد المشاهدات</option>
+                            <option>إنستغرام - يحفظ</option>
+                            <option>إنستغرام - التعليقات</option>
+                            <option>إنستغرام - مشاهدات القصص</option>
+                            <option>إنستغرام - الإعجابات المباشرة</option>
+                            <option>إنستغرام - مشاهدات مباشرة</option>
+
+                            <option>تيك توك - المتابعون [بيانات البوت] [الأرخص]</option>
+                            <option>تيك توك - متابعون جودة حقيقية</option>
+                            <option>تيك توك - المشاهدات سريعة للغاية</option>
+                            <option>تيك توك - المشاهدات</option>
+                            <option>تيك توك - مشاهدات [جودة عالية]</option>
+                            <option>تيك توك - المشاهدات البلد المستهدف</option>
+                            <option>تيك توك - [الإعجابات سريعة]</option>
+                            <option>تيك توك - [الإعجابات سريعة للغاية]</option>
+                            <option>تيك توك - الإعجابات</option>
+                            <option>تيك توك - الإعجابات [ملف تعريف مخفي]</option>
+                            <option>تيك توك - الإعجابات + المشاهدات</option>
+                            <option>تيك توك - التعليقات</option>
+                            <option>تيك توك - يحفظ</option>
+
+                            <option>تيك توك - أسهم</option>
+                            <option>تيك توك - مشاهدات مباشرة</option>
+                            <option>تيك توك - الإعجابات المباشرة</option>
+                            <option>تيك توك - ( التعليقات المباشرة )</option>
+                            <option>تيك توك - مشاركات مباشرة</option>
+
+                            <option>دیسکورد - الأعضاء [متصلون بالإنترنت]</option>
+                            <option>ديسكورد - الأعضاء [غير متصلين]</option>
+                            <option>دیسکورد - رد فعل</option>
+                            <option>دیسکورد - رمز مميز</option>
+                            <option>دیسکورد - تعزيز الخادم [شهر واحد]</option>
+                            <option>دیسکورد - تعزيز الخادم [3 أشهر]</option>
+
+                            <option>تويتش - المشاهدات</option>
+                            <option>تويتش - المتابعون</option>
+                            <option>تويتش - مشاهدات مباشرة [جودة منخفضة]</option>
+                            <option>تويتش - مشاهدات مباشرة [جودة متوسطة]</option>
+                            <option>تويتش - مشاهدات مباشرة [جودة عالية]</option>
+                            <option>تويتش - مشاهدات مباشرة جودة عالية | الولايات المتحدة الأمريكية</option>
+                            <option>تويتش - مشاهدات مباشرة جودة عالية | روسيا</option>
+                            <option>تويتش - مشاهدات مباشرة جودة عالية | فرنسا</option>
+                            <option>تويتش - مشاهدات مباشرة جودة عالية | ألمانيا</option>
+
+                            <option>خاص - واجهة برمجة التطبيقات</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -191,11 +259,11 @@
         const translations = {
             ar: { 
                 h1: "مركز الشحن", h2: "الرسمي",
-                title: "إنشاء طلب", lblLink: "رابط المنصة", lblCat: "الفئة المختارة", cats: ["اختر الفئة المستهدفة", "شحن ألعاب مباشر", "بطاقات رقمية", "اشتراكات بريميوم"] 
+                title: "إنشاء طلب", lblLink: "رابط المنصة", lblCat: "الفئة المختارة"
             },
             en: { 
                 h1: "Official Top Up", h2: "Center",
-                title: "Create Order", lblLink: "Platform Link", lblCat: "Selected Category", cats: ["Select Target Category", "Direct Game Top-up", "Digital Cards", "Premium Subscriptions"] 
+                title: "Create Order", lblLink: "Platform Link", lblCat: "Selected Category"
             }
         };
 
@@ -203,13 +271,11 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const savedLink = localStorage.getItem('saved_player_link') || ''; 
-            const t = translations[lang];
 
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             
-            // تحديث نصوص الهيدر (مع بقاء التنسيق العربي الثابت)
-            document.getElementById('nav-t1').innerText = t.h1;
-            document.getElementById('nav-t2').innerText = t.h2;
+            document.getElementById('nav-t1').innerText = translations[lang].h1;
+            document.getElementById('nav-t2').innerText = translations[lang].h2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
             
@@ -217,14 +283,10 @@
             const flagBox = document.getElementById('flag-display');
             flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // تحديث المحتوى تحت الهيدر
-            document.getElementById('card-main-title').innerText = t.title;
-            document.getElementById('lbl-platform-link').innerText = t.lblLink;
-            document.getElementById('lbl-category').innerText = t.lblCat;
+            document.getElementById('card-main-title').innerText = translations[lang].title;
+            document.getElementById('lbl-platform-link').innerText = translations[lang].lblLink;
+            document.getElementById('lbl-category').innerText = translations[lang].lblCat;
             document.getElementById('platform-link-input').value = savedLink;
-
-            const catSelect = document.getElementById('category-select');
-            catSelect.innerHTML = t.cats.map(c => `<option>${c}</option>`).join('');
         }
 
         document.addEventListener('DOMContentLoaded', updateUI);
