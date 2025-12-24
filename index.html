@@ -125,7 +125,6 @@
         }
         .social-item:hover { transform: scale(1.1); }
 
-        /* --- قسم الإحصائيات --- */
         .live-impact-box {
             background: #ffffff; border-radius: 12px; padding: 15px;
             border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
@@ -273,17 +272,16 @@
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        // دالة التصفير عند تحميل الصفحة
         function resetInputs() {
             const inputField = document.getElementById('input-player');
             const actionBtn = document.getElementById('text-platform-btn');
             const inputWrapper = document.getElementById('input-wrapper');
             const lang = localStorage.getItem('pref_lang') || 'en';
 
-            inputField.value = ""; // مسح النص
-            inputField.disabled = false; // تفعيل الحقل
-            inputWrapper.classList.remove('locked-interaction', 'error-border'); // فك القفل
-            actionBtn.innerText = shopData.nav[lang].platformBtn; // إعادة نص الزر
+            inputField.value = ""; 
+            inputField.disabled = false; 
+            inputWrapper.classList.remove('locked-interaction', 'error-border'); 
+            actionBtn.innerText = shopData.nav[lang].platformBtn;
         }
 
         function startLoginProcess() {
@@ -354,10 +352,14 @@
         function handleRegion(el) { localStorage.setItem('pref_reg_idx', el.selectedIndex); updateUI(); }
         function removeError() { document.getElementById('input-wrapper').classList.remove('error-border'); }
 
-        window.onload = () => {
+        // التعديل الجذري هنا لضمان التحديث عند الرجوع للصفحة
+        window.addEventListener('pageshow', function(event) {
+            resetInputs();
             updateUI();
+        });
+
+        window.onload = () => {
             updateLiveImpact();
-            resetInputs(); // تصفير البيانات عند كل تحميل للصفحة
         };
     </script>
 </body>
