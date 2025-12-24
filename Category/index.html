@@ -74,12 +74,12 @@
 
         .styled-select {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             border-radius: 12px;
             border: 1px solid #e2e8f0;
             background-color: #f8fafc;
             font-family: 'Inter', sans-serif;
-            font-size: 13px;
+            font-size: 14px;
             color: #475569;
             outline: none;
             cursor: pointer;
@@ -87,7 +87,7 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: left 12px center;
-            background-size: 16px;
+            background-size: 18px;
         }
 
         optgroup { font-weight: 700; color: var(--primary-blue); background: #fff; }
@@ -122,9 +122,9 @@
 
         <div class="content-area">
             <div class="verification-card">
-                <label class="selection-title">الفئة والخدمة</label>
-                <select id="service-selector" class="styled-select">
-                    <option value="" disabled selected>اضغط للاختيار...</option>
+                <label class="selection-title">اختر الفئة</label>
+                <select id="auto-selector" class="styled-select">
+                    <option value="" disabled selected>تحديد الخدمة...</option>
                     
                     <optgroup label="فيسبوك">
                         <option>فيسبوك - المتابعون [بيانات البوت] [الأرخص]</option>
@@ -213,40 +213,37 @@
     </div>
 
     <script>
-        // دالة الحفظ والعودة
-        document.getElementById('service-selector').addEventListener('change', function() {
-            const selectedValue = this.value;
-            
-            if (selectedValue) {
-                // حفظ الاختيار في ذاكرة المتصفح
-                localStorage.setItem('selected_category_service', selectedValue);
+        // النظام السلس: حفظ ثم عودة فورية بدون نوافذ منبثقة
+        document.getElementById('auto-selector').addEventListener('change', function() {
+            const val = this.value;
+            if (val) {
+                // حفظ البيانات في المتصفح لتقرأها الصفحة السابقة
+                localStorage.setItem('chosen_service', val);
                 
-                // العودة للصفحة السابقة فوراً
+                // العودة فوراً للصفحة التي جاء منها المستخدم
                 window.history.back();
             }
         });
 
-        // بقية كود الأعلام واللغة كما هو
+        // كود الهوية والأعلام
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        const regionData = {
-            regions: { 
-                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
-                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
-            },
-            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
-        };
-
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const regionData = {
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
+                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"],
+                keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
+            };
+
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.getElementById('label-lng').innerText = lang.toUpperCase();
-            document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
+            document.getElementById('label-reg').innerText = regionData[lang][regIdx];
             const flagKey = regionData.keys[regIdx] || 'mena';
             const flagBox = document.getElementById('flag-display');
             if (flagKey === 'mena' || flagKey === 'other') {
