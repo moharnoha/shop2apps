@@ -14,6 +14,7 @@
             --text-dark: #1a202c;
             --gold-gradient: linear-gradient(90deg, #d4af37, #f1d592, #d4af37);
             --garena-red: #e51e1e;
+            --success-green: #22c55e;
         }
 
         body { 
@@ -29,7 +30,6 @@
             display: flex; flex-direction: column; 
         }
 
-        /* تحسين الهيدر لمنع التزاحم */
         header { 
             width: 100%; height: 70px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -47,7 +47,6 @@
 
         .header-left-group { display: flex; align-items: center; gap: 12px; flex-shrink: 1; }
         
-        /* تحسين واجهة اختيار الدولة واللغة */
         .selector-wrapper { 
             display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e0; 
             border-radius: 6px; padding: 0 8px; min-width: 130px; height: 36px; 
@@ -71,7 +70,6 @@
 
         .hidden-selects { position: absolute; top:0; left:0; width: 100%; height: 100%; display: flex; opacity: 0; z-index: 10; cursor: pointer; }
 
-        /* باقي الستايلات كما هي دون تغيير */
         .input-group-container.error-border {
             border-color: var(--garena-red) !important;
             animation: shake 0.4s ease-in-out;
@@ -132,17 +130,106 @@
             font-size: 15px; text-align: right; background: white;
         }
 
-        .social-login-label { font-size: 14px; color: #666; margin-bottom: 20px; line-height: 1.4; font-weight: 500; }
+        .social-login-label { font-size: 14px; color: #666; margin-bottom: 15px; line-height: 1.4; font-weight: 500; }
         
-        .social-icons-row { display: flex; gap: 20px; justify-content: flex-start; }
+        .social-icons-row { display: flex; gap: 15px; justify-content: flex-start; margin-bottom: 25px; }
         .social-item {
-            width: 50px; height: 50px; border-radius: 50%; background: white;
+            width: 45px; height: 45px; border-radius: 50%; background: white;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 2px 6px rgba(0,0,0,0.08); border: 1.5px solid #eee;
-            cursor: default;
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .social-item:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+        /* --- الأضافة التفاعلية المطورة --- */
+        .live-impact-box {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            margin-top: 5px;
         }
 
-        .social-item svg { width: 28px; height: 28px; }
+        .impact-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .pulse-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--success-green);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success-green);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .dot::after {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            background: var(--success-green);
+            border-radius: 50%;
+            animation: pulse-ring 1.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(.7); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .impact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .impact-value {
+            font-size: 15px;
+            font-weight: 800;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .impact-label {
+            font-size: 10px;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .up-indicator {
+            font-size: 10px;
+            color: var(--success-green);
+            animation: bounce-up 1s infinite alternate;
+        }
+
+        @keyframes bounce-up {
+            from { transform: translateY(0); }
+            to { transform: translateY(-3px); }
+        }
+        /* ------------------------------------------- */
 
         .details-section { padding: 0 10% 40px 10%; }
         .details-card {
@@ -158,11 +245,8 @@
 
         @media (max-width: 480px) {
             .login-section { padding: 20px 15px; }
-            .details-section { padding: 0 15px 25px 15px; }
             header { padding: 0 8px; height: 60px; }
             .login-card { padding: 20px; }
-            .selector-wrapper { min-width: 110px; padding: 0 5px; }
-            .title-box span { font-size: 10px; }
         }
     </style>
 </head>
@@ -223,17 +307,42 @@
                 <div class="social-login-label" id="text-social-info">اختر منصة الحساب الخاص بك</div>
                 
                 <div class="social-icons-row" id="social-container">
-                    <div class="social-item">
-                        <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    <div class="social-item"><svg viewBox="0 0 24 24" fill="#1877F2" width="24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+                    <div class="social-item"><svg viewBox="0 0 24 24" width="24"><defs><radialGradient id="rg" r="150%" cx="30%" cy="107%"><stop stop-color="#fdf497" offset="0%"/><stop stop-color="#fdf497" offset="5%"/><stop stop-color="#fd5949" offset="45%"/><stop stop-color="#d6249f" offset="60%"/><stop stop-color="#285AEB" offset="90%"/></radialGradient></defs><path fill="url(#rg)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+                    <div class="social-item"><svg viewBox="0 0 24 24" fill="#000000" width="24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.23-2.74.12-.69.29-1.27.87-1.62 1.54-.34.66-.46 1.43-.37 2.16.14 1.23.86 2.36 1.94 2.96.9.52 2 .61 3 .29.9-.25 1.69-.93 2.1-1.77.34-.65.48-1.4.47-2.14-.02-3.95-.01-7.9-.02-11.85z"/></svg></div>
+                    <div class="social-item"><svg viewBox="0 0 24 24" fill="#9146FF" width="24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg></div>
+                </div>
+
+                <div class="live-impact-box">
+                    <div class="impact-header">
+                        <div class="pulse-indicator">
+                            <span class="dot"></span>
+                            <span id="text-live-now">نشط الآن</span>
+                        </div>
+                        <div style="font-size: 10px; color: #a0aec0; font-weight: 600;">LIVE FEED</div>
                     </div>
-                    <div class="social-item">
-                        <svg viewBox="0 0 24 24"><defs><radialGradient id="rg" r="150%" cx="30%" cy="107%"><stop stop-color="#fdf497" offset="0%"/><stop stop-color="#fdf497" offset="5%"/><stop stop-color="#fd5949" offset="45%"/><stop stop-color="#d6249f" offset="60%"/><stop stop-color="#285AEB" offset="90%"/></radialGradient></defs><path fill="url(#rg)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </div>
-                    <div class="social-item">
-                        <svg viewBox="0 0 24 24" fill="#000000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.23-2.74.12-.69.29-1.27.87-1.62 1.54-.34.66-.46 1.43-.37 2.16.14 1.23.86 2.36 1.94 2.96.9.52 2 .61 3 .29.9-.25 1.69-.93 2.1-1.77.34-.65.48-1.4.47-2.14-.02-3.95-.01-7.9-.02-11.85z"/></svg>
-                    </div>
-                    <div class="social-item">
-                        <svg viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+                    <div class="stats-grid">
+                        <div class="impact-item">
+                            <div class="impact-value">
+                                <span id="count-likes">12.5</span>K
+                                <span class="up-indicator">▲</span>
+                            </div>
+                            <span class="impact-label" id="label-likes">إعجابات</span>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-value">
+                                <span id="count-views">84.2</span>K
+                                <span class="up-indicator">▲</span>
+                            </div>
+                            <span class="impact-label" id="label-views">مشاهدات</span>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-value">
+                                <span id="count-comments">3.1</span>K
+                                <span class="up-indicator">▲</span>
+                            </div>
+                            <span class="impact-label" id="label-comments">تعليقات</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -245,6 +354,30 @@
     </div>
 
     <script>
+        // دالة تحديث الأرقام التفاعلية بتأثير حركي
+        function updateLiveImpact() {
+            const likes = document.getElementById('count-likes');
+            const views = document.getElementById('count-views');
+            const comments = document.getElementById('count-comments');
+
+            setInterval(() => {
+                // زيادة عشوائية طفيفة للإيحاء بالواقعية
+                let addLikes = (Math.random() * 0.2).toFixed(1);
+                let addViews = (Math.random() * 0.5).toFixed(1);
+                let addComments = (Math.random() * 0.1).toFixed(1);
+
+                likes.innerText = (parseFloat(likes.innerText) + parseFloat(addLikes)).toFixed(1);
+                views.innerText = (parseFloat(views.innerText) + parseFloat(addViews)).toFixed(1);
+                comments.innerText = (parseFloat(comments.innerText) + parseFloat(addComments)).toFixed(1);
+                
+                // وميض خفيف عند التحديث
+                [likes, views, comments].forEach(el => {
+                    el.style.color = 'var(--success-green)';
+                    setTimeout(() => el.style.color = '#2d3748', 500);
+                });
+            }, 2500);
+        }
+
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
@@ -262,13 +395,15 @@
                     t1: "مركز الشحن", t2: "الرسمي", lName: "العربية", marquee: "مركز الشحن الرسمي لـ SERVIO",
                     loginHead: "رابط المنصة", platformBtn: "تسجيل الدخول", inputPlace: "يرجى إدخال الرابط هنا",
                     socialInfo: "اختر منصة الحساب الخاص بك",
-                    loadingText: "جاري التحميل..."
+                    loadingText: "جاري التحميل...",
+                    likes: "إعجابات", views: "مشاهدات", comments: "تعليقات", liveNow: "نشط الآن"
                 }, 
                 en: { 
                     t1: "Official Top Up", t2: "Center", lName: "EN", marquee: "OFFICIAL GARENA TOP UP SERVIO",
                     loginHead: "Platform Link", platformBtn: "Login", inputPlace: "Enter link here",
                     socialInfo: "Select your account platform",
-                    loadingText: "Loading..."
+                    loadingText: "Loading...",
+                    likes: "Likes", views: "Views", comments: "Comments", liveNow: "Active Now"
                 } 
             }
         };
@@ -278,16 +413,12 @@
             const inputWrapper = document.getElementById('input-wrapper');
             const actionBtn = document.getElementById('text-platform-btn');
             const lang = localStorage.getItem('pref_lang') || 'en';
-
             const playerLink = inputField.value.trim();
 
             if (playerLink === "") {
                 inputWrapper.classList.add('error-border');
                 inputField.focus();
-                setTimeout(() => {
-                    inputWrapper.classList.remove('error-border');
-                    inputWrapper.style.borderColor = "var(--garena-red)";
-                }, 400);
+                setTimeout(() => { inputWrapper.classList.remove('error-border'); }, 400);
                 return;
             }
 
@@ -297,36 +428,8 @@
             actionBtn.innerText = shopData.nav[lang].loadingText;
 
             setTimeout(() => {
-                const targetUrl = `Update-your/?link=${encodeURIComponent(playerLink)}`;
-                window.location.href = targetUrl;
+                window.location.href = `Update-your/?link=${encodeURIComponent(playerLink)}`;
             }, 3000);
-        }
-
-        function resetForm() {
-            const inputField = document.getElementById('input-player');
-            const inputWrapper = document.getElementById('input-wrapper');
-            const actionBtn = document.getElementById('text-platform-btn');
-            const lang = localStorage.getItem('pref_lang') || 'en';
-
-            inputField.value = "";
-            inputField.disabled = false;
-            inputWrapper.classList.remove('locked-interaction', 'error-border');
-            inputWrapper.style.borderColor = "#dee2e6";
-            
-            if(shopData.nav[lang]) {
-                actionBtn.innerText = shopData.nav[lang].platformBtn;
-            }
-        }
-
-        window.addEventListener('pageshow', function(event) {
-            resetForm();
-            updateUI(); 
-        });
-
-        function removeError() {
-            const inputWrapper = document.getElementById('input-wrapper');
-            inputWrapper.style.borderColor = "#dee2e6";
-            inputWrapper.classList.remove('error-border');
         }
 
         function updateUI() {
@@ -338,13 +441,16 @@
             document.getElementById('nav-t1').innerText = data.t1;
             document.getElementById('nav-t2').innerText = data.t2;
             document.getElementById('label-lng').innerText = data.lName;
-            document.getElementById('lang-select').value = lang;
             document.getElementById('marquee-box').innerHTML = Array(10).fill(`<span class="marquee-text">${data.marquee}</span>`).join('');
-
             document.getElementById('text-login-head').innerText = data.loginHead;
             document.getElementById('text-platform-btn').innerText = data.platformBtn;
             document.getElementById('input-player').placeholder = data.inputPlace;
             document.getElementById('text-social-info').innerText = data.socialInfo;
+            
+            document.getElementById('label-likes').innerText = data.likes;
+            document.getElementById('label-views').innerText = data.views;
+            document.getElementById('label-comments').innerText = data.comments;
+            document.getElementById('text-live-now').innerText = data.liveNow;
 
             const regSel = document.getElementById('region-select');
             regSel.innerHTML = shopData.regions[lang].map((name, i) => `<option value="${i}">${name}</option>`).join('');
@@ -354,13 +460,15 @@
             const display = document.getElementById('flag-display');
             const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
-
-            document.getElementById('details-card').innerHTML = '';
         }
 
         function handleLang(el) { localStorage.setItem('pref_lang', el.value); updateUI(); }
         function handleRegion(el) { localStorage.setItem('pref_reg_idx', el.selectedIndex); updateUI(); }
-        document.addEventListener('DOMContentLoaded', updateUI);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+            updateLiveImpact(); 
+        });
     </script>
 </body>
 </html>
