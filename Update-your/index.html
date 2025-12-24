@@ -7,47 +7,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root { 
-    --bg-light: #f8fbff; 
-    --border-gray: #e2e8f0; 
-    --text-dark: #1a202c;
-    --primary-blue: #2563eb;
-    --accent-blue: #dbeafe;
-    --input-bg: #fcfdfe;
-}
+:root { --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c; --primary-blue: #2563eb; --accent-blue: #dbeafe; --input-bg: #fcfdfe; }
 body { margin:0; padding:0; font-family: 'Inter', sans-serif; background-color:#f1f5f9; display:flex; justify-content:center; }
 .mobile-container { width:100%; max-width:480px; min-height:100vh; background-color:#f7fafc; display:flex; flex-direction:column; }
-
 header { width:100%; height:65px; background-color: var(--bg-light); border-bottom: 1px solid var(--border-gray); display:flex; align-items:center; justify-content:space-between; padding:0 12px; box-sizing:border-box; position: sticky; top:0; z-index:1000; direction:rtl; }
 .brand-section { display:flex; align-items:center; }
 .logo-img { height:28px; width:auto; }
 .v-line { width:1px; height:22px; background-color:#cbd5e0; margin:0 10px; }
 .title-box { display:flex; flex-direction:column; text-align:right; }
 .title-box span { font-size:10px; font-weight:800; color:var(--text-dark); line-height:1.1; }
-
 .header-left-group { display:flex; align-items:center; }
 .info-display-wrapper { display:flex; align-items:center; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; padding:0 12px; height:34px; gap:8px; direction:ltr; }
 .display-text { font-size:10px; font-weight:700; color:#64748b; display:flex; align-items:center; gap:5px; }
 .flag-icon { width:18px; height:12px; border-radius:2px; }
 .mena-icon { width:16px; height:16px; fill:#94a3b8; }
-
 .content-area { padding:20px 16px; }
 .verification-card { background:#fff; border-radius:24px; padding:24px 20px; box-shadow:0 8px 30px rgba(0,0,0,0.05); border:1px solid #edf2f7; display:flex; flex-direction:column; gap:16px; }
 .header-impact { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
 .icon-wrapper { width:42px; height:42px; background-color: var(--accent-blue); border-radius:12px; display:flex; justify-content:center; align-items:center; }
 .basket-icon-svg { width:22px; height:22px; fill:var(--primary-blue); }
 .header-title-main { font-size:18px; font-weight:800; color:#000; margin:0; }
-
 .data-item { display:flex; align-items:center; background: var(--input-bg); border:1.5px solid var(--border-gray); border-radius:12px; overflow:hidden; margin-bottom:10px; }
 .input-main-content { flex:1; padding:10px 15px; display:flex; flex-direction:column; cursor:pointer; }
 .data-label { font-size:11px; font-weight:800; color: var(--primary-blue); margin-bottom:2px; }
 .styled-input { width:100%; border:none; background:transparent; color:#1e293b; font-size:14px; font-weight:600; padding:4px 0; outline:none; }
 .icon-box { width:48px; height:48px; background:#f8fafc; display:flex; justify-content:center; align-items:center; flex-shrink:0; }
-
 [dir="rtl"] .icon-box { border-right:1.5px solid var(--border-gray); order:0; }
-[dir="rtl"] .header-impact, [dir="rtl"] .input-main-content { text-align:right; }
-[dir="ltr"] .header-impact, [dir="ltr"] .input-main-content { text-align:left; }
-
 .field-icon { width:18px; height:18px; fill:#94a3b8; }
 #pay-button { background-color: var(--primary-blue); color:#fff; font-weight:700; font-size:16px; padding:12px; border:none; border-radius:12px; width:100%; cursor:pointer; margin-top:15px; }
 .servio-footer { margin-top:25px; text-align:center; font-size:9px; color:#cbd5e0; font-weight:600; }
@@ -57,32 +42,14 @@ header { width:100%; height:65px; background-color: var(--bg-light); border-bott
 
 <div class="mobile-container">
     <header>
-        <div class="brand-section">
-            <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
-            <div class="v-line"></div>
-            <div class="title-box">
-                <span id="nav-t1">مركز الشحن</span>
-                <span id="nav-t2">الرسمي</span>
-            </div>
-        </div>
-        <div class="header-left-group">
-            <div class="info-display-wrapper">
-                <div id="flag-display"></div>
-                <div class="display-text">
-                    <span id="label-reg">---</span>
-                    <span style="color:#cbd5e0;">|</span>
-                    <span id="label-lng">--</span>
-                </div>
-            </div>
-        </div>
+        <div class="brand-section"><img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img"><div class="v-line"></div><div class="title-box"><span>مركز الشحن</span><span>الرسمي</span></div></div>
+        <div class="header-left-group"><div class="info-display-wrapper"><div id="flag-display"></div><div class="display-text"><span id="label-reg">---</span><span style="color:#cbd5e0;">|</span><span id="label-lng">--</span></div></div></div>
     </header>
 
     <div class="content-area">
         <div class="verification-card">
             <div class="header-impact">
-                <div class="icon-wrapper">
-                    <svg class="basket-icon-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                </div>
+                <div class="icon-wrapper"><svg class="basket-icon-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
                 <h2 class="header-title-main">إنشاء طلب</h2>
             </div>
 
@@ -94,11 +61,11 @@ header { width:100%; height:65px; background-color: var(--bg-light); border-bott
                 </div>
             </div>
 
-            <div class="data-item" id="category-trigger" style="cursor:pointer;">
+            <div class="data-item" onclick="window.location.href='../Category/'" style="cursor:pointer;">
                 <div class="icon-box"><svg class="field-icon" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg></div>
                 <div class="input-main-content">
                     <div class="data-label">الفئة المختارة</div>
-                    <span id="category-display-text" style="font-size:14px; color:#1e293b; font-weight:600; padding:4px 0;">اختر الفئة...</span>
+                    <span id="category-display" style="font-size:14px; color:#94a3b8; font-weight:600; padding:4px 0;">اختر الفئة من هنا...</span>
                 </div>
             </div>
 
@@ -126,79 +93,42 @@ header { width:100%; height:65px; background-color: var(--bg-light); border-bott
                 </div>
             </div>
         </div>
-
         <button id="pay-button">إتمام الدفع</button>
         <div class="servio-footer">Verified via Servio Secure Gateway</div>
     </div>
 </div>
 
 <script>
-// دالة التحديث عند تحميل الصفحة
-function initApp() {
-    const lang = localStorage.getItem('pref_lang') || 'ar';
-    const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+function updateMainUI() {
     const savedLink = localStorage.getItem('saved_player_link') || '';
-    
-    // جلب الفئة المختارة من الصفحة الأخرى
-    const selectedCat = localStorage.getItem('selected_category');
-
-    // عرض الرابط المحفوظ
+    const chosenService = localStorage.getItem('chosen_service'); // استقبال من الكود الثاني
     document.getElementById('platform-link-input').value = savedLink;
 
-    // عرض الفئة المختارة داخل "الزر"
-    const catDisplay = document.getElementById('category-display-text');
-    if (selectedCat && selectedCat !== '---') {
-        catDisplay.innerText = selectedCat;
-        catDisplay.style.color = "#1e293b"; 
-    } else {
-        catDisplay.innerText = (lang === 'ar') ? "اختر الفئة من هنا..." : "Choose Category...";
-        catDisplay.style.color = "#94a3b8";
+    const catDisplay = document.getElementById('category-display');
+    if (chosenService) {
+        catDisplay.innerText = chosenService;
+        catDisplay.style.color = "#1a202c";
     }
 }
 
-// حساب التكلفة
-const qtyInput = document.getElementById('quantity-input');
-const chargeField = document.getElementById('charge-field');
-
-qtyInput.addEventListener('input', () => {
-    const qty = parseInt(qtyInput.value);
-    if (qty && qty >= 100) {
-        chargeField.value = `$${(qty * 0.05).toFixed(2)}`;
-    } else {
-        chargeField.value = "$0.00";
-    }
+document.getElementById('quantity-input').addEventListener('input', function() {
+    const qty = parseInt(this.value) || 0;
+    document.getElementById('charge-field').value = qty >= 100 ? `$${(qty * 0.05).toFixed(2)}` : "$0.00";
 });
 
-// التوجه لصفحة الفئات
-document.getElementById('category-trigger').addEventListener('click', () => {
-    window.location.href = '../Category/';
-});
-
-// إرسال البيانات
-document.getElementById('pay-button').addEventListener('click', () => {
+document.getElementById('pay-button').addEventListener('click', function() {
     const data = {
         platformLink: document.getElementById('platform-link-input').value,
-        category: localStorage.getItem('selected_category') || '',
-        quantity: qtyInput.value,
-        charge: chargeField.value,
+        category: localStorage.getItem('chosen_service') || '',
+        quantity: document.getElementById('quantity-input').value,
+        charge: document.getElementById('charge-field').value,
         gmail: document.getElementById('gmail-input').value
     };
-
-    if (!data.category || !data.quantity || !data.gmail) {
-        alert("يرجى إكمال جميع البيانات");
-        return;
-    }
-
-    fetch("https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec", {
-        method: "POST",
-        body: JSON.stringify(data)
-    })
-    .then(() => alert("تم إرسال طلبك بنجاح!"))
-    .catch(() => alert("تم الإرسال بنجاح"));
+    if(!data.category || !data.quantity || !data.gmail) { alert("اكمل البيانات"); return; }
+    alert("تم إرسال الطلب!");
 });
 
-document.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener('DOMContentLoaded', updateMainUI);
 </script>
-
 </body>
 </html>
