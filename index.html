@@ -70,23 +70,6 @@
 
         .hidden-selects { position: absolute; top:0; left:0; width: 100%; height: 100%; display: flex; opacity: 0; z-index: 10; cursor: pointer; }
 
-        .input-group-container.error-border {
-            border-color: var(--garena-red) !important;
-            animation: shake 0.4s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .locked-interaction {
-            pointer-events: none !important;
-            opacity: 0.7;
-            cursor: not-allowed !important;
-        }
-
         .golden-bar {
             width: 100%; height: 30px; background: var(--gold-gradient);
             overflow: hidden; display: flex; align-items: center;
@@ -210,7 +193,8 @@
             color: #2d3748;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
+            direction: ltr !important; /* الرقم ثم K */
         }
 
         .impact-label {
@@ -222,6 +206,7 @@
         .up-indicator {
             font-size: 10px;
             color: var(--success-green);
+            margin-left: 4px;
             animation: bounce-up 1s infinite alternate;
         }
 
@@ -229,15 +214,22 @@
             from { transform: translateY(0); }
             to { transform: translateY(-3px); }
         }
-        /* ------------------------------------------- */
 
-        .details-section { padding: 0 10% 40px 10%; }
-        .details-card {
-            background: #ffffff; border-radius: 14px; padding: 22px;
-            border: 1px solid #edf2f7; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            text-align: left !important; direction: ltr !important;
-            display: none;
-            max-width: 600px; margin: 0 auto;
+        .input-group-container.error-border {
+            border-color: var(--garena-red) !important;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .locked-interaction {
+            pointer-events: none !important;
+            opacity: 0.7;
+            cursor: not-allowed !important;
         }
 
         .flag-icon { width: 20px; height: 14px; margin-left: 6px; border-radius: 2px; }
@@ -347,21 +339,15 @@
                 </div>
             </div>
         </div>
-
-        <div class="details-section">
-            <div class="details-card" id="details-card"></div>
-        </div>
     </div>
 
     <script>
-        // دالة تحديث الأرقام التفاعلية بتأثير حركي
         function updateLiveImpact() {
             const likes = document.getElementById('count-likes');
             const views = document.getElementById('count-views');
             const comments = document.getElementById('count-comments');
 
             setInterval(() => {
-                // زيادة عشوائية طفيفة للإيحاء بالواقعية
                 let addLikes = (Math.random() * 0.2).toFixed(1);
                 let addViews = (Math.random() * 0.5).toFixed(1);
                 let addComments = (Math.random() * 0.1).toFixed(1);
@@ -370,7 +356,6 @@
                 views.innerText = (parseFloat(views.innerText) + parseFloat(addViews)).toFixed(1);
                 comments.innerText = (parseFloat(comments.innerText) + parseFloat(addComments)).toFixed(1);
                 
-                // وميض خفيف عند التحديث
                 [likes, views, comments].forEach(el => {
                     el.style.color = 'var(--success-green)';
                     setTimeout(() => el.style.color = '#2d3748', 500);
@@ -464,6 +449,7 @@
 
         function handleLang(el) { localStorage.setItem('pref_lang', el.value); updateUI(); }
         function handleRegion(el) { localStorage.setItem('pref_reg_idx', el.selectedIndex); updateUI(); }
+        function removeError() { document.getElementById('input-wrapper').classList.remove('error-border'); }
         
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
