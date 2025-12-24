@@ -19,14 +19,19 @@
         body { 
             margin: 0; padding: 0; 
             font-family: 'Inter', sans-serif; 
-            background-color: #f7fafc; 
+            background-color: #ebeef2; /* لون خلفية خارجي للحاسوب */
             display: flex; justify-content: center; 
+            min-height: 100vh;
         }
 
         .mobile-container { 
-            width: 100%; max-width: 480px; 
-            min-height: 100vh; background-color: #ffffff;
-            display: flex; flex-direction: column; 
+            width: 100%; 
+            max-width: 480px; /* الحفاظ على عرض الهاتف الثابت */
+            min-height: 100vh; 
+            background-color: #ffffff;
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); /* ظل لإبراز الحاوية على الحاسوب */
         }
 
         header { 
