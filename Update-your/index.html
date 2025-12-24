@@ -30,24 +30,22 @@
             display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر (يتغير الاتجاه حسب dir الصفحة) --- */
+        /* --- الهيدر: ثابت الاتجاه (اللوجو يمين، المعلومات يسار) --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
             padding: 0 12px; box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000;
+            direction: rtl !important; /* تثبيت الأماكن مهما تغيرت اللغة */
         }
 
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 28px; width: auto; }
         .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
         
-        /* جعل محاذاة النص تتبع اتجاه الصفحة */
-        .title-box { display: flex; flex-direction: column; }
-        [dir="rtl"] .title-box { text-align: right; }
-        [dir="ltr"] .title-box { text-align: left; }
-        
+        /* النصوص داخل الهيدر تبقى محاذاتها لليمين لتناسب الهيكل الثابت */
+        .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
 
         .header-left-group { display: flex; align-items: center; }
@@ -55,14 +53,14 @@
             display: flex; align-items: center; background: #f1f5f9; 
             border: 1px solid #e2e8f0; border-radius: 6px; 
             padding: 0 12px; height: 34px; gap: 8px;
-            direction: ltr !important; /* محتوى معلومات الدولة يبقى LTR دائماً */
+            direction: ltr !important; 
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
         .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
 
-        /* --- المحتوى --- */
+        /* --- المحتوى (يتغير اتجاهه بالكامل حسب اللغة) --- */
         .content-area { padding: 20px 16px; }
 
         .verification-card {
@@ -105,7 +103,7 @@
 
         .icon-box { width: 48px; height: 48px; background: #f8fafc; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
 
-        /* تعديل الأيقونات حسب الاتجاه */
+        /* تعديلات الاتجاه للمحتوى فقط */
         [dir="ltr"] .icon-box { border-left: 1.5px solid var(--border-gray); order: 2; }
         [dir="rtl"] .icon-box { border-right: 1.5px solid var(--border-gray); order: 0; }
         [dir="rtl"] .header-impact, [dir="rtl"] .input-main-content { text-align: right; }
@@ -185,7 +183,7 @@
         const regionData = {
             regions: { 
                 ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
-                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
+                en: ["Middle East", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
@@ -201,11 +199,10 @@
             const savedLink = localStorage.getItem('saved_player_link') || ''; 
             const t = translations[lang];
 
-            // تحديث اتجاه الصفحة بالكامل
+            // تغيير اتجاه الصفحة (سيؤثر على البطاقة فقط لأن الهيدر مثبت CSS)
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            document.documentElement.lang = lang;
             
-            // 1. تحديث نصوص الهيدر
+            // تحديث نصوص الهيدر (المكان ثابت واللغة تتغير)
             document.getElementById('h-title-top').innerText = t.hTop;
             document.getElementById('h-title-bot').innerText = t.hBot;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
@@ -215,7 +212,7 @@
             const flagBox = document.getElementById('flag-display');
             flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // 2. تحديث محتوى البطاقة
+            // تحديث محتوى البطاقة
             document.getElementById('card-main-title').innerText = t.title;
             document.getElementById('lbl-platform-link').innerText = t.lblLink;
             document.getElementById('lbl-category').innerText = t.lblCat;
