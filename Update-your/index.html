@@ -163,11 +163,12 @@ function updateCharge(){
 
 qtyInput.addEventListener('input', updateCharge);
 
-// التعديل المطلوب: التوجيه لـ Category/ لكي يظهر هكذا في الرابط
+// التعديل الذي يحل مشكلة الرابط على GitHub ويعرض Category/ فقط
 document.getElementById('category-button').addEventListener('click',()=>{
-    window.location.href='Category/';
+    window.location.href = '../Category/';
 });
 
+// وظيفة إرسال البيانات (إتمام الدفع)
 document.getElementById('pay-button').addEventListener('click',()=>{
     const data={
         platformLink: document.getElementById('platform-link-input').value,
