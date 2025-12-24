@@ -25,21 +25,53 @@
 
         .mobile-container { 
             width: 100%; 
-            /* تم إزالة max-width ليتم التوسع في الحاسوب */
             min-height: 100vh; background-color: #ffffff;
             display: flex; flex-direction: column; 
         }
 
+        /* تحسين الهيدر لمنع التزاحم */
         header { 
-            width: 100%; height: 65px; background-color: var(--bg-light); 
+            width: 100%; height: 70px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
-            padding: 0 5%; /* زيادة الحواف في الشاشات الكبيرة */
+            padding: 0 4%; 
             box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000; direction: rtl !important; 
         }
 
-        /* أنميشن الاهتزاز عند الخطأ */
+        .brand-section { display: flex; align-items: center; flex-shrink: 0; }
+        .logo-img { height: 32px; width: auto; } 
+        .v-line { width: 1px; height: 20px; background-color: #cbd5e0; margin: 0 10px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; min-width: max-content; }
+        .title-box span { font-size: 11px; font-weight: 800; color: var(--text-dark); line-height: 1.2; }
+
+        .header-left-group { display: flex; align-items: center; gap: 12px; flex-shrink: 1; }
+        
+        /* تحسين واجهة اختيار الدولة واللغة */
+        .selector-wrapper { 
+            display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e0; 
+            border-radius: 6px; padding: 0 8px; min-width: 130px; height: 36px; 
+            position: relative; justify-content: space-between; direction: rtl; 
+        }
+
+        .display-text { 
+            font-size: 11px; font-weight: 700; color: #4a5568; 
+            display: flex; align-items: center; flex-grow: 1; 
+            justify-content: center; white-space: nowrap;
+        }
+        
+        .profile-link { 
+            width: 38px; height: 38px; 
+            display: flex; align-items: center; justify-content: center; 
+            text-decoration: none; border-radius: 50%; flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .profile-link:active { background-color: #edf2f7; }
+        .profile-icon-svg { width: 28px; height: 28px; fill: #cbd5e0; }
+
+        .hidden-selects { position: absolute; top:0; left:0; width: 100%; height: 100%; display: flex; opacity: 0; z-index: 10; cursor: pointer; }
+
+        /* باقي الستايلات كما هي دون تغيير */
         .input-group-container.error-border {
             border-color: var(--garena-red) !important;
             animation: shake 0.4s ease-in-out;
@@ -51,38 +83,11 @@
             75% { transform: translateX(5px); }
         }
 
-        /* حالة القفل لمنع التغيير */
         .locked-interaction {
             pointer-events: none !important;
             opacity: 0.7;
             cursor: not-allowed !important;
         }
-
-        .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 35px; width: auto; } /* تكبير اللوجو قليلاً للحاسوب */
-        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 15px; }
-        .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span { font-size: 12px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
-
-        .header-left-group { display: flex; align-items: center; gap: 20px; }
-        .selector-wrapper { 
-            display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e0; 
-            border-radius: 6px; padding: 0 12px; width: 160px; height: 38px; 
-            position: relative; justify-content: space-between; direction: rtl; 
-        }
-
-        .display-text { font-size: 12px; font-weight: 700; color: #4a5568; display: flex; align-items: center; flex-grow: 1; justify-content: center; }
-        
-        .profile-link { 
-            width: 40px; height: 40px; 
-            display: flex; align-items: center; justify-content: center; 
-            text-decoration: none; border-radius: 50%;
-            transition: background 0.2s;
-        }
-        .profile-link:active { background-color: #edf2f7; }
-        .profile-icon-svg { width: 32px; height: 32px; fill: #cbd5e0; }
-
-        .hidden-selects { position: absolute; top:0; left:0; width: 100%; height: 100%; display: flex; opacity: 0; z-index: 10; cursor: pointer; }
 
         .golden-bar {
             width: 100%; height: 30px; background: var(--gold-gradient);
@@ -96,13 +101,12 @@
 
         @keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .login-section { padding: 40px 10%; } /* توسيع الحواف في الحاسوب */
+        .login-section { padding: 40px 10%; } 
         
-        /* جعل الكارت يأخذ عرضاً مناسباً في الحاسوب */
         .login-card {
             background: #f1f3f5; border-radius: 12px; padding: 30px;
             border: 1px solid #e9ecef; direction: rtl;
-            max-width: 600px; margin: 0 auto; /* توسيط الكارت في الحاسوب */
+            max-width: 600px; margin: 0 auto;
         }
 
         .login-title {
@@ -149,15 +153,16 @@
             max-width: 600px; margin: 0 auto;
         }
 
-        .flag-icon { width: 22px; height: 16px; margin-left: 8px; border-radius: 2px; }
-        .mena-icon { width: 18px; height: 18px; margin-left: 8px; fill: #718096; }
+        .flag-icon { width: 20px; height: 14px; margin-left: 6px; border-radius: 2px; }
+        .mena-icon { width: 18px; height: 18px; margin-left: 6px; fill: #718096; }
 
-        /* تعديلات مخصصة للهواتف فقط لإبقاء الشكل ثابتاً */
         @media (max-width: 480px) {
             .login-section { padding: 20px 15px; }
             .details-section { padding: 0 15px 25px 15px; }
-            header { padding: 0 12px; }
+            header { padding: 0 8px; height: 60px; }
             .login-card { padding: 20px; }
+            .selector-wrapper { min-width: 110px; padding: 0 5px; }
+            .title-box span { font-size: 10px; }
         }
     </style>
 </head>
@@ -178,10 +183,10 @@
                     <div id="flag-display" style="display: flex; align-items: center;"></div>
                     <div class="display-text">
                         <span id="label-reg">MENA</span>
-                        <span style="color:#cbd5e0; margin: 0 4px;">|</span>
+                        <span style="color:#cbd5e0; margin: 0 3px;">|</span>
                         <span id="label-lng">EN</span>
                     </div>
-                    <div style="width:5px; height:5px; border-left:1.5px solid #a0aec0; border-bottom:1.5px solid #a0aec0; transform:rotate(-45deg); margin-bottom:2px;"></div>
+                    <div style="width:4px; height:4px; border-left:1.5px solid #a0aec0; border-bottom:1.5px solid #a0aec0; transform:rotate(-45deg); margin-bottom:2px;"></div>
                     <div class="hidden-selects">
                         <select id="region-select" onchange="handleRegion(this)"></select>
                         <select id="lang-select" onchange="handleLang(this)">
@@ -286,14 +291,9 @@
                 return;
             }
 
-            // تخزين الرابط
             localStorage.setItem('saved_player_link', playerLink);
-
-            // قفل الإدخال
             inputField.disabled = true;
             inputWrapper.classList.add('locked-interaction');
-
-            // تغيير نص الزر إلى تحميل
             actionBtn.innerText = shopData.nav[lang].loadingText;
 
             setTimeout(() => {
