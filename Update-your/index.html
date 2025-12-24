@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Details Review</title>
+    <title>Servio - Create Order</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -13,6 +13,8 @@
             --border-gray: #e2e8f0; 
             --text-dark: #1a202c;
             --primary-blue: #2563eb;
+            --accent-blue: #dbeafe;
+            --input-bg: #fcfdfe;
         }
 
         body { 
@@ -28,78 +30,141 @@
             display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر المطلوب --- */
+        /* --- الهيدر --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
-            padding: 0 12px; box-sizing: border-box; position: sticky; 
-            top: 0; z-index: 1000; direction: rtl !important; 
+            padding: 0 16px; box-sizing: border-box; position: sticky; 
+            top: 0; z-index: 1000;
         }
 
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 28px; width: auto; }
         .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
-        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box { display: flex; flex-direction: column; }
         .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
 
         .header-left-group { display: flex; align-items: center; }
         .info-display-wrapper { 
-            display: flex; align-items: center; background: #f1f5f9; 
-            border: 1px solid #e2e8f0; border-radius: 6px; 
-            padding: 0 12px; height: 34px; direction: rtl;
+            display: flex; align-items: center; background: #fff; 
+            border: 1px solid #e2e8f0; border-radius: 8px; 
+            padding: 0 12px; height: 36px;
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
-        .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
-        .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
+        .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
+        .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
 
-        .content-area { padding: 20px 16px; }
+        .content-area { padding: 24px 16px; }
 
+        /* --- بطاقة إنشاء الطلب --- */
         .verification-card {
             background: #ffffff;
-            border-radius: 24px;
-            padding: 22px 18px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
             border: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
 
-        .header-title { font-size: 18px; font-weight: 800; color: #000; margin-bottom: 20px; text-align: right; }
+        .header-impact {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
 
+        .icon-wrapper {
+            width: 45px;
+            height: 45px;
+            background-color: var(--accent-blue);
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .basket-icon-svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-blue);
+        }
+
+        .header-title-main { 
+            font-size: 20px; 
+            font-weight: 800; 
+            color: #000; 
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* --- الحقول --- */
         .data-item {
-            display: flex; flex-direction: column; background: #fcfdfe;
-            border: 1.5px solid var(--border-gray); border-radius: 12px;
-            margin-bottom: 15px; padding: 12px 15px; text-align: right;
+            display: flex;
+            align-items: center;
+            background: var(--input-bg);
+            border: 1.5px solid var(--border-gray);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .data-label { font-size: 11px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
-        .data-value { font-size: 13px; font-weight: 600; color: #475569; word-break: break-all; }
-
-        .styled-select {
-            width: 100%; border: none; background: transparent;
-            font-size: 14px; font-weight: 700; color: #1e293b;
-            padding: 5px 0; cursor: pointer; outline: none;
-            font-family: 'Inter', sans-serif; appearance: none;
-            background-repeat: no-repeat; background-size: 14px;
+        .data-item:focus-within {
+            border-color: var(--primary-blue);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
         }
 
-        [dir="rtl"] .styled-select { 
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-position: left center; text-align: right;
+        .input-main-content {
+            flex: 1;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .platform-section-title { font-size: 11px; font-weight: 700; color: #94a3b8; margin: 0 0 12px 0; text-align: right; }
-        .platforms-wrapper { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-bottom: 25px; }
-
-        .platform-circle {
-            width: 52px; height: 52px; border-radius: 50%; background: #fff;
-            border: 1.5px solid var(--border-gray); display: flex; justify-content: center; align-items: center;
-            opacity: 0.15; transition: 0.3s;
+        .data-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 2px;
+            text-transform: uppercase;
         }
-        .platform-circle.active { opacity: 1; border-color: var(--primary-blue); transform: scale(1.1); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1); }
-        .platform-circle img { width: 26px; height: 26px; object-fit: contain; }
 
-        .servio-footer { margin-top: 25px; text-align: center; font-size: 9px; color: #cbd5e0; font-weight: 600; }
+        .styled-input, .styled-select {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #1e293b;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 4px 0;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            background: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        [dir="ltr"] .icon-box { border-left: 1.5px solid var(--border-gray); order: 2; }
+        [dir="rtl"] .icon-box { border-right: 1.5px solid var(--border-gray); order: 0; }
+
+        .field-icon { width: 20px; height: 20px; fill: #94a3b8; }
+        .data-item:focus-within .field-icon { fill: var(--primary-blue); }
+
+        [dir="rtl"] .header-impact, [dir="rtl"] .input-main-content { text-align: right; }
+        [dir="ltr"] .header-impact, [dir="ltr"] .input-main-content { text-align: left; }
+
+        .servio-footer { margin-top: 30px; text-align: center; font-size: 10px; color: #cbd5e0; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -128,38 +193,41 @@
 
         <div class="content-area">
             <div class="verification-card">
-                <div class="header-title" id="card-main-title">مراجعة البيانات</div>
+                <div class="header-impact">
+                    <div class="icon-wrapper">
+                        <svg class="basket-icon-svg" viewBox="0 0 24 24">
+                            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                        </svg>
+                    </div>
+                    <h2 class="header-title-main" id="card-main-title">إنشاء طلب</h2>
+                </div>
+                
+                <div class="data-item">
+                    <div class="icon-box">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                    </div>
+                    <div class="input-main-content">
+                        <div class="data-label" id="lbl-platform-link">رابط المنصة</div>
+                        <input type="text" class="styled-input" id="platform-link-input" readonly>
+                    </div>
+                </div>
 
                 <div class="data-item">
-                    <div class="data-label" id="lbl-link">الرابط المكتشف</div>
-                    <div class="data-value" id="val-link">---</div>
+                    <div class="icon-box">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+                    </div>
+                    <div class="input-main-content">
+                        <div class="data-label" id="lbl-category">الفئة المختارة</div>
+                        <select class="styled-select" id="category-select"></select>
+                    </div>
                 </div>
-
-                <div class="platform-section-title" id="platform-hint">المنصة</div>
-                <div class="platforms-wrapper">
-                    <div class="platform-circle" id="circle-twitch"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg"></div>
-                    <div class="platform-circle" id="circle-tiktok"><img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"></div>
-                    <div class="platform-circle" id="circle-instagram"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"></div>
-                    <div class="platform-circle" id="circle-facebook"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"></div>
-                </div>
-
-                <div class="data-item">
-                    <div class="data-label" id="lbl-cat">اختر الفئة</div>
-                    <select class="styled-select" id="select-category"></select>
-                </div>
-
-                <div class="data-item">
-                    <div class="data-label" id="lbl-srv">اختر الخدمة</div>
-                    <select class="styled-select" id="select-service"></select>
-                </div>
-
-                <div class="servio-footer">Verified via Servio Secure Gateway</div>
             </div>
+            
+            <div class="servio-footer">Verified via Servio Secure Gateway</div>
         </div>
     </div>
 
     <script>
-        // --- مصفوفة الهيدر والأعلام الكاملة التي طلبتها ---
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
@@ -176,28 +244,29 @@
 
         const translations = {
             ar: {
-                t1: "مركز الشحن", t2: "الرسمي", header: "مراجعة البيانات", link: "الرابط المكتشف", hint: "المنصة", cat: "اختر الفئة", srv: "اختر الخدمة",
-                catsByPlatform: {
-                    facebook: ["فيسبوك - المتابعون [بيانات البوت] [الأرخص]", "فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]", "فيسبوك - عدد الإعجابات والمتابعين", "فيسبوك - الإعجابات على المنشورات", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "فيسبوك - ردود الفعل على المنشور", "فيسبوك - وقت المشاهدة [ 60 ألف دقيقة ]", "فيسبوك - المشاهدات", "فيسبوك - مشاهدات القصص", "فيسبوك - ردود الفعل على القصة", "فيسبوك - مشاركة المنشور", "فيسبوك - أعضاء المجموعة", "فيسبوك - مشاهدات مباشرة", "فيسبوك - خدمات [حقيقي]", "فيسبوك - خدمات [عالية]"],
-                    instagram: ["إنستغرام - المتابعون", "إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]", "إنستغرام - الإعجابات", "إنستغرام - الإعجابات الجديدة", "إنستغرام - عدد المشاهدات", "إنستغرام - يحفظ", "إنستغرام - التعليقات", "إنستغرام - مشاهدات القصص", "إنستغرام - مشاهدات مباشرة"],
-                    tiktok: ["تيك توك - المتابعون [بيانات البوت] [الأرخص]", "تيك توك - متابعون [جودة حقيقية]", "تيك توك - مشاهدات [سريعة للغاية]", "تيك توك - المشاهدات", "تيك توك - مشاهدات [جودة عالية]", "تيك توك - المشاهدات [المستهدف]", "تيك توك - الإعجابات [سريعة]", "تيك توك - الإعجابات [سريعة للغاية]", "تيك توك - الإعجابات", "تيك توك - الإعجابات [ملف تعريف مخفي]", "تيك توك - الإعجابات [دولي]", "تيك توك - لايكات [ GLOBAL ]", "تيك توك - الإعجابات + المشاهدات", "تيك توك - التعليقات", "تيك توك - يحفظ", "تيك توك - مشاهدات مباشرة", "تيك توك - الإعجابات تعيد", "تيك توك - الرد الرد", "تيك توك - مشاركات مباشرة"],
-                    discord: ["ديكورد - الأعضاء [الصوت الإلكتروني]", "ديسكو - الأعضاء [غير متصلين]", "ديسورد - رد كلام", "ديكورد - رمز مميز", "ديسكواد - تعزيز الخدمة [شهر واحد]", "ديسكو - تعزيز الخدمة [3 أشهر]"],
-                    twitch: ["تويتش - المشاهدات", "تويتش - المتابعون", "تويتش - مشاهدات مباشرة [جودة منخفضة]", "تويتش - مشاهدات مباشرة [جودة متوسطة]", "تويتش - مشاهدات مباشرة [جودة عالية]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 1]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 2]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 3]", "تويتش - مشاهدات مباشرة [جودة عالية | دولي 4]"]
-                },
-                srvs: ["حدد الباقة...", "باقة عادية", "باقة مميزة", "تسليم فوري"]
+                t1: "مركز الشحن", t2: "الرسمي",
+                title: "إنشاء طلب",
+                lblLink: "رابط المنصة",
+                lblCat: "الفئة المختارة",
+                cats: ["اختر الفئة المستهدفة", "شحن ألعاب مباشر", "بطاقات رقمية", "اشتراكات بريميوم"]
+            },
+            en: {
+                t1: "Official Top Up", t2: "Center",
+                title: "Create Order",
+                lblLink: "Platform Link",
+                lblCat: "Selected Category",
+                cats: ["Select Target Category", "Direct Game Top-up", "Digital Cards", "Premium Subscriptions"]
             }
         };
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const savedPlatform = localStorage.getItem('saved_platform_name') || 'facebook';
-            const savedLink = localStorage.getItem('saved_player_link') || '---';
+            const savedLink = localStorage.getItem('saved_player_link') || ''; 
+            const t = translations[lang];
 
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            const t = translations[lang] || translations['ar'];
-
-            // 1. تحديث الهيدر بكامل بياناته
+            
             document.getElementById('nav-t1').innerText = t.t1;
             document.getElementById('nav-t2').innerText = t.t2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
@@ -205,43 +274,15 @@
             
             const flagKey = regionData.keys[regIdx] || 'mena';
             const flagBox = document.getElementById('flag-display');
-            if (flagKey === 'mena' || flagKey === 'other') {
-                flagBox.innerHTML = flags[flagKey];
-            } else {
-                flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
-            }
+            flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // 2. تحديث نصوص البطاقة
-            document.getElementById('card-main-title').innerText = t.header;
-            document.getElementById('lbl-link').innerText = t.link;
-            document.getElementById('val-link').innerText = savedLink;
-            document.getElementById('platform-hint').innerText = t.hint;
-            document.getElementById('lbl-cat').innerText = t.cat;
-            document.getElementById('lbl-srv').innerText = t.srv;
+            document.getElementById('card-main-title').innerText = t.title;
+            document.getElementById('lbl-platform-link').innerText = t.lblLink;
+            document.getElementById('lbl-category').innerText = t.lblCat;
+            document.getElementById('platform-link-input').value = savedLink;
 
-            // 3. تحديث القوائم (بدون أسماء دول)
-            let pKey = 'facebook';
-            const platformLower = savedPlatform.toLowerCase();
-            if (platformLower.includes('twitch')) pKey = 'twitch';
-            else if (platformLower.includes('tiktok')) pKey = 'tiktok';
-            else if (platformLower.includes('instagram')) pKey = 'instagram';
-            else if (platformLower.includes('discord')) pKey = 'discord';
-
-            const categories = t.catsByPlatform[pKey] || t.catsByPlatform['facebook'];
-            document.getElementById('select-category').innerHTML = 
-                `<option value="" disabled selected>حدد الفئة...</option>` +
-                categories.map((c, i) => `<option value="${i}">${c}</option>`).join('');
-
-            document.getElementById('select-service').innerHTML = 
-                t.srvs.map((s, i) => `<option value="${i}" ${i===0?'disabled selected':''}>${s}</option>`).join('');
-
-            // 4. تفعيل أيقونة المنصة
-            const circles = document.querySelectorAll('.platform-circle');
-            circles.forEach(c => c.classList.remove('active'));
-            if (pKey === 'twitch') document.getElementById('circle-twitch')?.classList.add('active');
-            else if (pKey === 'tiktok') document.getElementById('circle-tiktok')?.classList.add('active');
-            else if (pKey === 'instagram') document.getElementById('circle-instagram')?.classList.add('active');
-            else if (pKey === 'facebook') document.getElementById('circle-facebook')?.classList.add('active');
+            const catSelect = document.getElementById('category-select');
+            catSelect.innerHTML = t.cats.map(c => `<option>${c}</option>`).join('');
         }
 
         document.addEventListener('DOMContentLoaded', updateUI);
