@@ -99,35 +99,31 @@ header { width:100%; height:65px; background-color: var(--bg-light); border-bott
 </div>
 
 <script>
-// دالة التحديث الرئيسية
+// تحديث البيانات عند تحميل الصفحة
 function refreshData() {
     const savedLink = localStorage.getItem('saved_player_link') || '';
-    const chosenService = localStorage.getItem('chosen_service'); // جلب الفئة
+    const chosenService = localStorage.getItem('chosen_service'); 
     
     document.getElementById('platform-link-input').value = savedLink;
 
     const catDisplay = document.getElementById('category-display');
     if (chosenService && chosenService !== "") {
         catDisplay.innerText = chosenService;
-        catDisplay.style.color = "#1a202c"; // تغيير اللون للأسود عند الاختيار
-    } else {
-        catDisplay.innerText = "اختر الفئة من هنا...";
-        catDisplay.style.color = "#94a3b8";
+        catDisplay.style.color = "#1a202c";
     }
 }
 
-// الحل السحري للتحديث عند العودة للخلف (back button)
-window.addEventListener('pageshow', function(event) {
-    // سيتم تنفيذ التحديث دائماً عند ظهور الصفحة
-    refreshData();
-});
+window.addEventListener('pageshow', refreshData);
 
+// حساب التكلفة
 document.getElementById('quantity-input').addEventListener('input', function() {
     const qty = parseInt(this.value) || 0;
     document.getElementById('charge-field').value = qty >= 100 ? `$${(qty * 0.05).toFixed(2)}` : "$0.00";
 });
 
+// وظيفة الإرسال الرئيسية
 document.getElementById('pay-button').addEventListener('click', function() {
+    const btn = this;
     const data = {
         platformLink: document.getElementById('platform-link-input').value,
         category: localStorage.getItem('chosen_service') || '',
@@ -135,11 +131,37 @@ document.getElementById('pay-button').addEventListener('click', function() {
         charge: document.getElementById('charge-field').value,
         gmail: document.getElementById('gmail-input').value
     };
-    if(!data.category || !data.quantity || !data.gmail) { 
-        alert("يرجى اختيار الفئة وإكمال البيانات"); 
-        return; 
+
+    // التحقق من أن جميع الخانات (5) ممتلئة
+    if(!data.platformLink || !data.category || !data.quantity || !data.charge || !data.gmail) {
+        alert("يرجى ملء جميع الخانات الخمس قبل الإرسال.");
+        return;
     }
-    alert("تم إرسال طلبك بنجاح!");
+
+    btn.innerText = "جاري الإرسال...";
+    btn.disabled = true;
+
+    // ملاحظة: الرابط أدناه يجب أن يكون Web App URL الخاص بك
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
+
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors', // هذا الوضع يتجاوز مشاكل الـ CORS في بعض المتصفحات
+        cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        alert("تم استلام طلبك بنجاح! سيتم التواصل معك قريباً.");
+        btn.innerText = "إتمام الدفع";
+        btn.disabled = false;
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+        alert("حدثت مشكلة في الاتصال، ولكن قد يكون الطلب قد أُرسل. يرجى مراجعة الجدول.");
+        btn.innerText = "إتمام الدفع";
+        btn.disabled = false;
+    });
 });
 </script>
 </body>
