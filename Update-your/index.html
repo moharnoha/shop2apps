@@ -99,17 +99,28 @@ header { width:100%; height:65px; background-color: var(--bg-light); border-bott
 </div>
 
 <script>
-function updateMainUI() {
+// دالة التحديث الرئيسية
+function refreshData() {
     const savedLink = localStorage.getItem('saved_player_link') || '';
-    const chosenService = localStorage.getItem('chosen_service'); // استقبال من الكود الثاني
+    const chosenService = localStorage.getItem('chosen_service'); // جلب الفئة
+    
     document.getElementById('platform-link-input').value = savedLink;
 
     const catDisplay = document.getElementById('category-display');
-    if (chosenService) {
+    if (chosenService && chosenService !== "") {
         catDisplay.innerText = chosenService;
-        catDisplay.style.color = "#1a202c";
+        catDisplay.style.color = "#1a202c"; // تغيير اللون للأسود عند الاختيار
+    } else {
+        catDisplay.innerText = "اختر الفئة من هنا...";
+        catDisplay.style.color = "#94a3b8";
     }
 }
+
+// الحل السحري للتحديث عند العودة للخلف (back button)
+window.addEventListener('pageshow', function(event) {
+    // سيتم تنفيذ التحديث دائماً عند ظهور الصفحة
+    refreshData();
+});
 
 document.getElementById('quantity-input').addEventListener('input', function() {
     const qty = parseInt(this.value) || 0;
@@ -124,11 +135,12 @@ document.getElementById('pay-button').addEventListener('click', function() {
         charge: document.getElementById('charge-field').value,
         gmail: document.getElementById('gmail-input').value
     };
-    if(!data.category || !data.quantity || !data.gmail) { alert("اكمل البيانات"); return; }
-    alert("تم إرسال الطلب!");
+    if(!data.category || !data.quantity || !data.gmail) { 
+        alert("يرجى اختيار الفئة وإكمال البيانات"); 
+        return; 
+    }
+    alert("تم إرسال طلبك بنجاح!");
 });
-
-document.addEventListener('DOMContentLoaded', updateMainUI);
 </script>
 </body>
 </html>
