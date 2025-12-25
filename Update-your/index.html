@@ -214,26 +214,24 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // دالة التصفير الشاملة
-        function forceResetFields() {
+        // دالة التصفير (تستثني الفئة عند التحميل الأولي لتسمح بظهور الاختيار)
+        function forceResetFields(clearCategory = false) {
             const quantity = document.getElementById("quantity");
             const email = document.getElementById("email");
             const priceDisplay = document.getElementById("display-price");
-            const category = document.getElementById("category");
+            const categorySpan = document.getElementById("category");
 
-            // تصفير القيم
             if(quantity) quantity.value = "";
             if(email) email.value = "";
             if(priceDisplay) priceDisplay.textContent = "$0.00";
 
-            // إزالة الفئة المختارة من الذاكرة لكي تظهر كـ "Select Category"
-            localStorage.removeItem("chosen_service");
-            
-            // تحديث نص الفئة للشكل الافتراضي
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            if(category) {
-                category.textContent = (lang === 'ar') ? "اختر الفئة من هنا..." : "Select Category...";
-                category.style.color = "#94a3b8";
+            if (clearCategory) {
+                localStorage.removeItem("chosen_service");
+                const lang = localStorage.getItem('pref_lang') || 'ar';
+                if(categorySpan) {
+                    categorySpan.textContent = (lang === 'ar') ? "اختر الفئة من هنا..." : "Select Category...";
+                    categorySpan.style.color = "#94a3b8";
+                }
             }
         }
 
@@ -286,13 +284,13 @@
             document.getElementById('quantity').placeholder = dict.placeholderQty;
 
             const savedCategory = localStorage.getItem("chosen_service");
-            const category = document.getElementById("category");
+            const categorySpan = document.getElementById("category");
             if (savedCategory) {
-                category.textContent = savedCategory;
-                category.style.color = "#1e293b";
+                categorySpan.textContent = savedCategory;
+                categorySpan.style.color = "#1e293b";
             } else {
-                category.textContent = dict.placeholderCat;
-                category.style.color = "#94a3b8";
+                categorySpan.textContent = dict.placeholderCat;
+                categorySpan.style.color = "#94a3b8";
             }
 
             const flagKey = regionData.keys[regIdx];
@@ -335,32 +333,32 @@
 
                 fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
                 .then(() => {
-                    forceResetFields(); // تصفير قبل المغادرة
+                    forceResetFields(true); // تصفير شامل للفئة بعد النجاح
                     window.location.href = "Confirm/"; 
                 }).catch(() => {
-                    forceResetFields();
+                    forceResetFields(true);
                     window.location.href = "Confirm/";
                 });
             });
         }
 
-        // الحماية الثلاثية للتصفير
-        // 1. عند تحميل الصفحة لأول مرة
+        // الحماية والتحديث
         document.addEventListener('DOMContentLoaded', () => {
-            forceResetFields();
+            // تصفير الميزانية والإيميل فقط عند الدخول للسماح بظهور الفئة المختارة
+            forceResetFields(false); 
             initLogic();
             updateUI();
         });
 
-        // 2. عند الرجوع للصفحة (حتى لو كانت مخزنة في الذاكرة)
         window.addEventListener('pageshow', (event) => {
-            forceResetFields();
+            // إذا كان المستخدم راجعاً من صفحة الدفع (Confirm) يصفر كل شيء بما فيها الفئة
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                forceResetFields(true);
+            } else {
+                // تصفير الميزانية فقط ليبقى اختيار الفئة ظاهراً
+                forceResetFields(false);
+            }
             updateUI();
-        });
-
-        // 3. عند مغادرة الصفحة أو إغلاقها لضمان عدم بقاء بيانات في المرة القادمة
-        window.addEventListener('beforeunload', () => {
-            forceResetFields();
         });
 
     </script>
