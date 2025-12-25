@@ -252,7 +252,6 @@
         const btn = document.getElementById("payBtn");
         const btnText = document.getElementById("btn-text-content");
 
-        // دالة التحديث لإظهار البيانات المختارة
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
@@ -273,7 +272,7 @@
             document.getElementById('footer-text').innerText = dict.footer;
             quantity.placeholder = dict.placeholderQty;
 
-            // استعادة الفئة المختارة من localStorage
+            // استرجاع الفئة وعرضها فوراً
             const savedCategory = localStorage.getItem("chosen_service");
             if (savedCategory) {
                 categorySpan.textContent = savedCategory;
@@ -292,11 +291,6 @@
         function initLogic() {
             platform.value = localStorage.getItem("saved_player_link") || "";
             
-            // تصفير الميزانية والإيميل فقط لضمان بقاء الفئة ظاهرة
-            quantity.value = "";
-            email.value = "";
-            priceDisplay.textContent = "$0.00";
-
             quantity.addEventListener("input", () => {
                 const val = parseFloat(quantity.value) || 0;
                 priceDisplay.textContent = `$${val.toFixed(2)}`;
@@ -322,25 +316,21 @@
 
                 fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
                 .then(() => {
-                    localStorage.removeItem("chosen_service"); // التصفير بعد النجاح فقط
-                    window.location.href = "Confirm/"; 
+                    localStorage.removeItem("chosen_service");
+                    window.location.href = "../Confirm/"; // مسار محسن للرابط
                 }).catch(() => {
                     localStorage.removeItem("chosen_service");
-                    window.location.href = "Confirm/";
+                    window.location.href = "../Confirm/";
                 });
             });
         }
 
-        // التعامل مع العودة للصفحة أو تحديثها
-        window.addEventListener('pageshow', function(event) {
-            // تحديث الواجهة عند ظهور الصفحة (للتأكد من ظهور الفئة المختارة)
+        window.addEventListener('pageshow', (event) => {
             updateUI();
-            
-            // إذا كانت الصفحة ناتجة عن "تحديث" يدوي، نصفر الفئة
-            if (window.performance && window.performance.navigation.type === 1) {
-                localStorage.removeItem("chosen_service");
-                updateUI();
-            }
+            // تصفير الميزانية والإيميل فقط عند الرجوع أو التحديث لضمان بقاء الفئة ظاهرة
+            quantity.value = "";
+            email.value = "";
+            priceDisplay.textContent = "$0.00";
         });
 
         document.addEventListener('DOMContentLoaded', () => {
