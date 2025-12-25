@@ -10,38 +10,30 @@
     <style>
         :root { 
             --bg-light: #f8fbff; 
-            --border-gray: #e2e8f0; 
+            --border-gray: #000000; 
             --text-dark: #1a202c;
             --primary-blue: #2563eb;
-            --order-primary: #2563eb;
-            --order-accent: #dbeafe;
-            --order-muted: #94a3b8;
         }
 
         body { 
             margin: 0; padding: 0; 
             font-family: 'Inter', sans-serif; 
             background-color: #f1f5f9; 
-            display: flex; 
-            justify-content: center; 
+            display: flex; justify-content: center; 
+            direction: rtl; /* تثبيت الاتجاه للكل لمنع الانقلاب */
         }
 
         .mobile-container { 
-            width: 100%; 
-            max-width: 480px; 
-            min-height: 100vh; 
-            background-color: #f7fafc;
-            display: flex; 
-            flex-direction: column; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            width: 100%; max-width: 480px; min-height: 100vh; 
+            background-color: #ffffff; display: flex; flex-direction: column; 
         }
 
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
-            border-bottom: 1px solid var(--border-gray); display: flex; 
+            border-bottom: 1px solid #e2e8f0; display: flex; 
             align-items: center; justify-content: space-between; 
             padding: 0 12px; box-sizing: border-box; position: sticky; 
-            top: 0; z-index: 1000; direction: rtl !important; 
+            top: 0; z-index: 1000;
         }
 
         .brand-section { display: flex; align-items: center; }
@@ -52,66 +44,64 @@
 
         .header-left-group { display: flex; align-items: center; }
         .info-display-wrapper { 
-            display: flex; align-items: center; background: #f1f5f9; 
-            border: 1px solid #e2e8f0; border-radius: 6px; 
-            padding: 0 12px; height: 34px; direction: rtl;
+            display: flex; align-items: center; background: #fff; 
+            border: 1px solid #e2e8f0; border-radius: 4px; 
+            padding: 0 12px; height: 34px;
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
-        .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
-        .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
+        .flag-icon { width: 18px; height: 12px; border-radius: 0; margin-left: 5px; }
 
-        .content-area { 
-            padding: 20px 16px; 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
+        .content-area { padding: 25px 20px; flex: 1; display: flex; flex-direction: column; align-items: center; }
 
         .order-card {
-            width: 100%; 
-            max-width: 420px; 
+            width: 100%; max-width: 420px; 
             background: #ffffff;
-            border-radius: 24px;
+            border: 1px solid #000; 
             padding: 24px 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
-            border: 1px solid #edf2f7;
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
 
-        .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .order-icon {
-            width: 46px; height: 46px; background: var(--order-accent);
-            border-radius: 14px; display: flex; align-items: center; justify-content: center;
-        }
-        .order-icon svg { width: 22px; height: 22px; fill: var(--order-primary); }
-        .order-title { font-size: 18px; font-weight: 900; color: #000; }
+        .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; border-bottom: 2px solid #000; padding-bottom: 15px; }
+        .order-icon { width: 40px; height: 40px; background: #000; display: flex; align-items: center; justify-content: center; }
+        .order-icon svg { width: 22px; height: 22px; fill: #fff; }
+        .order-title { font-size: 18px; font-weight: 800; color: #000; text-transform: uppercase; }
 
-        .field { margin-bottom: 14px; width: 100%; }
-        .field .label { font-size: 12px; font-weight: 800; color: var(--order-primary); margin-bottom: 6px; text-align: right; }
+        .field { margin-bottom: 18px; width: 100%; }
+        .field .label { font-size: 11px; font-weight: 800; color: #000; margin-bottom: 6px; text-align: right; text-transform: uppercase; }
 
         .input-box {
-            display: flex; align-items: center; background: #f8fafc;
-            border: 1.5px solid var(--border-gray); border-radius: 14px;
-            padding: 12px 14px; transition: .2s;
-            direction: rtl;
+            display: flex; 
+            align-items: center; 
+            background: #fff;
+            border: 1.5px solid #000; 
+            border-radius: 0; 
+            padding: 0 12px; 
+            height: 48px; 
+            transition: 0.2s;
         }
-        .input-box:focus-within { border-color: var(--order-primary); background: #fff; }
-        .input-box svg { width: 18px; height: 18px; fill: var(--order-muted); margin-left: 10px; }
+        
+        .input-box svg { width: 18px; height: 18px; fill: #000; margin-left: 12px; flex-shrink: 0; }
+        
         .input-box input, .input-box span {
             flex: 1; border: none; outline: none; background: none;
-            font-size: 14px; font-weight: 600; color: var(--text-dark);
+            font-size: 14px; font-weight: 600; color: #000;
             text-align: right;
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
 
         #payBtn {
-            width: 100%; margin-top: 10px; padding: 16px; border: none;
-            border-radius: 16px; background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: #fff; font-size: 16px; font-weight: 900; cursor: pointer; transition: .25s;
+            width: 100%; margin-top: 10px; height: 50px; border: none;
+            border-radius: 0; 
+            background: #000;
+            color: #fff; font-size: 15px; font-weight: 800; cursor: pointer; 
+            text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.2s;
         }
 
-        .servio-footer { margin-top: auto; padding: 20px 0; text-align: center; font-size: 9px; color: #cbd5e0; font-weight: 600; }
+        .servio-footer { margin-top: auto; padding: 20px 0; text-align: center; font-size: 9px; color: #94a3b8; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -142,66 +132,99 @@
             <div class="order-card">
                 <div class="order-header">
                     <div class="order-icon">
-                        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.6-1.3 2.4c-.2.3-.3.6-.3 1 0 1.1.9 2 2 2h12v-2H7.4l.9-1.6h7.4c.8 0 1.4-.4 1.8-1l3.6-6.5c.1-.1.1-.3.1-.5 0-.6-.4-1-1-1H5.2l-1-2H1z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                     </div>
-                    <div class="order-title">إنشاء طلب</div>
+                    <div class="order-title" id="text-new-request">New Request</div>
                 </div>
 
                 <div class="field">
-                    <div class="label">رابط المنصة</div>
+                    <div class="label" id="label-platform">رابط المنصة</div>
                     <div class="input-box">
-                        <svg viewBox="0 0 24 24"><path d="M10 13h8v-2h-8v2zM7 7h4V5H7c-2.8 0-5 2.2-5 5s2.2 5 5 5h4v-2H7c-1.7 0-3-1.3-3-3s1.3-3 3-3z"/></svg>
-                        <input id="platformLink" readonly placeholder="رابط المنصة...">
+                        <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                        <input id="platformLink" readonly placeholder="...">
                     </div>
                 </div>
 
                 <div class="field" onclick="location.href='../Category/'">
-                    <div class="label">الفئة المختارة</div>
+                    <div class="label" id="label-category">الفئة المختارة</div>
                     <div class="input-box">
-                        <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm3 7h12v-2H6zm4 5h4v-2h-4z"/></svg>
-                        <span id="category">اختر الفئة من هنا...</span>
+                        <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+                        <span id="category">Select Category...</span>
                     </div>
                 </div>
 
                 <div class="field">
-                    <div class="label">الكمية</div>
+                    <div class="label" id="label-quantity">الكمية</div>
                     <div class="input-box">
-                        <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/></svg>
-                        <input id="quantity" type="number" min="100" placeholder="أقل كمية: 100">
+                        <svg viewBox="0 0 24 24"><path d="M7 2v1h10V2H7zm-4 3v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm16 14H5V5h14v14zM8 8h2v2H8V8zm0 3h2v2H8v-2zm0 3h2v2H8v-2zm3-6h2v2h-2V8zm0 3h2v2h-2v-2zm0 3h2v2h-2v-2zm3-6h2v2h-2V8zm0 3h2v2h-2v-2zm0 3h2v2h-2v-2z"/></svg>
+                        <input id="quantity" type="number" min="100" placeholder="Min: 100">
                     </div>
                 </div>
 
                 <div class="field">
-                    <div class="label">التكلفة</div>
+                    <div class="label" id="label-price">التكلفة</div>
                     <div class="input-box">
-                        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
                         <input id="price" value="$0.00" readonly>
                     </div>
                 </div>
 
                 <div class="field">
-                    <div class="label">Gmail</div>
+                    <div class="label" id="label-email">Gmail</div>
                     <div class="input-box">
-                        <svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm-8 9L4 8V6l8 5 8-5v2z"/></svg>
-                        <input id="email" type="email" placeholder="ادخل بريدك الإلكتروني">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <input id="email" type="email" placeholder="example@gmail.com">
                     </div>
                 </div>
 
-                <button id="payBtn">إتمام الدفع</button>
+                <button id="payBtn">Proceed to Payment</button>
             </div>
             
-            <div class="servio-footer">Verified via Servio Secure Gateway</div>
+            <div class="servio-footer" id="footer-text">SECURE TRANSACTION BY SERVIO</div>
         </div>
     </div>
 
     <script>
-        // دمج رابط السكربت الخاص بك مباشرة
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
+        // قاموس الترجمة الكامل
+        const translations = {
+            ar: {
+                navT1: "مركز الشحن", navT2: "الرسمي",
+                newRequest: "طلب جديد",
+                platform: "رابط المنصة",
+                category: "الفئة المختارة",
+                quantity: "الكمية",
+                price: "التكلفة",
+                email: "البريد الإلكتروني",
+                placeholderCat: "اختر الفئة من هنا...",
+                payBtn: "إتمام الدفع",
+                footer: "عملية آمنة بواسطة SERVIO",
+                alertFill: "يرجى ملء جميع الخانات",
+                alertSuccess: "تم استلام طلبك بنجاح",
+                alertError: "حدث خطأ في الاتصال"
+            },
+            en: {
+                navT1: "Official Top Up", navT2: "Center",
+                newRequest: "New Request",
+                platform: "Platform Link",
+                category: "Chosen Category",
+                quantity: "Quantity",
+                price: "Price",
+                email: "Email Address",
+                placeholderCat: "Select Category...",
+                payBtn: "Proceed to Payment",
+                footer: "SECURE TRANSACTION BY SERVIO",
+                alertFill: "Please fill all fields",
+                alertSuccess: "Order received successfully",
+                alertError: "Connection Error"
+            }
+        };
+
         const flags = {
-            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24" style="fill:#000"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
-            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
+            other: `<svg class="mena-icon" viewBox="0 0 24 24" style="fill:#000"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
         const regionData = {
@@ -215,9 +238,29 @@
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            if(document.getElementById('label-lng')) document.getElementById('label-lng').innerText = lang.toUpperCase();
-            if(document.getElementById('label-reg')) document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
+            const dict = translations[lang];
+
+            // تحديث نصوص الهيدر
+            document.getElementById('nav-t1').innerText = dict.navT1;
+            document.getElementById('nav-t2').innerText = dict.navT2;
+            document.getElementById('label-lng').innerText = lang.toUpperCase();
+            document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
+
+            // تحديث نصوص الكارت
+            document.getElementById('text-new-request').innerText = dict.newRequest;
+            document.getElementById('label-platform').innerText = dict.platform;
+            document.getElementById('label-category').innerText = dict.category;
+            document.getElementById('label-quantity').innerText = dict.quantity;
+            document.getElementById('label-price').innerText = dict.price;
+            document.getElementById('label-email').innerText = dict.email;
+            document.getElementById('payBtn').innerText = dict.payBtn;
+            document.getElementById('footer-text').innerText = dict.footer;
+
+            // تحديث Placeholder الفئة إذا لم تكن مختارة
+            if(!localStorage.getItem("chosen_service")) {
+                document.getElementById('category').innerText = dict.placeholderCat;
+            }
+
             const flagKey = regionData.keys[regIdx] || 'mena';
             const flagBox = document.getElementById('flag-display');
             if (flagBox) {
@@ -235,11 +278,12 @@
         const btn = document.getElementById("payBtn");
 
         function initOrderLogic() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
             platform.value = localStorage.getItem("saved_player_link") || "";
             const c = localStorage.getItem("chosen_service");
             if(c){
                 category.textContent = c;
-                category.style.color = "#1e293b";
+                category.style.color = "#000";
             }
 
             quantity.addEventListener("input",()=>{
@@ -257,11 +301,11 @@
                 };
 
                 if(Object.values(data).some(v=>!v)){
-                    alert("يرجى ملء جميع الخانات");
+                    alert(translations[lang].alertFill);
                     return;
                 }
 
-                btn.textContent="جاري الإرسال...";
+                btn.textContent = (lang === 'ar') ? "...جاري الإرسال" : "SENDING...";
                 btn.disabled=true;
 
                 fetch(scriptURL, {
@@ -270,12 +314,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 }).then(() => {
-                    alert("تم استلام طلبك بنجاح");
-                    btn.textContent = "إتمام الدفع";
+                    alert(translations[lang].alertSuccess);
+                    btn.textContent = translations[lang].payBtn;
                     btn.disabled = false;
                 }).catch(err => {
-                    alert("حدث خطأ في الاتصال");
-                    btn.textContent = "إتمام الدفع";
+                    alert(translations[lang].alertError);
+                    btn.textContent = translations[lang].payBtn;
                     btn.disabled = false;
                 });
             });
