@@ -258,7 +258,7 @@
 
         const regionData = {
             regions: { 
-                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العديد", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
                 en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
             },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
@@ -296,6 +296,9 @@
             if (savedCategory) {
                 category.textContent = savedCategory;
                 category.style.color = "#1e293b";
+            } else {
+                category.textContent = dict.placeholderCat;
+                category.style.color = "#94a3b8";
             }
 
             const flagKey = regionData.keys[regIdx];
@@ -305,6 +308,11 @@
         }
 
         function initLogic() {
+            // مسح الحقول عند كل تحميل للصفحة لضمان بقائها فارغة
+            quantity.value = "";
+            email.value = "";
+            priceDisplay.textContent = "$0.00";
+            
             platform.value = localStorage.getItem("saved_player_link") || "";
             
             quantity.addEventListener("input", () => {
@@ -316,7 +324,6 @@
                 const budget = parseFloat(quantity.value) || 0;
                 const chosenCat = localStorage.getItem("chosen_service");
 
-                // التحقق الصامت (بدون رسائل)
                 if (budget < 10 || !chosenCat || !email.value) return;
 
                 btn.disabled = true;
@@ -331,20 +338,28 @@
                     gmail: email.value
                 };
 
-                // إرسال البيانات ثم التوجيه الفوري
                 fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
                 .then(() => {
+                    // مسح الفئة المختارة قبل التوجيه لضمان عودة الصفحة فارغة تماماً
                     localStorage.removeItem("chosen_service");
-                    // التوجيه إلى المجلد لكي يظهر Confirm/ فقط
                     window.location.href = "Confirm/"; 
                 }).catch(() => {
-                    // في حال الخطأ نوجه أيضاً لضمان تجربة المستخدم
                     window.location.href = "Confirm/";
                 });
             });
         }
 
-        window.addEventListener("pageshow", updateUI);
+        // مسح الحقول حتى عند الضغط على زر "الرجوع" في المتصفح
+        window.onpageshow = function(event) {
+            updateUI();
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                // مسح البيانات إذا عاد المستخدم للخلف
+                quantity.value = "";
+                email.value = "";
+                priceDisplay.textContent = "$0.00";
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', initLogic);
     </script>
 </body>
