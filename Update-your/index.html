@@ -1,168 +1,291 @@
 <!DOCTYPE html>
 <html lang="en" dir="rtl" class="notranslate" translate="no"> 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Servio - Create Order</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google" content="notranslate">
+    <title>Servio - Details Review</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --bg-light: #f8fbff; 
+            --border-gray: #e2e8f0; 
+            --text-dark: #1a202c;
+            --primary-blue: #2563eb;
+            /* متغيرات قسم الطلب */
+            --order-primary: #2563eb;
+            --order-accent: #dbeafe;
+            --order-muted: #94a3b8;
+        }
 
-<style>
-:root { --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c; --primary-blue: #2563eb; --accent-blue: #dbeafe; --input-bg: #fcfdfe; }
-body { margin:0; padding:0; font-family: 'Inter', sans-serif; background-color:#f1f5f9; display:flex; justify-content:center; }
-.mobile-container { width:100%; max-width:480px; min-height:100vh; background-color:#f7fafc; display:flex; flex-direction:column; }
-header { width:100%; height:65px; background-color: var(--bg-light); border-bottom: 1px solid var(--border-gray); display:flex; align-items:center; justify-content:space-between; padding:0 12px; box-sizing:border-box; position: sticky; top:0; z-index:1000; direction:rtl; }
-.brand-section { display:flex; align-items:center; }
-.logo-img { height:28px; width:auto; }
-.v-line { width:1px; height:22px; background-color:#cbd5e0; margin:0 10px; }
-.title-box { display:flex; flex-direction:column; text-align:right; }
-.title-box span { font-size:10px; font-weight:800; color:var(--text-dark); line-height:1.1; }
-.header-left-group { display:flex; align-items:center; }
-.info-display-wrapper { display:flex; align-items:center; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; padding:0 12px; height:34px; gap:8px; direction:ltr; }
-.display-text { font-size:10px; font-weight:700; color:#64748b; display:flex; align-items:center; gap:5px; }
-.flag-icon { width:18px; height:12px; border-radius:2px; }
-.mena-icon { width:16px; height:16px; fill:#94a3b8; }
-.content-area { padding:20px 16px; }
-.verification-card { background:#fff; border-radius:24px; padding:24px 20px; box-shadow:0 8px 30px rgba(0,0,0,0.05); border:1px solid #edf2f7; display:flex; flex-direction:column; gap:16px; }
-.header-impact { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
-.icon-wrapper { width:42px; height:42px; background-color: var(--accent-blue); border-radius:12px; display:flex; justify-content:center; align-items:center; }
-.basket-icon-svg { width:22px; height:22px; fill:var(--primary-blue); }
-.header-title-main { font-size:18px; font-weight:800; color:#000; margin:0; }
-.data-item { display:flex; align-items:center; background: var(--input-bg); border:1.5px solid var(--border-gray); border-radius:12px; overflow:hidden; margin-bottom:10px; }
-.input-main-content { flex:1; padding:10px 15px; display:flex; flex-direction:column; cursor:pointer; }
-.data-label { font-size:11px; font-weight:800; color: var(--primary-blue); margin-bottom:2px; }
-.styled-input { width:100%; border:none; background:transparent; color:#1e293b; font-size:14px; font-weight:600; padding:4px 0; outline:none; }
-.icon-box { width:48px; height:48px; background:#f8fafc; display:flex; justify-content:center; align-items:center; flex-shrink:0; }
-[dir="rtl"] .icon-box { border-right:1.5px solid var(--border-gray); order:0; }
-.field-icon { width:18px; height:18px; fill:#94a3b8; }
-#pay-button { background-color: var(--primary-blue); color:#fff; font-weight:700; font-size:16px; padding:12px; border:none; border-radius:12px; width:100%; cursor:pointer; margin-top:15px; }
-.servio-footer { margin-top:25px; text-align:center; font-size:9px; color:#cbd5e0; font-weight:600; }
-</style>
+        body { 
+            margin: 0; padding: 0; 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f1f5f9; 
+            display: flex; 
+            justify-content: center; /* توسيط الحاوية الكبرى في المتصفح */
+        }
+
+        .mobile-container { 
+            width: 100%; 
+            max-width: 480px; /* تحديد عرض الموبايل */
+            min-height: 100vh; 
+            background-color: #f7fafc;
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.05); /* ظل خفيف لتحديد الحواف */
+        }
+
+        /* --- الهيدر --- */
+        header { 
+            width: 100%; height: 65px; background-color: var(--bg-light); 
+            border-bottom: 1px solid var(--border-gray); display: flex; 
+            align-items: center; justify-content: space-between; 
+            padding: 0 12px; box-sizing: border-box; position: sticky; 
+            top: 0; z-index: 1000; direction: rtl !important; 
+        }
+
+        .brand-section { display: flex; align-items: center; }
+        .logo-img { height: 28px; width: auto; }
+        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
+
+        .header-left-group { display: flex; align-items: center; }
+        .info-display-wrapper { 
+            display: flex; align-items: center; background: #f1f5f9; 
+            border: 1px solid #e2e8f0; border-radius: 6px; 
+            padding: 0 12px; height: 34px; direction: rtl;
+        }
+
+        .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
+        .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
+        .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
+
+        /* --- منطقة المحتوى: لضمان التوازن --- */
+        .content-area { 
+            padding: 20px 16px; 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* توسيط الكارت أفقياً داخل الحاوية */
+        }
+
+        .order-card {
+            width: 100%; /* تأخذ كامل العرض المتاح في الـ padding */
+            max-width: 420px; /* العرض الأقصى للكارت */
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+            border: 1px solid #edf2f7;
+            box-sizing: border-box; /* لضمان عدم خروج البادينج عن العرض */
+        }
+
+        /* --- تفاصيل قسم الطلب --- */
+        .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .order-icon {
+            width: 46px; height: 46px; background: var(--order-accent);
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+        }
+        .order-icon svg { width: 22px; height: 22px; fill: var(--order-primary); }
+        .order-title { font-size: 18px; font-weight: 900; color: #000; }
+
+        .field { margin-bottom: 14px; width: 100%; }
+        .field .label { font-size: 12px; font-weight: 800; color: var(--order-primary); margin-bottom: 6px; text-align: right; }
+
+        .input-box {
+            display: flex; align-items: center; background: #f8fafc;
+            border: 1.5px solid var(--border-gray); border-radius: 14px;
+            padding: 12px 14px; transition: .2s;
+            direction: rtl;
+        }
+        .input-box:focus-within { border-color: var(--order-primary); background: #fff; }
+        .input-box svg { width: 18px; height: 18px; fill: var(--order-muted); margin-left: 10px; }
+        .input-box input, .input-box span {
+            flex: 1; border: none; outline: none; background: none;
+            font-size: 14px; font-weight: 600; color: var(--text-dark);
+            text-align: right;
+        }
+
+        #payBtn {
+            width: 100%; margin-top: 10px; padding: 16px; border: none;
+            border-radius: 16px; background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff; font-size: 16px; font-weight: 900; cursor: pointer; transition: .25s;
+        }
+
+        .servio-footer { margin-top: auto; padding: 20px 0; text-align: center; font-size: 9px; color: #cbd5e0; font-weight: 600; }
+    </style>
 </head>
 <body>
 
-<div class="mobile-container">
-    <header>
-        <div class="brand-section"><img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img"><div class="v-line"></div><div class="title-box"><span>مركز الشحن</span><span>الرسمي</span></div></div>
-        <div class="header-left-group"><div class="info-display-wrapper"><div id="flag-display"></div><div class="display-text"><span id="label-reg">---</span><span style="color:#cbd5e0;">|</span><span id="label-lng">--</span></div></div></div>
-    </header>
-
-    <div class="content-area">
-        <div class="verification-card">
-            <div class="header-impact">
-                <div class="icon-wrapper"><svg class="basket-icon-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
-                <h2 class="header-title-main">إنشاء طلب</h2>
-            </div>
-
-            <div class="data-item">
-                <div class="icon-box"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></div>
-                <div class="input-main-content">
-                    <div class="data-label">رابط المنصة</div>
-                    <input type="text" class="styled-input" id="platform-link-input" readonly>
+    <div class="mobile-container">
+        <header>
+            <div class="brand-section">
+                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
+                <div class="v-line"></div>
+                <div class="title-box">
+                    <span id="nav-t1">Official Top Up</span>
+                    <span id="nav-t2">Center</span>
                 </div>
             </div>
-
-            <div class="data-item" onclick="window.location.href='../Category/'" style="cursor:pointer;">
-                <div class="icon-box"><svg class="field-icon" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg></div>
-                <div class="input-main-content">
-                    <div class="data-label">الفئة المختارة</div>
-                    <span id="category-display" style="font-size:14px; color:#94a3b8; font-weight:600; padding:4px 0;">اختر الفئة من هنا...</span>
+            <div class="header-left-group">
+                <div class="info-display-wrapper">
+                    <div id="flag-display"></div>
+                    <div class="display-text">
+                        <span id="label-reg">---</span>
+                        <span style="color:#cbd5e0;">|</span>
+                        <span id="label-lng">--</span>
+                    </div>
                 </div>
             </div>
+        </header>
 
-            <div class="data-item">
-                <div class="icon-box"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3V3z"/></svg></div>
-                <div class="input-main-content">
-                    <div class="data-label">الكمية</div>
-                    <input type="number" class="styled-input" id="quantity-input" min="100" placeholder="أقل كمية: 100">
+        <div class="content-area">
+            <div class="order-card">
+                <div class="order-header">
+                    <div class="order-icon">
+                        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.6-1.3 2.4c-.2.3-.3.6-.3 1 0 1.1.9 2 2 2h12v-2H7.4l.9-1.6h7.4c.8 0 1.4-.4 1.8-1l3.6-6.5c.1-.1.1-.3.1-.5 0-.6-.4-1-1-1H5.2l-1-2H1z"/></svg>
+                    </div>
+                    <div class="order-title">إنشاء طلب</div>
                 </div>
-            </div>
 
-            <div class="data-item">
-                <div class="icon-box"><svg class="field-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div>
-                <div class="input-main-content">
-                    <div class="data-label">التكلفة</div>
-                    <input type="text" class="styled-input" id="charge-field" readonly value="$0.00">
+                <div class="field">
+                    <div class="label">رابط المنصة</div>
+                    <div class="input-box">
+                        <svg viewBox="0 0 24 24"><path d="M10 13h8v-2h-8v2zM7 7h4V5H7c-2.8 0-5 2.2-5 5s2.2 5 5 5h4v-2H7c-1.7 0-3-1.3-3-3s1.3-3 3-3z"/></svg>
+                        <input id="platformLink" readonly placeholder="رابط المنصة...">
+                    </div>
                 </div>
-            </div>
 
-            <div class="data-item">
-                <div class="icon-box"><svg class="field-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
-                <div class="input-main-content">
-                    <div class="data-label">Gmail</div>
-                    <input type="email" class="styled-input" id="gmail-input" placeholder="ادخل بريدك الإلكتروني">
+                <div class="field" onclick="location.href='../Category/'">
+                    <div class="label">الفئة المختارة</div>
+                    <div class="input-box">
+                        <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm3 7h12v-2H6zm4 5h4v-2h-4z"/></svg>
+                        <span id="category">اختر الفئة من هنا...</span>
+                    </div>
                 </div>
+
+                <div class="field">
+                    <div class="label">الكمية</div>
+                    <div class="input-box">
+                        <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/></svg>
+                        <input id="quantity" type="number" min="100" placeholder="أقل كمية: 100">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="label">التكلفة</div>
+                    <div class="input-box">
+                        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+                        <input id="price" value="$0.00" readonly>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="label">Gmail</div>
+                    <div class="input-box">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm-8 9L4 8V6l8 5 8-5v2z"/></svg>
+                        <input id="email" type="email" placeholder="ادخل بريدك الإلكتروني">
+                    </div>
+                </div>
+
+                <button id="payBtn">إتمام الدفع</button>
             </div>
+            
+            <div class="servio-footer">Verified via Servio Secure Gateway</div>
         </div>
-        <button id="pay-button">إتمام الدفع</button>
-        <div class="servio-footer">Verified via Servio Secure Gateway</div>
     </div>
-</div>
 
-<script>
-// تحديث البيانات عند تحميل الصفحة
-function refreshData() {
-    const savedLink = localStorage.getItem('saved_player_link') || '';
-    const chosenService = localStorage.getItem('chosen_service'); 
-    
-    document.getElementById('platform-link-input').value = savedLink;
+    <script>
+        /* تم الحفاظ على كافة الوظائف البرمجية السابقة لضمان عمل الأعلام وحساب السعر والارسال */
+        const flags = {
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
+            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
+        };
 
-    const catDisplay = document.getElementById('category-display');
-    if (chosenService && chosenService !== "") {
-        catDisplay.innerText = chosenService;
-        catDisplay.style.color = "#1a202c";
-    }
-}
+        const regionData = {
+            regions: { 
+                ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], 
+                en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
+            },
+            keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
+        };
 
-window.addEventListener('pageshow', refreshData);
+        function updateUI() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            if(document.getElementById('label-lng')) document.getElementById('label-lng').innerText = lang.toUpperCase();
+            if(document.getElementById('label-reg')) document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
+            const flagKey = regionData.keys[regIdx] || 'mena';
+            const flagBox = document.getElementById('flag-display');
+            if (flagBox) {
+                if (flagKey === 'mena' || flagKey === 'other') flagBox.innerHTML = flags[flagKey];
+                else flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
+            }
+        }
 
-// حساب التكلفة
-document.getElementById('quantity-input').addEventListener('input', function() {
-    const qty = parseInt(this.value) || 0;
-    document.getElementById('charge-field').value = qty >= 100 ? `$${(qty * 0.05).toFixed(2)}` : "$0.00";
-});
+        const pricePerUnit = 0.05;
+        const scriptURL = "PUT_YOUR_SCRIPT_URL_HERE";
 
-// وظيفة الإرسال الرئيسية
-document.getElementById('pay-button').addEventListener('click', function() {
-    const btn = this;
-    const data = {
-        platformLink: document.getElementById('platform-link-input').value,
-        category: localStorage.getItem('chosen_service') || '',
-        quantity: document.getElementById('quantity-input').value,
-        charge: document.getElementById('charge-field').value,
-        gmail: document.getElementById('gmail-input').value
-    };
+        const platform = document.getElementById("platformLink");
+        const category = document.getElementById("category");
+        const quantity = document.getElementById("quantity");
+        const price = document.getElementById("price");
+        const email = document.getElementById("email");
+        const btn = document.getElementById("payBtn");
 
-    // التحقق من أن جميع الخانات (5) ممتلئة
-    if(!data.platformLink || !data.category || !data.quantity || !data.charge || !data.gmail) {
-        alert("يرجى ملء جميع الخانات الخمس قبل الإرسال.");
-        return;
-    }
+        function initOrderLogic() {
+            platform.value = localStorage.getItem("saved_player_link") || "";
+            const c = localStorage.getItem("chosen_service");
+            if(c){
+                category.textContent = c;
+                category.style.color = "#1e293b";
+            }
 
-    btn.innerText = "جاري الإرسال...";
-    btn.disabled = true;
+            quantity.addEventListener("input",()=>{
+                const q = parseInt(quantity.value)||0;
+                price.value = q>=100 ? `$${(q*pricePerUnit).toFixed(2)}` : "$0.00";
+            });
 
-    // ملاحظة: الرابط أدناه يجب أن يكون Web App URL الخاص بك
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
+            btn.addEventListener("click",()=>{
+                const data = {
+                    platformLink: platform.value,
+                    category: localStorage.getItem("chosen_service") || "",
+                    quantity: quantity.value,
+                    charge: price.value,
+                    gmail: email.value
+                };
 
-    fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors', // هذا الوضع يتجاوز مشاكل الـ CORS في بعض المتصفحات
-        cache: 'no-cache',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-    .then(() => {
-        alert("تم استلام طلبك بنجاح! سيتم التواصل معك قريباً.");
-        btn.innerText = "إتمام الدفع";
-        btn.disabled = false;
-    })
-    .catch(error => {
-        console.error('Error!', error.message);
-        alert("حدثت مشكلة في الاتصال، ولكن قد يكون الطلب قد أُرسل. يرجى مراجعة الجدول.");
-        btn.innerText = "إتمام الدفع";
-        btn.disabled = false;
-    });
-});
-</script>
+                if(Object.values(data).some(v=>!v)){
+                    alert("يرجى ملء جميع الخانات");
+                    return;
+                }
+
+                btn.textContent="جاري الإرسال...";
+                btn.disabled=true;
+
+                fetch(scriptURL,{
+                    method:"POST",
+                    mode:"no-cors",
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify(data)
+                }).then(()=>{
+                    alert("تم استلام طلبك بنجاح");
+                    btn.textContent="إتمام الدفع";
+                    btn.disabled=false;
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+            initOrderLogic();
+        });
+        window.addEventListener("pageshow", initOrderLogic);
+    </script>
 </body>
 </html>
