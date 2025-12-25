@@ -95,7 +95,7 @@
         .input-box svg { width: 20px; height: 20px; fill: #94a3b8; margin-left: 12px; flex-shrink: 0; }
         .input-box input, .input-box span {
             flex: 1; border: none; outline: none; background: none;
-            font-size: 15px; font-weight: 600; color: var(--text-dark);
+            font-size: 14px; font-weight: 600; color: var(--text-dark);
             text-align: right; height: 100%; display: flex; align-items: center;
         }
 
@@ -114,13 +114,9 @@
             color: #ffffff; font-size: 16px; font-weight: 700; cursor: pointer; 
             display: flex; align-items: center; justify-content: center; gap: 12px;
         }
-
-        #payBtn:disabled {
-            background: #64748b;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
         
+        #payBtn:disabled { background: #64748b; opacity: 0.7; cursor: not-allowed; }
+
         .btn-lock-icon svg { width: 18px; height: 18px; fill: #ffffff; }
 
         .security-badge {
@@ -173,7 +169,7 @@
                         <label class="label" id="label-platform">رابط المنصة</label>
                         <div class="input-box">
                             <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 3.1 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                            <input id="platformLink" readonly placeholder="...">
+                            <input id="platformLink" readonly placeholder="جاري جلب الرابط...">
                         </div>
                     </div>
 
@@ -247,12 +243,6 @@
             }
         };
 
-        const flags = {
-            mena: `<svg viewBox="0 0 24 24" style="fill:#64748b; width:16px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
-            other: `<svg viewBox="0 0 24 24" style="fill:#64748b; width:16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
-        };
-
         const regionData = {
             regions: { ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
@@ -294,15 +284,16 @@
                 categorySpan.textContent = dict.placeholderCat;
                 categorySpan.style.color = "#94a3b8";
             }
-
-            const flagKey = regionData.keys[regIdx];
-            const flagBox = document.getElementById('flag-display');
-            if (flagKey === 'mena' || flagKey === 'other') flagBox.innerHTML = flags[flagKey];
-            else flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon" style="width:18px;">`;
         }
 
         function initLogic() {
-            platform.value = localStorage.getItem("saved_player_link") || "";
+            // --- الجزء المحسن: جلب الرابط فوراً ---
+            const savedLink = localStorage.getItem("saved_player_link");
+            if (savedLink) {
+                platform.value = savedLink;
+            } else {
+                platform.placeholder = "الرابط غير موجود";
+            }
             
             quantity.addEventListener("input", () => {
                 const val = parseFloat(quantity.value) || 0;
@@ -316,7 +307,7 @@
 
                 if (budget < 10 || !chosenCat || !email.value) return;
 
-                // تعطيل الزر مؤقتاً لمنع التكرار أثناء المعالجة
+                // تعطيل الزر لمنع الإرسال المتكرر
                 btn.disabled = true;
                 btnText.textContent = translations[lang].processing;
 
@@ -334,16 +325,13 @@
                     body: JSON.stringify(data) 
                 })
                 .then(() => {
-                    // النجاح: يتم التنظيف والتوجه لصفحة التأكيد
                     localStorage.removeItem("chosen_service");
                     window.location.href = "../Confirm/";
                 })
                 .catch(() => {
-                    // في حالة الخطأ: نعيد الزر للعمل لكي يتمكن من المحاولة مجدداً
+                    // --- معالجة الزر في حالة الخطأ ليبقى يعمل ---
                     btn.disabled = false;
                     btnText.innerText = translations[lang].payBtn;
-                    // اختياري: التوجه للتأكيد حتى مع الخطأ كما في منطقك السابق
-                    localStorage.removeItem("chosen_service");
                     window.location.href = "../Confirm/";
                 });
             });
@@ -351,11 +339,7 @@
 
         window.addEventListener('pageshow', () => {
             updateUI();
-            quantity.value = "";
-            email.value = "";
-            priceDisplay.textContent = "$0.00";
-            // إعادة تفعيل الزر عند العودة للصفحة
-            btn.disabled = false;
+            btn.disabled = false; // إعادة تفعيل الزر عند العودة للصفحة
         });
 
         document.addEventListener('DOMContentLoaded', () => {
