@@ -194,15 +194,17 @@
                         <span class="price-value" id="display-price">$0.00</span>
                     </div>
 
-                    <button id="payBtn">
-                        <span class="btn-lock-icon">
-                            <svg viewBox="0 0 24 24"><path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V7A5,5 0 0,1 12,2A5,5 0 0,1 17,7V8H18M12,4A3,3 0 0,0 9,7V8H15V7A3,3 0 0,0 12,4Z"/></svg>
-                        </span>
-                        <span id="btn-text-content">إتمام عملية الدفع</span>
-                    </button>
-                    <div class="security-badge">
-                        <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
-                        <span id="safe-text">دفع آمن ومشفّر عبر نظام SERVIO</span>
+                    <div class="payment-action-wrapper">
+                        <button id="payBtn">
+                            <span class="btn-lock-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V7A5,5 0 0,1 12,2A5,5 0 0,1 17,7V8H18M12,4A3,3 0 0,0 9,7V8H15V7A3,3 0 0,0 12,4Z"/></svg>
+                            </span>
+                            <span id="btn-text-content">إتمام عملية الدفع</span>
+                        </button>
+                        <div class="security-badge">
+                            <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
+                            <span id="safe-text">دفع آمن ومشفّر عبر نظام SERVIO</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,27 +215,6 @@
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
-
-        // دالة التصفير (تستثني الفئة عند التحميل الأولي لتسمح بظهور الاختيار)
-        function forceResetFields(clearCategory = false) {
-            const quantity = document.getElementById("quantity");
-            const email = document.getElementById("email");
-            const priceDisplay = document.getElementById("display-price");
-            const categorySpan = document.getElementById("category");
-
-            if(quantity) quantity.value = "";
-            if(email) email.value = "";
-            if(priceDisplay) priceDisplay.textContent = "$0.00";
-
-            if (clearCategory) {
-                localStorage.removeItem("chosen_service");
-                const lang = localStorage.getItem('pref_lang') || 'ar';
-                if(categorySpan) {
-                    categorySpan.textContent = (lang === 'ar') ? "اختر الفئة من هنا..." : "Select Category...";
-                    categorySpan.style.color = "#94a3b8";
-                }
-            }
-        }
 
         const translations = {
             ar: {
@@ -259,9 +240,26 @@
         };
 
         const regionData = {
-            regions: { ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] },
+            regions: { ar: ["الشرق الأوسط", "الجزائر", "مصر", "العديد", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
+
+        const platform = document.getElementById("platformLink");
+        const category = document.getElementById("category");
+        const quantity = document.getElementById("quantity");
+        const priceDisplay = document.getElementById("display-price");
+        const email = document.getElementById("email");
+        const btn = document.getElementById("payBtn");
+        const btnText = document.getElementById("btn-text-content");
+
+        // دالة التصفير الكاملة
+        function resetEverything() {
+            localStorage.removeItem("chosen_service");
+            quantity.value = "";
+            email.value = "";
+            priceDisplay.textContent = "$0.00";
+            updateUI(); 
+        }
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
@@ -278,19 +276,18 @@
             document.getElementById('label-quantity').innerText = dict.quantity;
             document.getElementById('label-price').innerText = dict.price;
             document.getElementById('label-email').innerText = dict.email;
-            document.getElementById('btn-text-content').innerText = dict.payBtn;
+            btnText.innerText = dict.payBtn;
             document.getElementById('safe-text').innerText = dict.safeText;
             document.getElementById('footer-text').innerText = dict.footer;
-            document.getElementById('quantity').placeholder = dict.placeholderQty;
+            quantity.placeholder = dict.placeholderQty;
 
             const savedCategory = localStorage.getItem("chosen_service");
-            const categorySpan = document.getElementById("category");
             if (savedCategory) {
-                categorySpan.textContent = savedCategory;
-                categorySpan.style.color = "#1e293b";
+                category.textContent = savedCategory;
+                category.style.color = "#1e293b";
             } else {
-                categorySpan.textContent = dict.placeholderCat;
-                categorySpan.style.color = "#94a3b8";
+                category.textContent = dict.placeholderCat;
+                category.style.color = "#94a3b8";
             }
 
             const flagKey = regionData.keys[regIdx];
@@ -300,12 +297,6 @@
         }
 
         function initLogic() {
-            const quantity = document.getElementById("quantity");
-            const email = document.getElementById("email");
-            const btn = document.getElementById("payBtn");
-            const priceDisplay = document.getElementById("display-price");
-            const platform = document.getElementById("platformLink");
-
             platform.value = localStorage.getItem("saved_player_link") || "";
             
             quantity.addEventListener("input", () => {
@@ -316,12 +307,12 @@
             btn.addEventListener("click", () => {
                 const budget = parseFloat(quantity.value) || 0;
                 const chosenCat = localStorage.getItem("chosen_service");
-                const lang = localStorage.getItem('pref_lang') || 'ar';
 
                 if (budget < 10 || !chosenCat || !email.value) return;
 
                 btn.disabled = true;
-                document.getElementById('btn-text-content').textContent = (lang === 'ar') ? "...جاري المعالجة" : "Processing...";
+                const lang = localStorage.getItem('pref_lang') || 'ar';
+                btnText.textContent = (lang === 'ar') ? "...جاري المعالجة" : "Processing...";
 
                 const data = {
                     platformLink: platform.value,
@@ -333,33 +324,25 @@
 
                 fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
                 .then(() => {
-                    forceResetFields(true); // تصفير شامل للفئة بعد النجاح
+                    resetEverything();
                     window.location.href = "Confirm/"; 
                 }).catch(() => {
-                    forceResetFields(true);
+                    resetEverything();
                     window.location.href = "Confirm/";
                 });
             });
         }
 
-        // الحماية والتحديث
-        document.addEventListener('DOMContentLoaded', () => {
-            // تصفير الميزانية والإيميل فقط عند الدخول للسماح بظهور الفئة المختارة
-            forceResetFields(false); 
-            initLogic();
-            updateUI();
+        // مسح كل شيء عند الدخول أو العودة أو التحديث
+        window.addEventListener('pageshow', function(event) {
+            resetEverything();
         });
 
-        window.addEventListener('pageshow', (event) => {
-            // إذا كان المستخدم راجعاً من صفحة الدفع (Confirm) يصفر كل شيء بما فيها الفئة
-            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-                forceResetFields(true);
-            } else {
-                // تصفير الميزانية فقط ليبقى اختيار الفئة ظاهراً
-                forceResetFields(false);
-            }
-            updateUI();
-        });
+        // لزيادة التأكيد عند التحديث (F5)
+        window.onload = function() {
+            resetEverything();
+            initLogic();
+        };
 
     </script>
 </body>
