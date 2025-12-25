@@ -313,7 +313,7 @@
             btnText.innerText = dict.payBtn;
             document.getElementById('footer-text').innerText = dict.footer;
 
-            // تحديث الفئة المختارة مع الحفاظ على القيمة من التخزين
+            // تحديث الفئة: إذا لم يكن هناك خيار تم حفظه "الآن"، تظل فارغة
             const savedCategory = localStorage.getItem("chosen_service");
             if (savedCategory) {
                 category.textContent = savedCategory;
@@ -331,16 +331,20 @@
             }
         }
 
-        function clearForm() {
+        function clearInputs() {
             quantity.value = "";
             email.value = "";
             priceDisplay.textContent = "$0.00";
-            localStorage.removeItem("chosen_service"); // مسح الفئة بعد النجاح
-            updateUI(); // إعادة تحديث العرض الافتراضي
+            localStorage.removeItem("chosen_service");
+            updateUI();
         }
 
+        // دالة تصفير البيانات عند مغادرة الصفحة
+        window.onbeforeunload = function() {
+            localStorage.removeItem("chosen_service");
+        };
+
         function initOrderLogic() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
             platform.value = localStorage.getItem("saved_player_link") || "";
 
             quantity.addEventListener("input",()=>{
@@ -350,15 +354,17 @@
 
             btn.addEventListener("click",()=>{
                 const currentLang = localStorage.getItem('pref_lang') || 'ar';
+                const chosenCat = localStorage.getItem("chosen_service");
+                
                 const data = {
                     platformLink: platform.value,
-                    category: localStorage.getItem("chosen_service") || "",
+                    category: chosenCat || "",
                     quantity: quantity.value,
                     charge: priceDisplay.textContent,
                     gmail: email.value
                 };
 
-                if(Object.values(data).some(v=>!v)){
+                if(!data.category || !data.quantity || !data.gmail){
                     alert(translations[currentLang].alertFill);
                     return;
                 }
@@ -374,7 +380,7 @@
                 }).then(() => {
                     alert(translations[currentLang].alertSuccess);
                     btn.disabled = false;
-                    clearForm(); // تفريغ البيانات عند النجاح
+                    clearInputs();
                 }).catch(err => {
                     alert(translations[currentLang].alertError);
                     btnText.textContent = translations[currentLang].payBtn;
@@ -383,11 +389,18 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        // عند الدخول أو الرجوع للصفحة، يتم تصفير الفئة إذا لم تكن قادمة من صفحة الاختيار
+        window.addEventListener("pageshow", (event) => {
+            // تصفير الفئة المختارة عند كل دخول جديد أو رجوع إلا لو تم تحديدها مؤخراً
+            if (event.persisted || performance.getEntriesByType("navigation")[0].type === 'back_forward') {
+                localStorage.removeItem("chosen_service");
+            }
             updateUI();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
             initOrderLogic();
         });
-        window.addEventListener("pageshow", updateUI);
     </script>
 </body>
 </html>
