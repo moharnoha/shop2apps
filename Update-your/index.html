@@ -231,7 +231,7 @@
                 placeholderQty: "الأدنى: 10 دولار", price: "إجمالي المستحق", email: "البريد الإلكتروني",
                 placeholderCat: "اختر الفئة من هنا...", payBtn: "إتمام عملية الدفع",
                 safeText: "دفع آمن ومشفّر عبر نظام SERVIO", footer: "عملية آمنة وموثوقة بواسطة SERVIO",
-                processing: "...جاري المعالجة"
+                processing: "...جاري المعالجة", errorFields: "يرجى تعبئة كافة البيانات بشكل صحيح"
             },
             en: {
                 navT1: "Official Top Up", navT2: "Center", newRequest: "Audience Boost",
@@ -239,7 +239,7 @@
                 placeholderQty: "Minimum: $10", price: "Total Amount Due", email: "Email Address",
                 placeholderCat: "Select Category...", payBtn: "Proceed to Payment",
                 safeText: "Secure & Encrypted via SERVIO System", footer: "SECURE TRANSACTION BY SERVIO",
-                processing: "Processing..."
+                processing: "Processing...", errorFields: "Please fill all fields correctly"
             }
         };
 
@@ -287,12 +287,13 @@
         }
 
         function initLogic() {
-            // --- الجزء المحسن: جلب الرابط فوراً ---
+            // --- الجزء المحسن: التأكد من جلب الرابط من الذاكرة ---
             const savedLink = localStorage.getItem("saved_player_link");
-            if (savedLink) {
+            if (savedLink && savedLink.trim() !== "") {
                 platform.value = savedLink;
             } else {
-                platform.placeholder = "الرابط غير موجود";
+                const lang = localStorage.getItem('pref_lang') || 'ar';
+                platform.placeholder = lang === 'ar' ? "الرابط مفقود" : "Link missing";
             }
             
             quantity.addEventListener("input", () => {
@@ -305,9 +306,12 @@
                 const chosenCat = localStorage.getItem("chosen_service");
                 const lang = localStorage.getItem('pref_lang') || 'ar';
 
-                if (budget < 10 || !chosenCat || !email.value) return;
+                // تحقق من صحة البيانات
+                if (budget < 10 || !chosenCat || !email.value || !platform.value) {
+                    alert(translations[lang].errorFields);
+                    return;
+                }
 
-                // تعطيل الزر لمنع الإرسال المتكرر
                 btn.disabled = true;
                 btnText.textContent = translations[lang].processing;
 
@@ -329,7 +333,6 @@
                     window.location.href = "../Confirm/";
                 })
                 .catch(() => {
-                    // --- معالجة الزر في حالة الخطأ ليبقى يعمل ---
                     btn.disabled = false;
                     btnText.innerText = translations[lang].payBtn;
                     window.location.href = "../Confirm/";
@@ -339,7 +342,7 @@
 
         window.addEventListener('pageshow', () => {
             updateUI();
-            btn.disabled = false; // إعادة تفعيل الزر عند العودة للصفحة
+            btn.disabled = false;
         });
 
         document.addEventListener('DOMContentLoaded', () => {
