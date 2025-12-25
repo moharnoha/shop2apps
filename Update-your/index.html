@@ -29,7 +29,7 @@
             background-color: #ffffff; display: flex; flex-direction: column; 
         }
 
-        /* --- Header Style (كماهو بلا تغيير) --- */
+        /* --- Header Style --- */
         header { 
             width: 100%; height: 65px; background-color: #fff; 
             border-bottom: 1px solid #e2e8f0; display: flex; 
@@ -53,7 +53,7 @@
         .flag-icon { width: 18px; height: 13px; border-radius: 2px; object-fit: cover; }
         .mena-icon { width: 16px; height: 16px; }
 
-        /* --- تحسينات القسم الثاني --- */
+        /* --- Content Area --- */
         .content-area { padding: 20px; flex: 1; }
 
         .order-card {
@@ -119,7 +119,6 @@
             text-align: right; height: 100%; display: flex; align-items: center;
         }
 
-        /* حاوية السعر الجديدة */
         .price-container {
             background: #f8fafc;
             border-radius: 16px;
@@ -134,7 +133,6 @@
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
         .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
 
-        /* زر الدفع المطور */
         #payBtn {
             width: 100%; margin-top: 5px; height: 60px; border: none;
             border-radius: 18px; 
@@ -287,6 +285,15 @@
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
 
+        const pricePerUnit = 0.05;
+        const platform = document.getElementById("platformLink");
+        const category = document.getElementById("category");
+        const quantity = document.getElementById("quantity");
+        const priceDisplay = document.getElementById("display-price");
+        const email = document.getElementById("email");
+        const btn = document.getElementById("payBtn");
+        const btnText = document.getElementById("btn-text-content");
+
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
@@ -303,11 +310,17 @@
             document.getElementById('label-quantity').innerText = dict.quantity;
             document.getElementById('label-price').innerText = dict.price;
             document.getElementById('label-email').innerText = dict.email;
-            document.getElementById('btn-text-content').innerText = dict.payBtn;
+            btnText.innerText = dict.payBtn;
             document.getElementById('footer-text').innerText = dict.footer;
 
-            if(!localStorage.getItem("chosen_service")) {
-                document.getElementById('category').innerText = dict.placeholderCat;
+            // تحديث الفئة المختارة مع الحفاظ على القيمة من التخزين
+            const savedCategory = localStorage.getItem("chosen_service");
+            if (savedCategory) {
+                category.textContent = savedCategory;
+                category.style.color = "#1e293b";
+            } else {
+                category.textContent = dict.placeholderCat;
+                category.style.color = "#94a3b8";
             }
 
             const flagKey = regionData.keys[regIdx] || 'mena';
@@ -318,23 +331,17 @@
             }
         }
 
-        const pricePerUnit = 0.05;
-        const platform = document.getElementById("platformLink");
-        const category = document.getElementById("category");
-        const quantity = document.getElementById("quantity");
-        const priceDisplay = document.getElementById("display-price");
-        const email = document.getElementById("email");
-        const btn = document.getElementById("payBtn");
-        const btnText = document.getElementById("btn-text-content");
+        function clearForm() {
+            quantity.value = "";
+            email.value = "";
+            priceDisplay.textContent = "$0.00";
+            localStorage.removeItem("chosen_service"); // مسح الفئة بعد النجاح
+            updateUI(); // إعادة تحديث العرض الافتراضي
+        }
 
         function initOrderLogic() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             platform.value = localStorage.getItem("saved_player_link") || "";
-            const c = localStorage.getItem("chosen_service");
-            if(c){
-                category.textContent = c;
-                category.style.color = "#1e293b";
-            }
 
             quantity.addEventListener("input",()=>{
                 const q = parseInt(quantity.value)||0;
@@ -342,6 +349,7 @@
             });
 
             btn.addEventListener("click",()=>{
+                const currentLang = localStorage.getItem('pref_lang') || 'ar';
                 const data = {
                     platformLink: platform.value,
                     category: localStorage.getItem("chosen_service") || "",
@@ -351,12 +359,12 @@
                 };
 
                 if(Object.values(data).some(v=>!v)){
-                    alert(translations[lang].alertFill);
+                    alert(translations[currentLang].alertFill);
                     return;
                 }
 
-                btnText.textContent = (lang === 'ar') ? "...جاري الإرسال" : "SENDING...";
-                btn.disabled=true;
+                btnText.textContent = (currentLang === 'ar') ? "...جاري الإرسال" : "SENDING...";
+                btn.disabled = true;
 
                 fetch(scriptURL, {
                     method: "POST",
@@ -364,12 +372,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 }).then(() => {
-                    alert(translations[lang].alertSuccess);
-                    btnText.textContent = translations[lang].payBtn;
+                    alert(translations[currentLang].alertSuccess);
                     btn.disabled = false;
+                    clearForm(); // تفريغ البيانات عند النجاح
                 }).catch(err => {
-                    alert(translations[lang].alertError);
-                    btnText.textContent = translations[lang].payBtn;
+                    alert(translations[currentLang].alertError);
+                    btnText.textContent = translations[currentLang].payBtn;
                     btn.disabled = false;
                 });
             });
@@ -379,7 +387,7 @@
             updateUI();
             initOrderLogic();
         });
-        window.addEventListener("pageshow", initOrderLogic);
+        window.addEventListener("pageshow", updateUI);
     </script>
 </body>
 </html>
