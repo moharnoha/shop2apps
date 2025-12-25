@@ -13,7 +13,6 @@
             --border-gray: #e2e8f0; 
             --text-dark: #1a202c;
             --primary-blue: #2563eb;
-            /* متغيرات قسم الطلب */
             --order-primary: #2563eb;
             --order-accent: #dbeafe;
             --order-muted: #94a3b8;
@@ -24,20 +23,19 @@
             font-family: 'Inter', sans-serif; 
             background-color: #f1f5f9; 
             display: flex; 
-            justify-content: center; /* توسيط الحاوية الكبرى في المتصفح */
+            justify-content: center; 
         }
 
         .mobile-container { 
             width: 100%; 
-            max-width: 480px; /* تحديد عرض الموبايل */
+            max-width: 480px; 
             min-height: 100vh; 
             background-color: #f7fafc;
             display: flex; 
             flex-direction: column; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.05); /* ظل خفيف لتحديد الحواف */
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
         }
 
-        /* --- الهيدر --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -63,27 +61,25 @@
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; margin-left: 5px; }
         .mena-icon { width: 16px; height: 16px; margin-left: 5px; fill: #94a3b8; }
 
-        /* --- منطقة المحتوى: لضمان التوازن --- */
         .content-area { 
             padding: 20px 16px; 
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            align-items: center; /* توسيط الكارت أفقياً داخل الحاوية */
+            align-items: center; 
         }
 
         .order-card {
-            width: 100%; /* تأخذ كامل العرض المتاح في الـ padding */
-            max-width: 420px; /* العرض الأقصى للكارت */
+            width: 100%; 
+            max-width: 420px; 
             background: #ffffff;
             border-radius: 24px;
             padding: 24px 20px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.05);
             border: 1px solid #edf2f7;
-            box-sizing: border-box; /* لضمان عدم خروج البادينج عن العرض */
+            box-sizing: border-box; 
         }
 
-        /* --- تفاصيل قسم الطلب --- */
         .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .order-icon {
             width: 46px; height: 46px; background: var(--order-accent);
@@ -199,7 +195,9 @@
     </div>
 
     <script>
-        /* تم الحفاظ على كافة الوظائف البرمجية السابقة لضمان عمل الأعلام وحساب السعر والارسال */
+        // دمج رابط السكربت الخاص بك مباشرة
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
+
         const flags = {
             mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
@@ -229,8 +227,6 @@
         }
 
         const pricePerUnit = 0.05;
-        const scriptURL = "PUT_YOUR_SCRIPT_URL_HERE";
-
         const platform = document.getElementById("platformLink");
         const category = document.getElementById("category");
         const quantity = document.getElementById("quantity");
@@ -268,15 +264,19 @@
                 btn.textContent="جاري الإرسال...";
                 btn.disabled=true;
 
-                fetch(scriptURL,{
-                    method:"POST",
-                    mode:"no-cors",
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify(data)
-                }).then(()=>{
+                fetch(scriptURL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                }).then(() => {
                     alert("تم استلام طلبك بنجاح");
-                    btn.textContent="إتمام الدفع";
-                    btn.disabled=false;
+                    btn.textContent = "إتمام الدفع";
+                    btn.disabled = false;
+                }).catch(err => {
+                    alert("حدث خطأ في الاتصال");
+                    btn.textContent = "إتمام الدفع";
+                    btn.disabled = false;
                 });
             });
         }
