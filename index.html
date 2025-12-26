@@ -17,7 +17,6 @@
             --success-green: #22c55e;
         }
 
-        /* التحكم في الاتجاه بناءً على لغة الصفحة */
         html[dir="rtl"] body { text-align: right; }
         html[dir="ltr"] body { text-align: left; }
 
@@ -80,7 +79,6 @@
         .marquee-content { display: flex; white-space: nowrap; animation: marquee-scroll 25s linear infinite; }
         @keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
-        /* عكس حركة الشريط في العربية */
         html[dir="rtl"] .marquee-content { animation: marquee-scroll-rtl 25s linear infinite; }
         @keyframes marquee-scroll-rtl { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
 
@@ -103,9 +101,9 @@
             display: flex; background: white; border-radius: 8px;
             border: 1.5px solid #dee2e6; overflow: hidden; margin-bottom: 25px;
             transition: all 0.3s ease;
+            height: 52px; /* توحيد الارتفاع */
         }
 
-        /* لقلب ترتيب الزر والحقل في الإنجليزية */
         html[dir="ltr"] .input-group-container { flex-direction: row-reverse; }
 
         .input-group-container.error-border { border-color: var(--garena-red) !important; animation: shake 0.4s ease-in-out; }
@@ -113,15 +111,25 @@
 
         .locked-interaction { pointer-events: none !important; opacity: 0.7; cursor: not-allowed !important; }
 
+        /* تعديل الزر لضمان ظهور النص كاملاً */
         .platform-btn {
-            background-color: var(--garena-red); color: white; border: none;
-            padding: 0 25px; font-weight: 700; font-size: 15px; cursor: pointer;
-            white-space: nowrap; transition: all 0.3s ease;
+            background-color: var(--garena-red); 
+            color: white; 
+            border: none;
+            padding: 0 15px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            cursor: pointer;
+            white-space: nowrap; 
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* يمنع الزر من الانكماش */
+            min-width: fit-content;
         }
 
         .player-input-field {
-            flex: 1; border: none; padding: 15px; outline: none;
+            flex: 1; border: none; padding: 0 15px; outline: none;
             font-size: 15px; background: white;
+            min-width: 0; /* يسمح للحقل بالتقلص لصالح الزر إذا لزم الأمر */
         }
         
         html[dir="rtl"] .player-input-field { text-align: right; }
@@ -171,6 +179,7 @@
             .login-section { padding: 20px 15px; }
             header { padding: 0 8px; height: 60px; }
             .login-card { padding: 20px; }
+            .platform-btn { font-size: 13px; padding: 0 10px; }
         }
     </style>
 </head>
@@ -289,11 +298,8 @@
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        // دالة منع العربية والإيموجي فور الكتابة
         function validateInput(el) {
             document.getElementById('input-wrapper').classList.remove('error-border');
-            
-            // Regex يمنع أي حرف غير لاتيني (يمنع العربية والإيموجي)
             const forbiddenChars = /[^\x00-\x7F]|[آ-ي]/g; 
             if (forbiddenChars.test(el.value)) {
                 el.value = el.value.replace(forbiddenChars, '');
@@ -319,7 +325,6 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const playerLink = inputField.value.trim();
 
-            // التحقق من أن الحقل رابط (يحتوي على نقطة على الأقل)
             const urlPattern = /^(https?:\/\/)?([\w\d\-_]+\.+[A-Za-z]{2,}).*$/;
 
             if (playerLink === "" || !urlPattern.test(playerLink)) {
@@ -343,7 +348,6 @@
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const data = shopData.nav[lang];
 
-            // تغيير اتجاه الموقع بالكامل
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.documentElement.lang = lang;
 
@@ -370,7 +374,6 @@
             const key = shopData.keys[regIdx];
             display.innerHTML = (key === 'mena' || key === 'other') ? flags[key] : `<img src="${flags[key]}" class="flag-icon">`;
             
-            // تحديث خيار اللغة في القائمة المنسدلة
             document.getElementById('lang-select').value = lang;
         }
 
