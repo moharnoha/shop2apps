@@ -18,47 +18,17 @@
             --border-color: #e2e8f0;
         }
 
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f1f5f9; 
-            display: flex; justify-content: center; 
-            direction: rtl;
-        }
-
-        .mobile-container { 
-            width: 100%; max-width: 480px; min-height: 100vh; 
-            background-color: #ffffff; display: flex; flex-direction: column; 
-        }
-
-        header { 
-            width: 100%; height: 60px; background-color: #fff; 
-            border-bottom: 1px solid #e2e8f0; display: flex; 
-            align-items: center; justify-content: space-between; 
-            padding: 0 16px; box-sizing: border-box; position: sticky; 
-            top: 0; z-index: 1000;
-        }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f1f5f9; display: flex; justify-content: center; direction: rtl; }
+        .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; background-color: #ffffff; display: flex; flex-direction: column; }
+        header { width: 100%; height: 60px; background-color: #fff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; box-sizing: border-box; position: sticky; top: 0; z-index: 1000; }
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 22px; width: auto; }
         .v-line { width: 1.5px; height: 18px; background-color: #e2e8f0; margin: 0 10px; }
         .title-box span { font-size: 9px; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; line-height: 1.1; }
-
-        .info-display-wrapper { 
-            display: flex; align-items: center; background: var(--bg-gray); 
-            border: 1px solid #e2e8f0; border-radius: 6px; 
-            padding: 0 8px; height: 32px; gap: 6px;
-        }
+        .info-display-wrapper { display: flex; align-items: center; background: var(--bg-gray); border: 1px solid #e2e8f0; border-radius: 6px; padding: 0 8px; height: 32px; gap: 6px; }
         .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
-
         .content-area { padding: 20px 16px; flex: 1; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); }
-
-        .order-card {
-            width: 100%; background: #ffffff; border-radius: 24px;
-            border: 1px solid rgba(226, 232, 240, 0.8); 
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
-            padding: 24px; box-sizing: border-box; position: relative;
-        }
-
+        .order-card { width: 100%; background: #ffffff; border-radius: 24px; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02); padding: 24px; box-sizing: border-box; position: relative; }
         .order-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
         .order-icon-circle { width: 48px; height: 48px; background: #f1f5f9; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
         .order-icon-circle svg { width: 24px; height: 24px; fill: currentColor; }
@@ -67,43 +37,50 @@
         .form-grid { display: flex; flex-direction: column; gap: 18px; }
         .field { width: 100%; position: relative; }
         .field .label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; display: block; margin-right: 4px; }
-
         .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; height: 52px; transition: all 0.3s ease; }
         .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
         .clickable-box { cursor: pointer; background: #fafafa; }
         .input-box.error-state { border-color: var(--error-red) !important; background-color: #fff5f5; animation: shake 0.4s ease; }
 
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        
         .input-box svg { width: 20px; height: 20px; fill: #94a3b8; margin-left: 12px; flex-shrink: 0; }
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); text-align: right; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
         .price-container { background: #f8fafc; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin: 8px 0; border: 1px solid #e2e8f0; }
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
         .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
 
-        /* --- تصميم الزر المطور --- */
+        /* --- تصميم الزر فائق السلاسة --- */
         #payBtn {
             width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
             position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #payBtn:active { transform: scale(0.96); }
-        #payBtn:disabled { background: #334155; cursor: wait; }
+        
+        #btn-text-content { 
+            transition: transform 0.3s ease, opacity 0.3s ease; 
+            display: inline-block;
+        }
 
-        #btn-text-content { transition: all 0.2s ease; }
-
-        /* حالة التحميل */
-        .loading #btn-text-content { opacity: 0; transform: scale(0.8); }
+        /* حالة التحميل - إخفاء النص وتوسيط الدائرة */
+        .loading #btn-text-content { 
+            opacity: 0; 
+            transform: scale(0.5); 
+        }
         
         .spinner {
             position: absolute; width: 24px; height: 24px;
             border: 3px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%;
-            display: none; animation: spin 0.8s linear infinite;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+            animation: spin 0.8s linear infinite;
         }
 
-        .loading .spinner { display: block; }
+        .loading .spinner { 
+            opacity: 1; 
+        }
+
         @keyframes spin { to { transform: rotate(360deg); } }
         
         .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
@@ -119,15 +96,9 @@
             <div class="brand-section">
                 <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
                 <div class="v-line"></div>
-                <div class="title-box">
-                    <span id="nav-t1">Official Top Up</span>
-                    <span id="nav-t2">Center</span>
-                </div>
+                <div class="title-box"><span id="nav-t1">Official Top Up</span><span id="nav-t2">Center</span></div>
             </div>
-            <div class="info-display-wrapper">
-                <div id="flag-display"></div>
-                <div class="display-text"><span id="label-reg">---</span><span style="color:#e2e8f0; margin:0 2px;">|</span><span id="label-lng">--</span></div>
-            </div>
+            <div class="info-display-wrapper"><div id="flag-display"></div><div class="display-text"><span id="label-reg">---</span><span style="color:#e2e8f0; margin:0 2px;">|</span><span id="label-lng">--</span></div></div>
         </header>
 
         <div class="content-area">
@@ -283,28 +254,39 @@
 
                 if (!isValid) return;
 
-                // تفعيل التحميل
+                // تفعيل التحميل فوراً
                 payBtn.classList.add('loading');
                 payBtn.disabled = true;
 
                 try {
                     const data = { platformLink: link, category: chosenCat, quantity: budget, charge: priceDisplay.textContent, gmail: email };
+                    
+                    // الإرسال
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
 
-                    // تنظيف البيانات والتوجيه بعد نصف ثانية من نجاح الإرسال
+                    // بعد نصف ثانية بالضبط من الإرسال (500ms)
                     setTimeout(() => {
+                        // إفراغ البيانات
                         localStorage.removeItem("chosen_service");
                         localStorage.removeItem("temp_link");
                         localStorage.removeItem("temp_email");
                         localStorage.removeItem("temp_qty");
+                        
+                        // التوجيه
                         window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                     }, 500);
 
                 } catch (error) {
-                    // في حال الخطأ ننتظر نصف ثانية أيضاً قبل التوجيه القسري
+                    // في حال الفشل ننتظر نصف ثانية ثم نوجه قسرياً لضمان عدم تعطل المستخدم
                     setTimeout(() => {
                         window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                     }, 500);
+                } finally {
+                    // تأمين: إعادة الزر لحالته الطبيعية تلقائياً إذا فشل التوجيه لأي سبب تقني
+                    setTimeout(() => {
+                        payBtn.classList.remove('loading');
+                        payBtn.disabled = false;
+                    }, 1000);
                 }
             });
         });
