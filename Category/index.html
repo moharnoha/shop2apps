@@ -1,63 +1,235 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl" class="notranslate" translate="no"> 
+<html lang="ar" dir="rtl" class="notranslate" translate="no"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Servio - Details Review</title>
+    <title>Servio - Select & Confirm</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c; --primary-blue: #2563eb; }
-        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f1f5f9; display: flex; justify-content: center; }
-        .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; background-color: #f7fafc; display: flex; flex-direction: column; }
-        header { width: 100%; height: 65px; background-color: var(--bg-light); border-bottom: 1px solid var(--border-gray); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box; direction: rtl !important; }
-        .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 28px; width: auto; }
-        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
-        .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
-        .content-area { padding: 20px 16px; }
-        .verification-card { background: #ffffff; border-radius: 24px; padding: 22px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); border: 1px solid #edf2f7; }
-        .selection-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; display: block; }
-        .styled-select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; background-color: #f8fafc; font-size: 14px; color: #475569; outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: left 12px center; background-size: 18px; }
-        optgroup { font-weight: 700; color: var(--primary-blue); }
+        :root { 
+            --primary-blue: #2563eb; 
+            --text-dark: #0f172a; 
+            --text-light: #64748b;
+            --bg-body: #f1f5f9;
+            --card-bg: #ffffff;
+            --fb-color: #1877F2; --ig-color: #E4405F; --tt-color: #000000; --dc-color: #5865F2; --tw-color: #9146FF;
+        }
+        
+        body { 
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-body); display: flex; justify-content: center;
+        }
+
+        .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; position: relative; }
+
+        /* البحث الثابت */
+        .header-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg-body);
+            padding: 15px 16px 10px 16px;
+        }
+
+        .search-wrapper { position: relative; width: 100%; }
+        .search-input { 
+            width: 100%; padding: 14px 45px 14px 15px; border-radius: 16px; 
+            border: 2px solid transparent; background: var(--card-bg); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); outline: none; 
+            font-size: 14px; transition: 0.3s; box-sizing: border-box;
+        }
+        .search-input:focus { border-color: var(--primary-blue); }
+        .search-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+
+        .content-area { padding: 0 16px 80px 16px; }
+
+        .category-label { 
+            font-size: 11px; font-weight: 800; color: var(--text-light); margin: 20px 0 10px;
+            display: flex; align-items: center; gap: 10px; text-transform: uppercase;
+        }
+        .category-label::after { content: ""; flex: 1; height: 1px; background: #cbd5e0; }
+
+        .service-item {
+            background: var(--card-bg); padding: 14px; border-radius: 16px; 
+            border: 2px solid transparent; cursor: pointer; 
+            display: flex; align-items: center; margin-bottom: 8px; transition: 0.2s;
+        }
+        
+        .service-item.selected {
+            border-color: var(--primary-blue);
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .platform-logo {
+            width: 40px; height: 40px; border-radius: 12px; display: flex; 
+            align-items: center; justify-content: center; font-size: 18px; 
+            margin-left: 14px; color: white; flex-shrink: 0;
+        }
+
+        .bg-fb { background: var(--fb-color); }
+        .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-tt { background: var(--tt-color); }
+        .bg-dc { background: var(--dc-color); }
+        .bg-tw { background: var(--tw-color); }
+
+        .service-info { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .name-primary { font-size: 13.5px; font-weight: 700; color: var(--text-dark); }
+        .name-secondary { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+        
+        .check-icon { color: var(--primary-blue); font-size: 18px; display: none; margin-right: 8px; }
+        .service-item.selected .check-icon { display: block; }
+        
+        /* زر العودة العائم */
+        .back-fab {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            z-index: 2000;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: none;
+        }
+
+        .back-fab.visible { transform: translateX(-50%) translateY(0); }
+        .back-fab i { font-size: 18px; }
+
+        .hidden { display: none !important; }
+        
+        [dir="ltr"] .platform-logo { margin-left: 0; margin-right: 14px; }
+        [dir="ltr"] .search-icon { right: auto; left: 16px; }
     </style>
 </head>
 <body>
     <div class="mobile-container">
-        <header>
-            <div class="brand-section">
-                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
-                <div class="v-line"></div>
-                <div class="title-box"><span>Official Top Up</span><span>Center</span></div>
-            </div>
-        </header>
-        <div class="content-area">
-            <div class="verification-card">
-                <label class="selection-title">اختر الفئة</label>
-                <select id="auto-selector" class="styled-select">
-                    <option value="" disabled selected>تحديد الخدمة...</option>
-                    <optgroup label="فيسبوك">
-                        <option>فيسبوك - المتابعون [بيانات البوت]</option>
-                        <option>فيسبوك - إعجابات الصفحة والمتابعين</option>
-                    </optgroup>
-                    <optgroup label="تيك توك">
-                        <option>تيك توك - المتابعون [الأرخص]</option>
-                        <option>تيك توك - المشاهدات سريعة</option>
-                    </optgroup>
-                    </select>
+        <div class="header-sticky">
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="serviceSearch" class="search-input" placeholder="ابحث عن خدمة... Search">
             </div>
         </div>
+
+        <div class="content-area" id="servicesList"></div>
+
+        <button class="back-fab" id="confirmBtn" onclick="goBackWithSelection()">
+            <span>تأكيد الاختيار</span>
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
     </div>
+
     <script>
-        document.getElementById('auto-selector').addEventListener('change', function() {
-            const val = this.value;
-            if (val) {
-                // حفظ الاختيار
-                localStorage.setItem('chosen_service', val);
-                // الرجوع فوراً
-                window.history.back();
-            }
+        const isAr = document.documentElement.lang === 'ar' || document.documentElement.dir === 'rtl';
+
+        const data = [
+            { cat: ["فيسبوك", "Facebook"], icon: "bg-fb", fa: "fa-facebook-f", items: [
+                ["فيسبوك - المتابعون [بيانات البوت] [الأرخص]", "FB - Followers [Bot Data] [Cheapest]"],
+                ["فيسبوك - متابعون [جودة بوت]", "FB - Followers [Bot Quality]"],
+                ["فيسبوك - عدد المتابعين [حقيقي]", "FB - Followers Count [Real]"],
+                ["فيسبوك - ردود الفعل [أسماء إنجليزية]", "FB - Post Reactions [English Names]"],
+                ["فيسبوك - المتابعون", "FB - Followers"],
+                ["فيسبوك - إعجابات الصفحة + المتابعين", "FB - Page Likes + Followers"],
+                ["فيسبوك - وقت المشاهدة [60 ألف دقيقة]", "FB - Watch Time [60K Minutes]"],
+                ["فيسبوك - مشاهدات مباشرة", "FB - Live Stream Views"],
+                ["فيسبوك - المشاهدات", "FB - Video Views"],
+                ["فيسبوك - مشاركة المنشور", "FB - Post Shares"],
+                ["فيسبوك - أعضاء المجموعة", "FB - Group Members"]
+            ]},
+            { cat: ["إنستغرام", "Instagram"], icon: "bg-ig", fa: "fa-instagram", items: [
+                ["إنستغرام - المتابعون", "IG - Followers"],
+                ["إنستغرام - عدد المشاهدات", "IG - Video Views"],
+                ["إنستغرام - الإعجابات", "IG - Likes"],
+                ["إنستغرام - يحفظ", "IG - Saves"],
+                ["إنستغرام - التعليقات", "IG - Comments"],
+                ["إنستغرام - مشاهدات القصص", "IG - Story Views"]
+            ]},
+            { cat: ["تيك توك", "TikTok"], icon: "bg-tt", fa: "fa-tiktok", items: [
+                ["تيك توك - المتابعون [الأرخص]", "TikTok - Followers [Cheapest]"],
+                ["تيك توك - متابعون جودة حقيقية", "TikTok - Real Quality Followers"],
+                ["تيك توك - المشاهدات سريعة للغاية", "TikTok - Views [Ultra Fast]"],
+                ["تيك توك - الإعجابات", "TikTok - Likes"],
+                ["تيك توك - التعليقات", "TikTok - Comments"],
+                ["تيك توك - مشاهدات مباشرة", "TikTok - Live Stream Views"]
+            ]},
+            { cat: ["ديسكورد", "Discord"], icon: "bg-dc", fa: "fa-discord", items: [
+                ["ديسكورد - الأعضاء [متصلون]", "Discord - Members [Online]"],
+                ["ديسكورد - الأعضاء [غير متصلين]", "Discord - Members [Offline]"],
+                ["ديسكورد - تعزيز الخادم", "Discord - Server Boost"]
+            ]}
+        ];
+
+        function handleSelect(el, name) {
+            document.querySelectorAll('.service-item').forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
+            
+            // تخزين الاسم المختار
+            localStorage.setItem('chosen_service', name);
+            
+            // إظهار زر التأكيد بسلاسة
+            document.getElementById('confirmBtn').classList.add('visible');
+        }
+
+        function goBackWithSelection() {
+            // الرجوع للخلف لتعبئة الخانة تلقائياً
+            window.history.back();
+        }
+
+        function init() {
+            const list = document.getElementById('servicesList');
+            data.forEach(group => {
+                const label = document.createElement('div');
+                label.className = 'category-label';
+                label.innerText = isAr ? group.cat[0] : group.cat[1];
+                list.appendChild(label);
+
+                group.items.forEach(pair => {
+                    const saveName = isAr ? pair[0] : pair[1];
+                    const item = document.createElement('div');
+                    item.className = 'service-item';
+                    item.setAttribute('data-search', pair[0] + ' ' + pair[1]);
+                    item.onclick = function() { handleSelect(this, saveName); };
+
+                    item.innerHTML = `
+                        <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
+                        <div class="service-info">
+                            <span class="name-primary">${isAr ? pair[0] : pair[1]}</span>
+                            <span class="name-secondary">${isAr ? pair[1] : pair[0]}</span>
+                        </div>
+                        <i class="fa-solid fa-circle-check check-icon"></i>
+                    `;
+                    list.appendChild(item);
+                });
+            });
+        }
+
+        document.getElementById('serviceSearch').addEventListener('input', function(e) {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.service-item').forEach(el => {
+                el.classList.toggle('hidden', !el.getAttribute('data-search').toLowerCase().includes(val));
+            });
+            document.querySelectorAll('.category-label').forEach(label => {
+                let n = label.nextElementSibling, visible = false;
+                while(n && !n.classList.contains('category-label')) {
+                    if(!n.classList.contains('hidden')) { visible = true; break; }
+                    n = n.nextElementSibling;
+                }
+                label.classList.toggle('hidden', !visible);
+            });
         });
+
+        init();
     </script>
 </body>
 </html>
