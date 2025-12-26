@@ -23,26 +23,30 @@
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg-gray); 
             display: flex; justify-content: center;
-            min-height: 100vh;
         }
 
-        .mobile-container { 
+        .container-wrapper { 
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-container { 
             width: 100%; 
-            max-width: 500px; 
+            max-width: 100%; 
             min-height: 100vh; 
             background-color: #f7fafc;
-            display: flex; flex-direction: column; 
-            box-shadow: 0 0 40px rgba(0,0,0,0.05);
+            display: flex; 
+            flex-direction: column; 
         }
 
-        @media (min-width: 768px) {
-            body { padding: 20px 0; }
-            .mobile-container { 
-                min-height: auto; 
-                border-radius: 30px; 
-                margin: auto;
-                height: 90vh;
-                overflow-y: auto;
+        @media (min-width: 481px) {
+            .main-container {
+                max-width: 800px; 
+                margin: 20px;
+                border-radius: 20px;
+                min-height: auto;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             }
         }
 
@@ -50,7 +54,7 @@
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
-            padding: 0 15px; box-sizing: border-box; position: sticky; 
+            padding: 0 12px; box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000;
         }
 
@@ -67,7 +71,7 @@
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
-        .flag-icon { width: 18px; height: 12px; border-radius: 2px; object-fit: cover; }
+        .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
         .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
 
         .content-area { padding: 20px 16px; flex: 1; }
@@ -103,7 +107,6 @@
             width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
             position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
         }
-        #payBtn:active { transform: scale(0.98); }
         #payBtn:disabled { background: #444; cursor: not-allowed; }
 
         .spinner {
@@ -114,8 +117,8 @@
         .loading #btn-text { opacity: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; text-align: center; }
-        .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); flex-shrink: 0; }
+        .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
+        .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
         
         .error-state { border-color: var(--error-red) !important; background-color: #fff5f5; animation: shake 0.4s ease; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
@@ -123,79 +126,81 @@
 </head>
 <body>
 
-    <div class="mobile-container">
-        <header>
-            <div class="brand-section">
-                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
-                <div class="v-line"></div>
-                <div class="title-box">
-                    <span id="nav-t1"></span>
-                    <span id="nav-t2"></span>
+    <div class="container-wrapper">
+        <div class="main-container">
+            <header>
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box">
+                        <span id="nav-t1"></span>
+                        <span id="nav-t2"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="info-display-wrapper">
-                <div id="flag-display"></div>
-                <div class="display-text">
-                    <span id="label-reg">---</span>
-                    <span style="color:#cbd5e0;">|</span>
-                    <span id="label-lng">--</span>
+                <div class="info-display-wrapper">
+                    <div id="flag-display"></div>
+                    <div class="display-text">
+                        <span id="label-reg">---</span>
+                        <span style="color:#cbd5e0;">|</span>
+                        <span id="label-lng">--</span>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
 
-        <div class="content-area">
-            <div class="order-card">
-                <div class="order-header">
-                    <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
-                    <div class="order-title" id="text-order-details"></div>
-                </div>
+            <div class="content-area">
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
+                        <div class="order-title" id="text-order-details"></div>
+                    </div>
 
-                <div class="form-grid">
-                    <div class="field">
-                        <label class="label" id="label-platform"></label>
-                        <div class="input-box" id="box-platform">
-                            <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                            <input id="platformLink" readonly>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label class="label" id="label-platform"></label>
+                            <div class="input-box" id="box-platform">
+                                <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                                <input id="platformLink" readonly placeholder="...">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field" onclick="goToCategory()">
-                        <label class="label" id="label-category"></label>
-                        <div class="input-box" style="cursor:pointer" id="box-category">
-                            <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                            <span id="category"></span>
+                        <div class="field" onclick="goToCategory()">
+                            <label class="label" id="label-category"></label>
+                            <div class="input-box" style="cursor:pointer" id="box-category">
+                                <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+                                <span id="category"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <label class="label" id="label-budget"></label>
-                        <div class="input-box" id="box-quantity">
-                            <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A2,2 0 0,1 8,11V9A2,2 0 0,1 10,7H11V6H13V7H15V9H11V10H14A2,2 0 0,1 16,12V14A2,2 0 0,1 14,16H13V17H11Z"/></svg>
-                            <input id="quantity" type="number" min="10" inputmode="decimal">
+                        <div class="field">
+                            <label class="label" id="label-budget"></label>
+                            <div class="input-box" id="box-quantity">
+                                <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A2,2 0 0,1 8,11V9A2,2 0 0,1 10,7H11V6H13V7H15V9H11V10H14A2,2 0 0,1 16,12V14A2,2 0 0,1 14,16H13V17H11Z"/></svg>
+                                <input id="quantity" type="number" min="10" inputmode="decimal">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <label class="label" id="label-email"></label>
-                        <div class="input-box" id="box-email">
-                            <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
-                            <input id="email" type="email" placeholder="example@gmail.com">
+                        <div class="field">
+                            <label class="label" id="label-email"></label>
+                            <div class="input-box" id="box-email">
+                                <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
+                                <input id="email" type="email" placeholder="example@gmail.com">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="price-container">
-                        <span class="price-label" id="label-total"></span>
-                        <span class="price-value" id="display-price">$0.00</span>
-                    </div>
+                        <div class="price-container">
+                            <span class="price-label" id="label-total"></span>
+                            <span class="price-value" id="display-price">$0.00</span>
+                        </div>
 
-                    <button id="payBtn">
-                        <span id="btn-text"></span>
-                        <div class="spinner"></div>
-                    </button>
-                    
-                    <div class="security-badge">
-                        <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
-                        <span id="safe-text"></span>
+                        <button id="payBtn">
+                            <span id="btn-text"></span>
+                            <div class="spinner"></div>
+                        </button>
+                        
+                        <div class="security-badge">
+                            <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
+                            <span id="safe-text"></span>
+                        </div>
                     </div>
                 </div>
             </div>
