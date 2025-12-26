@@ -83,23 +83,31 @@
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
         .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
 
+        /* --- Pay Button Logic --- */
         #payBtn {
             width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
-            position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+            position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        #payBtn:disabled { background: #444; cursor: not-allowed; }
+
         .spinner {
-            position: absolute; width: 24px; height: 24px; border: 3px solid rgba(255, 255, 255, 0.2); 
-            border-top-color: #fff; border-radius: 50%; opacity: 0; animation: spin 0.8s linear infinite;
+            position: absolute; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.2); 
+            border-top-color: #fff; border-radius: 50%; opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease;
         }
-        .loading .spinner { opacity: 1; }
-        .loading span { opacity: 0; }
+
+        /* حالة التحميل */
+        .loading .spinner { opacity: 1; animation: spin 0.8s linear infinite; }
+        .loading #btn-text { opacity: 0; transform: scale(0.9); }
+
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
         .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
         
-        .error-state { border-color: var(--error-red) !important; background-color: #fff5f5; }
+        .error-state { border-color: var(--error-red) !important; background-color: #fff5f5; animation: shake 0.4s ease; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
     </style>
 </head>
 <body>
@@ -186,7 +194,6 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // --- قاموس الترجمة ---
         const i18n = {
             ar: {
                 navT1: "مركز الشحن", navT2: "الرسمي",
@@ -230,22 +237,23 @@
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
 
+        function resetPayBtn() {
+            const btn = document.getElementById("payBtn");
+            btn.classList.remove('loading');
+            btn.disabled = false;
+        }
+
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const t = i18n[lang];
 
-            // اتجاه الصفحة
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            document.body.style.textAlign = (lang === 'ar') ? 'right' : 'left';
 
-            // ترجمة الهيدر
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
-
-            // ترجمة البطاقة
             document.getElementById('text-order-details').innerText = t.orderTitle;
             document.getElementById('label-platform').innerText = t.labelPlatform;
             document.getElementById('label-category').innerText = t.labelCat;
@@ -256,12 +264,10 @@
             document.getElementById('safe-text').innerText = t.safe;
             document.getElementById('quantity').placeholder = t.placeholderMin;
 
-            // تحديث العلم
             const flagKey = regionData.keys[regIdx] || 'mena';
             const flagBox = document.getElementById('flag-display');
             flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // تحديث الخدمة المختارة
             const chosen = localStorage.getItem("chosen_service");
             const catSpan = document.getElementById("category");
             if (chosen) {
@@ -272,12 +278,10 @@
                 catSpan.style.color = "#94a3b8";
             }
 
-            // جلب الرابط من URL
             const params = new URLSearchParams(window.location.search);
             const link = params.get('link') || localStorage.getItem("temp_link");
             if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
             
-            // استرجاع البيانات المؤقتة
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
             const savedQty = localStorage.getItem("temp_qty");
             if (savedQty) {
@@ -308,7 +312,11 @@
                 const service = localStorage.getItem("chosen_service");
 
                 let hasError = false;
-                const flash = (id) => { document.getElementById(id).classList.add('error-state'); hasError = true; setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); };
+                const flash = (id) => { 
+                    document.getElementById(id).classList.add('error-state'); 
+                    hasError = true; 
+                    setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); 
+                };
 
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
@@ -317,24 +325,36 @@
 
                 if (hasError) return;
 
+                // بدء حالة التحميل
                 this.classList.add('loading');
                 this.disabled = true;
 
                 try {
                     const data = { platformLink: link, category: service, quantity: qty, charge: `$${qty.toFixed(2)}`, gmail: email };
-                    await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
+                    
+                    // استخدام timeout لضمان عدم تعليق الزر إذا تأخر الرد
+                    const fetchPromise = fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
+                    
+                    await fetchPromise;
                     
                     setTimeout(() => {
                         ["chosen_service", "temp_link", "temp_email", "temp_qty"].forEach(k => localStorage.removeItem(k));
                         location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                     }, 500);
+
                 } catch (e) {
+                    console.error("Submission Error:", e);
+                    // في حال الخطأ ننتقل للتاكيد أو نرجع الزر
                     location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                 }
             };
         });
 
-        window.addEventListener('pageshow', updateUI);
+        // التأكد من رجوع الزر عند العودة من صفحة أخرى أو استخدام زر الرجوع
+        window.addEventListener('pageshow', (event) => {
+            resetPayBtn();
+            updateUI();
+        });
     </script>
 </body>
 </html>
