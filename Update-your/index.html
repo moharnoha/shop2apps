@@ -98,8 +98,6 @@
         }
         
         .clickable-box { cursor: pointer; background: #fafafa; }
-        .clickable-box:hover { background: #f1f5f9; border-color: #cbd5e1; }
-        
         .input-box.error-state { 
             border-color: var(--error-red) !important; 
             background-color: #fff5f5; 
@@ -129,24 +127,41 @@
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
         .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
 
+        /* --- تحسين الزر وسلاسة التحميل --- */
         #payBtn {
             width: 100%; height: 56px; border: none;
             border-radius: 14px; background: #000;
             color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transition: all 0.3s ease;
-            position: relative;
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        #payBtn:hover { background: #1a1a1a; transform: translateY(-1px); }
-        #payBtn:active { transform: translateY(1px) scale(0.98); }
-        #payBtn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        #payBtn:active { transform: scale(0.97); }
+        #payBtn:disabled { background: #475569; cursor: not-allowed; }
+
+        #btn-text-content {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .loading #btn-text-content {
+            opacity: 0;
+            transform: translateY(10px);
+        }
 
         .spinner {
-            width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: #fff; border-radius: 50%;
-            animation: spin 0.8s linear infinite; display: none;
+            position: absolute;
+            width: 24px; height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            display: none;
+            animation: spin 0.8s linear infinite;
         }
+
+        .loading .spinner { display: block; }
+
         @keyframes spin { to { transform: rotate(360deg); } }
         
         .security-badge {
@@ -234,8 +249,8 @@
                     </div>
 
                     <button id="payBtn">
-                        <div class="spinner" id="btn-spinner"></div>
                         <span id="btn-text-content">تأكيد الطلب والدفع</span>
+                        <div class="spinner"></div>
                     </button>
                     
                     <div class="security-badge">
@@ -255,7 +270,6 @@
             return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         }
 
-        // خاصية الذهاب للفئات مع حفظ الرابط الحالي
         function goToCategory() {
             const currentLink = document.getElementById("platformLink").value;
             localStorage.setItem("temp_link", currentLink);
@@ -301,7 +315,7 @@
             document.getElementById('platformLink').placeholder = dict.placeholderLink;
             document.getElementById('quantity').placeholder = dict.placeholderQty;
 
-            // استلام الرابط من URL أولاً ثم من localStorage
+            // استعادة الرابط من URL أو التخزين
             const params = new URLSearchParams(window.location.search);
             const linkFromUrl = params.get('link');
             if (linkFromUrl) {
@@ -345,8 +359,6 @@
             const quantityInput = document.getElementById("quantity");
             const priceDisplay = document.getElementById("display-price");
             const payBtn = document.getElementById("payBtn");
-            const btnSpinner = document.getElementById("btn-spinner");
-            const btnText = document.getElementById("btn-text-content");
 
             quantityInput.addEventListener("input", () => {
                 const val = parseFloat(quantityInput.value) || 0;
@@ -367,10 +379,9 @@
 
                 if (!isValid) return;
 
-                // حالة التحميل
+                // --- تفعيل حالة التحميل السلسة ---
+                payBtn.classList.add('loading');
                 payBtn.disabled = true;
-                btnSpinner.style.display = "block";
-                btnText.style.visibility = "hidden";
 
                 try {
                     const data = { 
@@ -393,22 +404,19 @@
                     localStorage.removeItem("temp_email");
                     localStorage.removeItem("temp_qty");
 
-                    // التوجيه التلقائي بعد 2 ثانية (لضمان وصول البيانات)
+                    // التوجيه مع الرابط
                     setTimeout(() => {
                         window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                    }, 2000);
+                    }, 1500);
 
                 } catch (error) {
-                    console.error("Submission error:", error);
-                    // في حال الخطأ يظل الرابط متاحاً لإعادة المحاولة
                     window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                 } finally {
-                    // إرجاع الزر لوضعه الطبيعي لكي يعمل دائماً
+                    // إعادة الزر لوضعه الطبيعي بعد 4 ثواني لضمان القدرة على الضغط مجدداً
                     setTimeout(() => {
+                        payBtn.classList.remove('loading');
                         payBtn.disabled = false;
-                        btnSpinner.style.display = "none";
-                        btnText.style.visibility = "visible";
-                    }, 3000);
+                    }, 4000);
                 }
             });
         });
