@@ -30,7 +30,7 @@
             background-color: #ffffff; display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر (بدون تغيير) --- */
+        /* --- الهيدر (كما هو بدون تغيير) --- */
         header { 
             width: 100%; height: 60px; background-color: #fff; 
             border-bottom: 1px solid #e2e8f0; display: flex; 
@@ -50,7 +50,7 @@
         }
         .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
 
-        /* --- القسم الثاني المحسن --- */
+        /* --- تحسين القسم الثاني --- */
         .content-area { padding: 12px 16px; flex: 1; }
 
         .order-card {
@@ -83,7 +83,7 @@
             height: 48px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* حالة الخطأ الوميضي */
+        /* حالة الخطأ المومض */
         .input-box.error-state { border-color: var(--error-red); background-color: #fff5f5; }
         
         .input-box svg { width: 18px; height: 18px; fill: #94a3b8; margin-left: 10px; flex-shrink: 0; }
@@ -171,7 +171,7 @@
                         <label class="label" id="label-platform">رابط المنصة</label>
                         <div class="input-box" id="box-platform">
                             <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                            <input id="platformLink" readonly placeholder="انتظار الرابط المباشر...">
+                            <input id="platformLink" readonly placeholder="بانتظار التعرف على الحساب...">
                         </div>
                     </div>
 
@@ -179,7 +179,7 @@
                         <label class="label" id="label-category">الفئة المختارة</label>
                         <div class="input-box" id="box-category" style="background: #fdfdfd; border-style: dashed; border-color: #cbd5e1;">
                             <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                            <span id="category">اضغط لتحديد نوع الخدمة</span>
+                            <span id="category">اضغط لتحديد نوع الخدمة...</span>
                         </div>
                     </div>
 
@@ -187,7 +187,7 @@
                         <label class="label" id="label-quantity">الميزانية ($)</label>
                         <div class="input-box" id="box-quantity">
                             <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A2,2 0 0,1 8,11V9A2,2 0 0,1 10,7H11V6H13V7H15V9H11V10H14A2,2 0 0,1 16,12V14A2,2 0 0,1 14,16H13V17H11Z"/></svg>
-                            <input id="quantity" type="number" min="10" inputmode="decimal" placeholder="أدخل ميزانيتك (الأدنى $10)">
+                            <input id="quantity" type="number" min="10" inputmode="decimal" placeholder="الحد الأدنى 10 دولار">
                         </div>
                     </div>
 
@@ -211,7 +211,7 @@
                     
                     <div class="security-badge">
                         <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
-                        <span id="safe-text">بوابة دفع آمنة مشفرة بالكامل</span>
+                        <span id="safe-text">بوابة دفع آمنة مشفرة بواسطة SERVIO</span>
                     </div>
                 </div>
             </div>
@@ -232,18 +232,23 @@
             location.href = `../Category/?link=${encodeURIComponent(currentLink)}`;
         }
 
-        function clearInputs() {
+        // دالة التصفير الشاملة
+        function clearAllInputs() {
             document.getElementById("platformLink").value = "";
             document.getElementById("quantity").value = "";
             document.getElementById("email").value = "";
             document.getElementById("display-price").textContent = "$0.00";
             localStorage.removeItem("chosen_service");
             localStorage.removeItem("temp_link");
+            
+            const categorySpan = document.getElementById("category");
+            categorySpan.textContent = "اضغط لتحديد نوع الخدمة...";
+            categorySpan.style.color = "#94a3b8";
         }
 
         const translations = {
-            ar: { navT1: "مركز الشحن", navT2: "الرسمي", newRequest: "تفاصيل الطلب", platform: "رابط المنصة", category: "الفئة المختارة", quantity: "الميزانية ($)", price: "إجمالي المستحق", email: "البريد الإلكتروني", placeholderLink: "انتظار الرابط المباشر...", placeholderCat: "اضغط لتحديد نوع الخدمة", placeholderQty: "أدخل ميزانيتك (الأدنى $10)", payBtn: "تأكيد الطلب والدفع", safeText: "بوابة دفع آمنة مشفرة بالكامل" },
-            en: { navT1: "Official Top Up", navT2: "Center", newRequest: "Order Details", platform: "Platform Link", category: "Category", quantity: "Budget ($)", price: "Total Due", email: "Email", placeholderLink: "Awaiting link...", placeholderCat: "Tap to select service", placeholderQty: "Enter budget (Min $10)", payBtn: "Confirm & Pay", safeText: "Secure & Encrypted Gateway" }
+            ar: { navT1: "مركز الشحن", navT2: "الرسمي", newRequest: "تفاصيل الطلب", platform: "رابط المنصة", category: "الفئة المختارة", quantity: "الميزانية ($)", price: "إجمالي المستحق", email: "البريد الإلكتروني", placeholderLink: "بانتظار التعرف على الحساب...", placeholderCat: "اضغط لتحديد نوع الخدمة...", placeholderQty: "الحد الأدنى 10 دولار", payBtn: "تأكيد الطلب والدفع", safeText: "بوابة دفع آمنة مشفرة بواسطة SERVIO" },
+            en: { navT1: "Official Top Up", navT2: "Center", newRequest: "Order Details", platform: "Platform Link", category: "Category", quantity: "Budget ($)", price: "Total Due", email: "Email", placeholderLink: "Awaiting link...", placeholderCat: "Tap to select service...", placeholderQty: "Min budget $10", payBtn: "Confirm & Pay", safeText: "Secure & Encrypted Gateway" }
         };
 
         const flags = {
@@ -280,6 +285,7 @@
 
             const savedCategory = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
+            
             if (savedCategory) {
                 categorySpan.textContent = savedCategory;
                 categorySpan.style.color = "var(--text-dark)";
@@ -289,7 +295,7 @@
                 categorySpan.style.color = "#94a3b8";
             }
 
-            // استقبال الرابط القادم من الصفحة الأولى
+            // استقبال الرابط القادم من الصفحة الأولى عبر URL
             const params = new URLSearchParams(window.location.search);
             const linkFromUrl = params.get('link');
             if (linkFromUrl) {
@@ -309,9 +315,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // تصفير فقط إذا لم يكن هناك فئة مختارة (دخول جديد للمسار)
+            // تصفير ذكي: لا يتم التصفير إلا إذا لم يكن العائد من صفحة الفئات
             if (!localStorage.getItem("chosen_service")) {
-                clearInputs();
+                clearAllInputs();
             }
 
             const quantity = document.getElementById("quantity");
@@ -356,9 +362,10 @@
             updateUI();
         });
 
+        // لضمان التصفير عند ضغط زر الرجوع في المتصفح
         window.onpageshow = function(event) {
-            if (!localStorage.getItem("chosen_service")) {
-                clearInputs();
+            if (event.persisted || !localStorage.getItem("chosen_service")) {
+                clearAllInputs();
             }
             updateUI();
         };
