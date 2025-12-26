@@ -1,3 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="notranslate" translate="no"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Servio - Full Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c;
+            --primary-blue: #2563eb; --text-light: #64748b; --bg-gray: #f1f5f9;
+            --card-bg: #ffffff; --fb-color: #1877F2; --ig-color: #E4405F; 
+            --tt-color: #000000; --dc-color: #5865F2; --tw-color: #9146FF;
+        }
+
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; }
+        .main-container { width: 100%; max-width: 480px; background-color: var(--bg-gray); display: flex; flex-direction: column; min-height: 100vh; position: relative; }
+
+        header { 
+            width: 100%; height: 65px; background-color: var(--bg-light); border-bottom: 1px solid var(--border-gray); 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box; 
+            position: sticky; top: 0; z-index: 1001;
+        }
+        .brand-section { display: flex; align-items: center; }
+        .logo-img { height: 28px; width: auto; }
+        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
+        .title-box { display: flex; flex-direction: column; }
+        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
+        .info-display-wrapper { display: flex; align-items: center; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0 12px; height: 34px; gap: 5px; }
+        .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
+        .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
+        .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
+
+        .search-sticky { position: sticky; top: 65px; z-index: 1000; background: var(--bg-gray); padding: 12px 16px; }
+        .search-wrapper { position: relative; width: 100%; }
+        .search-input { 
+            width: 100%; padding: 12px 15px 12px 42px; border-radius: 12px; border: 1px solid var(--border-gray); 
+            background: var(--card-bg); box-shadow: 0 2px 8px rgba(0,0,0,0.04); outline: none; font-size: 14px; box-sizing: border-box;
+        }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+
+        .content-area { padding: 0 16px 110px 16px; }
+        .category-label { font-size: 11px; font-weight: 800; color: var(--text-light); margin: 20px 0 10px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
+        .category-label::after { content: ""; flex: 1; height: 1px; background: #cbd5e0; }
+
+        .service-item { background: var(--card-bg); padding: 16px; border-radius: 16px; border: 2px solid transparent; cursor: pointer; display: flex; align-items: center; margin-bottom: 8px; transition: 0.2s; }
+        .service-item.selected { border-color: var(--primary-blue); background-color: #eff6ff; }
+
+        .platform-logo { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-inline-end: 14px; color: white; flex-shrink: 0; }
+        .bg-fb { background: var(--fb-color); }
+        .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-tt { background: var(--tt-color); }
+        .bg-dc { background: var(--dc-color); }
+        .bg-tw { background: var(--tw-color); }
+        
+        .service-name { font-size: 13.5px; font-weight: 700; color: var(--text-dark); flex: 1; line-height: 1.4; text-align: start; }
+        .check-icon { color: var(--primary-blue); font-size: 20px; display: none; margin-inline-start: 10px; }
+        .service-item.selected .check-icon { display: block; }
+        
+        .back-fab {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(120px);
+            background: var(--primary-blue); color: white; padding: 14px 30px; border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3); font-weight: 700; font-size: 15px; 
+            z-index: 2000; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border: none; display: flex; align-items: center; gap: 10px;
+        }
+        .back-fab.visible { transform: translateX(-50%) translateY(0); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <header>
+            <div class="brand-section">
+                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
+                <div class="v-line"></div>
+                <div class="title-box">
+                    <span id="nav-t1"></span>
+                    <span id="nav-t2"></span>
+                </div>
+            </div>
+            <div class="info-display-wrapper">
+                <div id="flag-display"></div>
+                <div class="display-text">
+                    <span id="label-reg">---</span>
+                    <span style="color:#cbd5e0;">|</span>
+                    <span id="label-lng">--</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-sticky">
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="serviceSearch" class="search-input">
+            </div>
+        </div>
+
+        <div class="content-area" id="servicesList"></div>
+
+        <button class="back-fab" id="confirmBtn" onclick="window.history.back()">
+            <span id="btn-text">تأكيد</span>
+            <i class="fa-solid fa-check"></i>
+        </button>
+    </div>
+
+    <script>
+        const translations = {
+            ar: { 
+                navT1: "مركز الشحن", navT2: "الرسمي", search: "ابحث عن خدمة...", btn: "تأكيد الاختيار",
+                regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"] 
+            },
+            en: { 
+                navT1: "Official Top Up", navT2: "Center", search: "Search service...", btn: "Confirm Selection",
+                regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other"] 
+            }
+        };
+
+        const flags = {
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
+            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
+        };
+
         const servicesData = [
             { cat: ["Facebook", "فيسبوك"], icon: "bg-fb", fa: "fa-facebook-f", items: [
                 ["Facebook - Followers [Bot Data] [Cheapest]", "فيسبوك - المتابعون [بيانات البوت] [الأرخص]"],
@@ -17,14 +143,14 @@
                 ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة"],
                 ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور"],
                 ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة"],
-                ["Facebook - Live Stream Views (Extra)", "فيسبوك - مشاهدات مباشرة"] // الخيار رقم 18 المكرر
+                ["Facebook - Live Stream Views", "فيسبوك - مشاهدات مباشرة"]
             ]},
             { cat: ["Instagram", "إنستغرام"], icon: "bg-ig", fa: "fa-instagram", items: [
                 ["Instagram - Followers", "إنستغرام - المتابعون"],
                 ["Instagram - Video Views", "إنستغرام - عدد المشاهدات"],
                 ["Instagram - Followers [100% Avg > 15 Months]", "إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]"],
                 ["Instagram - Likes", "إنستغرام - الإعجابات"],
-                ["Instagram - Video Views (Extra)", "إنستغرام - عدد المشاهدات"],
+                ["Instagram - Video Views", "إنستغرام - عدد المشاهدات"],
                 ["Instagram - Saves", "إنستغرام - يحفظ"],
                 ["Instagram - Comments", "إنستغرام - التعليقات"],
                 ["Instagram - Story Views", "إنستغرام - مشاهدات القصص"],
@@ -54,9 +180,9 @@
             { cat: ["Discord", "ديسكورد"], icon: "bg-dc", fa: "fa-discord", items: [
                 ["Discord - Members [Online]", "دیسکورد - الأعضاء [متصلون بالإنترنت]"],
                 ["Discord - Members [Offline]", "ديسكورد - الأعضاء [غير متصلين]"],
-                ["Discord - Reaction", "دیسکورد - رد فعل"],
-                ["Discord - Token", "دیسکورد - رمز مميز"],
-                ["Discord - Server Boost [1 Month]", "دیسکورد - تعزيز الخادم [شهر واحد]"],
+                ["Discord - Reaction", "دیسكورد - رد فعل"],
+                ["Discord - Token", "دیسكورد - رمز مميز"],
+                ["Discord - Server Boost [1 Month]", "دیسكورد - تعزيز الخادم [شهر واحد]"],
                 ["Discord - Server Boost [3 Months]", "ديسكورد - تعزيز الخادم [3 أشهر]"]
             ]},
             { cat: ["Twitch", "تويتش"], icon: "bg-tw", fa: "fa-twitch", items: [
@@ -71,3 +197,69 @@
                 ["Twitch - Live Views [HQ | Germany]", "تويتش - مشاهدات مباشرة جودة عالية | ألمانيا ]"]
             ]}
         ];
+
+        function init() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const t = translations[lang];
+            const isAr = lang === 'ar';
+
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            document.getElementById('nav-t1').innerText = t.navT1;
+            document.getElementById('nav-t2').innerText = t.navT2;
+            document.getElementById('label-lng').innerText = lang.toUpperCase();
+            document.getElementById('label-reg').innerText = t.regions[regIdx];
+            document.getElementById('serviceSearch').placeholder = t.search;
+            document.getElementById('btn-text').innerText = t.btn;
+
+            const flagKey = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"][regIdx];
+            document.getElementById('flag-display').innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
+
+            const list = document.getElementById('servicesList');
+            list.innerHTML = "";
+            servicesData.forEach(group => {
+                const label = document.createElement('div');
+                label.className = 'category-label';
+                label.innerText = isAr ? group.cat[1] : group.cat[0];
+                list.appendChild(label);
+
+                group.items.forEach(pair => {
+                    const nameToShow = isAr ? pair[1] : pair[0];
+                    const item = document.createElement('div');
+                    item.className = 'service-item';
+                    item.onclick = function() {
+                        document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
+                        this.classList.add('selected');
+                        localStorage.setItem('chosen_service', nameToShow);
+                        document.getElementById('confirmBtn').classList.add('visible');
+                    };
+                    item.innerHTML = `
+                        <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
+                        <span class="service-name">${nameToShow}</span>
+                        <i class="fa-solid fa-circle-check check-icon"></i>
+                    `;
+                    list.appendChild(item);
+                });
+            });
+        }
+
+        document.getElementById('serviceSearch').addEventListener('input', function(e) {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.service-item').forEach(el => {
+                const text = el.querySelector('.service-name').innerText.toLowerCase();
+                el.classList.toggle('hidden', !text.includes(val));
+            });
+            document.querySelectorAll('.category-label').forEach(label => {
+                let n = label.nextElementSibling, visible = false;
+                while(n && !n.classList.contains('category-label')) {
+                    if(!n.classList.contains('hidden')) { visible = true; break; }
+                    n = n.nextElementSibling;
+                }
+                label.classList.toggle('hidden', !visible);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
