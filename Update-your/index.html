@@ -42,17 +42,18 @@
         .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
         .clickable-box { cursor: pointer; background: #fafafa; }
         
-        /* حالة الخطأ للحقول */
+        /* حالة الخطأ */
         .input-box.error-state { border-color: var(--error-red) !important; background-color: #fff5f5; animation: shake 0.4s ease; }
 
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         .input-box svg { width: 20px; height: 20px; fill: #94a3b8; margin-left: 12px; flex-shrink: 0; }
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); text-align: right; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
         .price-container { background: #f8fafc; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin: 8px 0; border: 1px solid #e2e8f0; }
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
         .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
 
-        /* --- تصميم الزر --- */
+        /* --- تحسين الزر --- */
         #payBtn {
             width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
             position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
@@ -60,17 +61,14 @@
         }
 
         #payBtn:active { transform: scale(0.96); }
-        #payBtn:disabled { background: #334155; }
         
-        #btn-text-content { transition: transform 0.3s ease, opacity 0.3s ease; }
-
-        /* حالة التحميل */
+        #btn-text-content { transition: all 0.3s ease; }
         .loading #btn-text-content { opacity: 0; transform: scale(0.5); }
+        
         .spinner {
             position: absolute; width: 24px; height: 24px;
             border: 3px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
             animation: spin 0.8s linear infinite;
         }
         .loading .spinner { opacity: 1; }
@@ -79,7 +77,6 @@
         
         .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
         .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
-        .servio-footer { margin-top: 30px; padding-bottom: 20px; text-align: center; font-size: 10px; color: #94a3b8; font-weight: 700; letter-spacing: 1px; }
         .flag-icon { width: 16px; height: 11px; border-radius: 1px; object-fit: cover; }
     </style>
 </head>
@@ -115,7 +112,7 @@
                         <label class="label" id="label-category">الفئة المختارة</label>
                         <div class="input-box clickable-box" id="box-category">
                             <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                            <span id="category">اضغط للتحديد...</span>
+                            <span id="category">اضغط لتحديد نوع الخدمة...</span>
                         </div>
                     </div>
 
@@ -123,7 +120,7 @@
                         <label class="label" id="label-quantity">الميزانية ($)</label>
                         <div class="input-box" id="box-quantity">
                             <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A2,2 0 0,1 8,11V9A2,2 0 0,1 10,7H11V6H13V7H15V9H11V10H14A2,2 0 0,1 16,12V14A2,2 0 0,1 14,16H13V17H11Z"/></svg>
-                            <input id="quantity" type="number" min="10" inputmode="decimal" placeholder="Min $10">
+                            <input id="quantity" type="number" min="10" inputmode="decimal" placeholder="الحد الأدنى 10$">
                         </div>
                     </div>
 
@@ -160,16 +157,15 @@
         function validateEmail(email) { return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/); }
 
         function goToCategory() {
-            const currentLink = document.getElementById("platformLink").value;
-            localStorage.setItem("temp_link", currentLink);
+            localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             localStorage.setItem("temp_email", document.getElementById("email").value);
             localStorage.setItem("temp_qty", document.getElementById("quantity").value);
-            location.href = `../Category/?link=${encodeURIComponent(currentLink)}`;
+            location.href = `../Category/?link=${encodeURIComponent(document.getElementById("platformLink").value)}`;
         }
 
         const translations = {
-            ar: { navT1: "مركز الشحن", navT2: "الرسمي", newRequest: "تفاصيل الطلب", platform: "رابط المنصة", category: "الفئة المختارة", quantity: "الميزانية ($)", price: "إجمالي المستحق", email: "البريد الإلكتروني", placeholderLink: "بانتظار الرابط...", placeholderCat: "اضغط للتحديد...", placeholderQty: "الحد الأدنى 10$", payBtn: "تأكيد الطلب والدفع", safeText: "بوابة دفع آمنة مشفرة بواسطة SERVIO" },
-            en: { navT1: "Official Top Up", navT2: "Center", newRequest: "Order Details", platform: "Platform Link", category: "Category", quantity: "Budget ($)", price: "Total Due", email: "Email", placeholderLink: "Waiting link...", placeholderCat: "Tap to select...", placeholderQty: "Min $10", payBtn: "Confirm & Pay", safeText: "Secure Encrypted Gateway" }
+            ar: { navT1: "مركز الشحن", navT2: "الرسمي", placeholderCat: "اضغط لتحديد نوع الخدمة..." },
+            en: { navT1: "Official Top Up", navT2: "Center", placeholderCat: "Tap to select service..." }
         };
 
         const flags = {
@@ -183,46 +179,43 @@
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
 
-        function resetUIState() {
-            const payBtn = document.getElementById("payBtn");
-            payBtn.classList.remove('loading');
-            payBtn.disabled = false;
+        function resetPayButton() {
+            const btn = document.getElementById("payBtn");
+            btn.classList.remove('loading');
+            btn.disabled = false;
         }
 
         function updateUI() {
-            resetUIState(); // إعادة ضبط الزر عند أي تحديث
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const dict = translations[lang];
 
             document.getElementById('nav-t1').innerText = dict.navT1;
-            document.getElementById('nav-t2').innerText = dict.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = regionData.regions[lang][regIdx];
-            document.getElementById('text-new-request').innerText = dict.newRequest;
-            document.getElementById('label-platform').innerText = dict.platform;
-            document.getElementById('label-category').innerText = dict.category;
-            document.getElementById('label-quantity').innerText = dict.quantity;
-            document.getElementById('label-price').innerText = dict.price;
-            document.getElementById('label-email').innerText = dict.email;
-            document.getElementById('btn-text-content').innerText = dict.payBtn;
-            document.getElementById('safe-text').innerText = dict.safeText;
-            document.getElementById('platformLink').placeholder = dict.placeholderLink;
-            document.getElementById('quantity').placeholder = dict.placeholderQty;
 
+            // استعادة البيانات
             const params = new URLSearchParams(window.location.search);
             const linkFromUrl = params.get('link');
-            if (linkFromUrl) { document.getElementById("platformLink").value = decodeURIComponent(linkFromUrl); }
-            else if (localStorage.getItem("temp_link")) { document.getElementById("platformLink").value = localStorage.getItem("temp_link"); }
+            if (linkFromUrl) document.getElementById("platformLink").value = decodeURIComponent(linkFromUrl);
+            else if (localStorage.getItem("temp_link")) document.getElementById("platformLink").value = localStorage.getItem("temp_link");
 
-            const savedCategory = localStorage.getItem("chosen_service");
+            // --- إصلاح قسم الفئة المختارة ---
+            const chosenService = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
-            if (savedCategory) {
-                categorySpan.textContent = savedCategory;
+            if (chosenService && chosenService !== "") {
+                categorySpan.textContent = chosenService;
                 categorySpan.style.color = "var(--text-dark)";
+                // استرجاع الباقي
                 document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-                const savedQty = localStorage.getItem("temp_qty");
-                if (savedQty) { document.getElementById("quantity").value = savedQty; document.getElementById("display-price").textContent = `$${parseFloat(savedQty).toFixed(2)}`; }
+                const q = localStorage.getItem("temp_qty");
+                if (q) {
+                    document.getElementById("quantity").value = q;
+                    document.getElementById("display-price").textContent = `$${parseFloat(q).toFixed(2)}`;
+                }
+            } else {
+                categorySpan.textContent = dict.placeholderCat;
+                categorySpan.style.color = "#94a3b8";
             }
 
             const flagKey = regionData.keys[regIdx];
@@ -231,55 +224,54 @@
             else flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
         }
 
-        function flashError(boxId) { const box = document.getElementById(boxId); box.classList.add('error-state'); setTimeout(() => { box.classList.remove('error-state'); }, 1000); }
+        function flashError(id) {
+            const el = document.getElementById(id);
+            el.classList.add('error-state');
+            setTimeout(() => el.classList.remove('error-state'), 1000);
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
-            const quantityInput = document.getElementById("quantity");
-            const priceDisplay = document.getElementById("display-price");
-            const payBtn = document.getElementById("payBtn");
+            const qtyInput = document.getElementById("quantity");
+            qtyInput.oninput = () => { document.getElementById("display-price").textContent = `$${(parseFloat(qtyInput.value) || 0).toFixed(2)}`; };
 
-            quantityInput.addEventListener("input", () => { const val = parseFloat(quantityInput.value) || 0; priceDisplay.textContent = `$${Math.max(0, val).toFixed(2)}`; });
+            document.getElementById("payBtn").onclick = async function() {
+                const link = document.getElementById("platformLink").value;
+                const email = document.getElementById("email").value;
+                const qty = parseFloat(qtyInput.value) || 0;
+                const service = localStorage.getItem("chosen_service"); // التحقق من المخزن وليس النص
 
-            payBtn.addEventListener("click", async function() {
-                const budget = parseFloat(quantityInput.value) || 0;
-                const chosenCat = localStorage.getItem("chosen_service");
-                const email = document.getElementById("email").value.trim();
-                const link = document.getElementById("platformLink").value.trim();
+                let ok = true;
+                if (!link) { flashError('box-platform'); ok = false; }
+                if (!service || service === "") { flashError('box-category'); ok = false; }
+                if (qty < 10) { flashError('box-quantity'); ok = false; }
+                if (!validateEmail(email)) { flashError('box-email'); ok = false; }
 
-                let isValid = true;
-                if (!link) { flashError('box-platform'); isValid = false; }
-                // تحديث: التحقق من الفئة وجعل الصندوق أحمر إذا كانت فارغة
-                if (!chosenCat || chosenCat.includes("اضغط")) { flashError('box-category'); isValid = false; }
-                if (budget < 10) { flashError('box-quantity'); isValid = false; }
-                if (!validateEmail(email)) { flashError('box-email'); isValid = false; }
+                if (!ok) return;
 
-                if (!isValid) return;
-
-                payBtn.classList.add('loading');
-                payBtn.disabled = true;
+                this.classList.add('loading');
+                this.disabled = true;
 
                 try {
-                    const data = { platformLink: link, category: chosenCat, quantity: budget, charge: priceDisplay.textContent, gmail: email };
+                    const data = { platformLink: link, category: service, quantity: qty, charge: `$${qty.toFixed(2)}`, gmail: email };
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-
+                    
                     setTimeout(() => {
                         localStorage.removeItem("chosen_service");
                         localStorage.removeItem("temp_link");
                         localStorage.removeItem("temp_email");
                         localStorage.removeItem("temp_qty");
-                        window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
+                        location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                     }, 500);
-
-                } catch (error) {
-                    setTimeout(() => { window.location.href = `Confirm/?link=${encodeURIComponent(link)}`; }, 500);
+                } catch (e) {
+                    location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                 }
-            });
+            };
         });
 
-        // حل مشكلة الزر عند العودة للخلف (BFCache)
+        // تصفير حالة الزر عند العودة
         window.addEventListener('pageshow', (event) => {
-            resetUIState();
+            resetPayButton();
             updateUI();
         });
     </script>
