@@ -30,7 +30,6 @@
             background-color: #ffffff; display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر (كما هو بدون تغيير) --- */
         header { 
             width: 100%; height: 60px; background-color: #fff; 
             border-bottom: 1px solid #e2e8f0; display: flex; 
@@ -50,7 +49,6 @@
         }
         .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
 
-        /* --- تحسين القسم الثاني --- */
         .content-area { padding: 12px 16px; flex: 1; }
 
         .order-card {
@@ -83,8 +81,8 @@
             height: 48px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* حالة الخطأ المومض */
-        .input-box.error-state { border-color: var(--error-red); background-color: #fff5f5; }
+        /* حالة الخطأ الوميضي الموحدة */
+        .input-box.error-state { border-color: var(--error-red) !important; background-color: #fff5f5 !important; }
         
         .input-box svg { width: 18px; height: 18px; fill: #94a3b8; margin-left: 10px; flex-shrink: 0; }
         .input-box input, .input-box span {
@@ -229,10 +227,10 @@
         function goToCategory() {
             const currentLink = document.getElementById("platformLink").value;
             localStorage.setItem("temp_link", currentLink);
+            sessionStorage.setItem("choosing_mode", "true");
             location.href = `../Category/?link=${encodeURIComponent(currentLink)}`;
         }
 
-        // دالة التصفير الشاملة
         function clearAllInputs() {
             document.getElementById("platformLink").value = "";
             document.getElementById("quantity").value = "";
@@ -285,17 +283,18 @@
 
             const savedCategory = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
-            
-            if (savedCategory) {
+            const isChoosing = sessionStorage.getItem("choosing_mode");
+
+            if (savedCategory && isChoosing) {
                 categorySpan.textContent = savedCategory;
                 categorySpan.style.color = "var(--text-dark)";
                 document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
             } else {
                 categorySpan.textContent = dict.placeholderCat;
                 categorySpan.style.color = "#94a3b8";
+                localStorage.removeItem("chosen_service");
             }
 
-            // استقبال الرابط القادم من الصفحة الأولى عبر URL
             const params = new URLSearchParams(window.location.search);
             const linkFromUrl = params.get('link');
             if (linkFromUrl) {
@@ -315,8 +314,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // تصفير ذكي: لا يتم التصفير إلا إذا لم يكن العائد من صفحة الفئات
-            if (!localStorage.getItem("chosen_service")) {
+            if (!sessionStorage.getItem("choosing_mode")) {
                 clearAllInputs();
             }
 
@@ -338,7 +336,10 @@
 
                 let isValid = true;
                 if (!link) { flashError('box-platform'); isValid = false; }
+                
+                // إضافة الوميض الأحمر لخانة الفئة إذا كانت فارغة
                 if (!chosenCat) { flashError('box-category'); isValid = false; }
+                
                 if (budget < 10) { flashError('box-quantity'); isValid = false; }
                 if (!validateEmail(email)) { flashError('box-email'); isValid = false; }
 
@@ -355,6 +356,7 @@
                 }).then(() => {
                     localStorage.removeItem("chosen_service");
                     localStorage.removeItem("temp_link");
+                    sessionStorage.removeItem("choosing_mode");
                     window.location.href = "Confirm/"; 
                 }).catch(() => { window.location.href = "Confirm/"; });
             });
@@ -362,9 +364,9 @@
             updateUI();
         });
 
-        // لضمان التصفير عند ضغط زر الرجوع في المتصفح
         window.onpageshow = function(event) {
-            if (event.persisted || !localStorage.getItem("chosen_service")) {
+            if (event.persisted) {
+                sessionStorage.removeItem("choosing_mode");
                 clearAllInputs();
             }
             updateUI();
