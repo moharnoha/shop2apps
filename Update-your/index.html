@@ -15,6 +15,7 @@
             --success-green: #10b981;
             --error-red: #ef4444;
             --bg-gray: #f8fafc;
+            --border-color: #e2e8f0;
         }
 
         body { 
@@ -50,71 +51,108 @@
         }
         .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
 
-        /* --- تحسين القسم الثاني --- */
-        .content-area { padding: 12px 16px; flex: 1; }
+        /* --- تحسين القسم الثاني (Content Area) --- */
+        .content-area { 
+            padding: 20px 16px; 
+            flex: 1;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
 
         .order-card {
-            width: 100%; background: #ffffff; border-radius: 20px;
-            border: 1px solid #edf2f7; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.04);
-            padding: 20px; box-sizing: border-box;
+            width: 100%; background: #ffffff; border-radius: 24px;
+            border: 1px solid rgba(226, 232, 240, 0.8); 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
+            padding: 24px; box-sizing: border-box;
+            position: relative;
         }
 
         .order-header { 
             display: flex; align-items: center; 
-            gap: 12px; margin-bottom: 18px; padding-bottom: 12px;
+            gap: 14px; margin-bottom: 24px; padding-bottom: 16px;
             border-bottom: 1px solid #f1f5f9;
         }
         
         .order-icon-circle {
-            width: 45px; height: 45px; background: var(--bg-gray); 
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px; background: #f1f5f9; 
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent);
         }
-        .order-icon-circle svg { width: 22px; height: 22px; fill: var(--accent); }
-        .order-title { font-size: 15px; font-weight: 800; color: var(--text-dark); }
+        .order-icon-circle svg { width: 24px; height: 24px; fill: currentColor; }
+        .order-title { font-size: 17px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
 
-        .form-grid { display: flex; flex-direction: column; gap: 14px; }
+        .form-grid { display: flex; flex-direction: column; gap: 18px; }
 
-        .field { width: 100%; }
-        .field .label { font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block; }
+        .field { width: 100%; position: relative; }
+        .field .label { 
+            font-size: 12px; font-weight: 700; color: #64748b; 
+            margin-bottom: 8px; display: block; margin-right: 4px;
+        }
 
         .input-box {
-            display: flex; align-items: center; background: #fff;
-            border: 1.5px solid #f1f5f9; border-radius: 12px; padding: 0 12px; 
-            height: 48px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; background: #ffffff;
+            border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; 
+            height: 52px; transition: all 0.3s ease;
+        }
+
+        .input-box:focus-within {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06);
         }
         
-        /* حالة الخطأ المومض */
-        .input-box.error-state { border-color: var(--error-red); background-color: #fff5f5; }
+        /* حالة القسم القابل للضغط (الفئة) */
+        .clickable-box {
+            cursor: pointer;
+            background: #fafafa;
+            border-style: solid;
+        }
+        .clickable-box:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
         
-        .input-box svg { width: 18px; height: 18px; fill: #94a3b8; margin-left: 10px; flex-shrink: 0; }
+        .input-box.error-state { 
+            border-color: var(--error-red) !important; 
+            background-color: #fff5f5; 
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .input-box svg { width: 20px; height: 20px; fill: #94a3b8; margin-left: 12px; flex-shrink: 0; }
         .input-box input, .input-box span {
             flex: 1; border: none; outline: none; background: none;
             font-size: 14px; font-weight: 600; color: var(--text-dark);
             text-align: right; width: 100%;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         .price-container {
-            background: #f8fafc; border-radius: 12px; padding: 12px 16px;
+            background: #f8fafc; border-radius: 16px; padding: 16px;
             display: flex; justify-content: space-between; align-items: center;
-            margin: 5px 0; border: 1px dashed #cbd5e1;
+            margin: 8px 0; border: 1px solid #e2e8f0;
         }
 
-        .price-label { font-size: 13px; font-weight: 700; color: #475569; }
-        .price-value { font-size: 20px; font-weight: 800; color: var(--primary-blue); }
+        .price-label { font-size: 14px; font-weight: 700; color: #475569; }
+        .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
 
         #payBtn {
-            width: 100%; height: 54px; border: none;
-            border-radius: 12px; background: #000;
-            color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: all 0.2s;
+            width: 100%; height: 56px; border: none;
+            border-radius: 14px; background: #000;
+            color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transition: all 0.3s ease;
         }
 
-        #payBtn:active { transform: scale(0.97); }
-        #payBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+        #payBtn:hover { background: #1a1a1a; transform: translateY(-1px); }
+        #payBtn:active { transform: translateY(1px) scale(0.98); }
+        #payBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         .spinner {
-            width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,0.3);
+            width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.2);
             border-top-color: #fff; border-radius: 50%;
             animation: spin 0.8s linear infinite; display: none;
         }
@@ -122,14 +160,14 @@
         
         .security-badge {
             display: flex; align-items: center; justify-content: center;
-            gap: 5px; margin-top: 10px; color: #64748b; font-size: 10px; font-weight: 600;
+            gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600;
         }
-        .security-badge svg { width: 12px; height: 12px; fill: var(--success-green); }
+        .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
 
         .servio-footer { 
-            margin-top: 20px; padding-bottom: 20px; text-align: center; 
-            font-size: 9px; color: #cbd5e1; font-weight: 700; 
-            letter-spacing: 0.5px;
+            margin-top: 30px; padding-bottom: 20px; text-align: center; 
+            font-size: 10px; color: #94a3b8; font-weight: 700; 
+            letter-spacing: 1px;
         }
 
         .flag-icon { width: 16px; height: 11px; border-radius: 1px; object-fit: cover; }
@@ -175,9 +213,9 @@
                         </div>
                     </div>
 
-                    <div class="field" onclick="goToCategory()" style="cursor: pointer;">
+                    <div class="field" onclick="goToCategory()">
                         <label class="label" id="label-category">الفئة المختارة</label>
-                        <div class="input-box" id="box-category" style="background: #fdfdfd; border-style: dashed; border-color: #cbd5e1;">
+                        <div class="input-box clickable-box" id="box-category">
                             <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
                             <span id="category">اضغط لتحديد نوع الخدمة...</span>
                         </div>
@@ -227,22 +265,28 @@
         }
 
         function goToCategory() {
+            // حفظ الرابط والبيانات الحالية قبل الانتقال لصفحة الفئات
             const currentLink = document.getElementById("platformLink").value;
             localStorage.setItem("temp_link", currentLink);
+            // نحتفظ بالإيميل والميزانية أيضاً لتجربة مستخدم أفضل
+            localStorage.setItem("temp_email", document.getElementById("email").value);
+            localStorage.setItem("temp_qty", document.getElementById("quantity").value);
+            
             location.href = `../Category/?link=${encodeURIComponent(currentLink)}`;
         }
 
-        // دالة التصفير الشاملة
         function clearAllInputs() {
+            // إذا كان هناك فئة مختارة، لا نصفر البيانات (لأن المستخدم عاد من صفحة الاختيار)
+            if (localStorage.getItem("chosen_service")) return;
+
             document.getElementById("platformLink").value = "";
             document.getElementById("quantity").value = "";
             document.getElementById("email").value = "";
             document.getElementById("display-price").textContent = "$0.00";
-            localStorage.removeItem("chosen_service");
-            localStorage.removeItem("temp_link");
             
             const categorySpan = document.getElementById("category");
-            categorySpan.textContent = "اضغط لتحديد نوع الخدمة...";
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            categorySpan.textContent = translations[lang].placeholderCat;
             categorySpan.style.color = "#94a3b8";
         }
 
@@ -289,13 +333,19 @@
             if (savedCategory) {
                 categorySpan.textContent = savedCategory;
                 categorySpan.style.color = "var(--text-dark)";
+                // استعادة البيانات المؤقتة
                 document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
+                document.getElementById("email").value = localStorage.getItem("temp_email") || "";
+                const savedQty = localStorage.getItem("temp_qty");
+                if (savedQty) {
+                    document.getElementById("quantity").value = savedQty;
+                    document.getElementById("display-price").textContent = `$${parseFloat(savedQty).toFixed(2)}`;
+                }
             } else {
                 categorySpan.textContent = dict.placeholderCat;
                 categorySpan.style.color = "#94a3b8";
             }
 
-            // استقبال الرابط القادم من الصفحة الأولى عبر URL
             const params = new URLSearchParams(window.location.search);
             const linkFromUrl = params.get('link');
             if (linkFromUrl) {
@@ -315,11 +365,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // تصفير ذكي: لا يتم التصفير إلا إذا لم يكن العائد من صفحة الفئات
-            if (!localStorage.getItem("chosen_service")) {
-                clearAllInputs();
-            }
-
+            updateUI();
+            
             const quantity = document.getElementById("quantity");
             const priceDisplay = document.getElementById("display-price");
             const emailInput = document.getElementById("email");
@@ -353,20 +400,18 @@
                     mode: "no-cors", 
                     body: JSON.stringify({ platformLink: link, category: chosenCat, quantity: budget, charge: priceDisplay.textContent, gmail: email }) 
                 }).then(() => {
+                    // تنظيف البيانات عند النجاح فقط
                     localStorage.removeItem("chosen_service");
                     localStorage.removeItem("temp_link");
+                    localStorage.removeItem("temp_email");
+                    localStorage.removeItem("temp_qty");
                     window.location.href = "Confirm/"; 
                 }).catch(() => { window.location.href = "Confirm/"; });
             });
-
-            updateUI();
         });
 
-        // لضمان التصفير عند ضغط زر الرجوع في المتصفح
         window.onpageshow = function(event) {
-            if (event.persisted || !localStorage.getItem("chosen_service")) {
-                clearAllInputs();
-            }
+            // تحديث الواجهة عند العودة للخلف للتأكد من ظهور الفئة المختارة
             updateUI();
         };
     </script>
