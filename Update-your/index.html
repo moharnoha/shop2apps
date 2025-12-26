@@ -214,7 +214,18 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // دالة التصفير (تستثني الفئة عند التحميل الأولي لتسمح بظهور الاختيار)
+        // --- وظيفة استقبال الرابط من الـ URL (تعديل الطلب) ---
+        function getLinkFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const link = params.get('link');
+            if (link) {
+                // تخزينه أيضاً في المتصفح لضمان استمراريته عند الانتقال بين الفئات
+                localStorage.setItem("saved_player_link", link);
+                return link;
+            }
+            return localStorage.getItem("saved_player_link") || "";
+        }
+
         function forceResetFields(clearCategory = false) {
             const quantity = document.getElementById("quantity");
             const email = document.getElementById("email");
@@ -306,7 +317,8 @@
             const priceDisplay = document.getElementById("display-price");
             const platform = document.getElementById("platformLink");
 
-            platform.value = localStorage.getItem("saved_player_link") || "";
+            // --- التعديل هنا لضمان كتابة الرابط القادم من الصفحة الأولى ---
+            platform.value = getLinkFromUrl();
             
             quantity.addEventListener("input", () => {
                 const val = parseFloat(quantity.value) || 0;
@@ -333,7 +345,7 @@
 
                 fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
                 .then(() => {
-                    forceResetFields(true); // تصفير شامل للفئة بعد النجاح
+                    forceResetFields(true);
                     window.location.href = "Confirm/"; 
                 }).catch(() => {
                     forceResetFields(true);
@@ -342,20 +354,16 @@
             });
         }
 
-        // الحماية والتحديث
         document.addEventListener('DOMContentLoaded', () => {
-            // تصفير الميزانية والإيميل فقط عند الدخول للسماح بظهور الفئة المختارة
             forceResetFields(false); 
             initLogic();
             updateUI();
         });
 
         window.addEventListener('pageshow', (event) => {
-            // إذا كان المستخدم راجعاً من صفحة الدفع (Confirm) يصفر كل شيء بما فيها الفئة
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 forceResetFields(true);
             } else {
-                // تصفير الميزانية فقط ليبقى اختيار الفئة ظاهراً
                 forceResetFields(false);
             }
             updateUI();
