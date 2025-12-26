@@ -50,132 +50,65 @@
         }
         .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
 
-        .content-area { 
-            padding: 20px 16px; 
-            flex: 1;
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-        }
+        .content-area { padding: 20px 16px; flex: 1; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); }
 
         .order-card {
             width: 100%; background: #ffffff; border-radius: 24px;
             border: 1px solid rgba(226, 232, 240, 0.8); 
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
-            padding: 24px; box-sizing: border-box;
-            position: relative;
+            padding: 24px; box-sizing: border-box; position: relative;
         }
 
-        .order-header { 
-            display: flex; align-items: center; 
-            gap: 14px; margin-bottom: 24px; padding-bottom: 16px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        
-        .order-icon-circle {
-            width: 48px; height: 48px; background: #f1f5f9; 
-            border-radius: 14px; display: flex; align-items: center; justify-content: center;
-            color: var(--accent);
-        }
+        .order-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+        .order-icon-circle { width: 48px; height: 48px; background: #f1f5f9; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
         .order-icon-circle svg { width: 24px; height: 24px; fill: currentColor; }
         .order-title { font-size: 17px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
 
         .form-grid { display: flex; flex-direction: column; gap: 18px; }
-
         .field { width: 100%; position: relative; }
-        .field .label { 
-            font-size: 12px; font-weight: 700; color: #64748b; 
-            margin-bottom: 8px; display: block; margin-right: 4px;
-        }
+        .field .label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; display: block; margin-right: 4px; }
 
-        .input-box {
-            display: flex; align-items: center; background: #ffffff;
-            border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; 
-            height: 52px; transition: all 0.3s ease;
-        }
-
-        .input-box:focus-within {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06);
-        }
-        
+        .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; height: 52px; transition: all 0.3s ease; }
+        .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
         .clickable-box { cursor: pointer; background: #fafafa; }
-        .input-box.error-state { 
-            border-color: var(--error-red) !important; 
-            background-color: #fff5f5; 
-            animation: shake 0.4s ease;
-        }
+        .input-box.error-state { border-color: var(--error-red) !important; background-color: #fff5f5; animation: shake 0.4s ease; }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         
         .input-box svg { width: 20px; height: 20px; fill: #94a3b8; margin-left: 12px; flex-shrink: 0; }
-        .input-box input, .input-box span {
-            flex: 1; border: none; outline: none; background: none;
-            font-size: 14px; font-weight: 600; color: var(--text-dark);
-            text-align: right; width: 100%;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); text-align: right; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .price-container {
-            background: #f8fafc; border-radius: 16px; padding: 16px;
-            display: flex; justify-content: space-between; align-items: center;
-            margin: 8px 0; border: 1px solid #e2e8f0;
-        }
-
+        .price-container { background: #f8fafc; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin: 8px 0; border: 1px solid #e2e8f0; }
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
         .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
 
-        /* --- تحسين الزر وسلاسة التحميل --- */
+        /* --- تصميم الزر المطور --- */
         #payBtn {
-            width: 100%; height: 56px; border: none;
-            border-radius: 14px; background: #000;
-            color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
-            position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
+            position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        #payBtn:active { transform: scale(0.97); }
-        #payBtn:disabled { background: #475569; cursor: not-allowed; }
+        #payBtn:active { transform: scale(0.96); }
+        #payBtn:disabled { background: #334155; cursor: wait; }
 
-        #btn-text-content {
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
+        #btn-text-content { transition: all 0.2s ease; }
 
-        .loading #btn-text-content {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
+        /* حالة التحميل */
+        .loading #btn-text-content { opacity: 0; transform: scale(0.8); }
+        
         .spinner {
-            position: absolute;
-            width: 24px; height: 24px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            display: none;
-            animation: spin 0.8s linear infinite;
+            position: absolute; width: 24px; height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%;
+            display: none; animation: spin 0.8s linear infinite;
         }
 
         .loading .spinner { display: block; }
-
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .security-badge {
-            display: flex; align-items: center; justify-content: center;
-            gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600;
-        }
+        .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
         .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
-
-        .servio-footer { 
-            margin-top: 30px; padding-bottom: 20px; text-align: center; 
-            font-size: 10px; color: #94a3b8; font-weight: 700; 
-            letter-spacing: 1px;
-        }
-
+        .servio-footer { margin-top: 30px; padding-bottom: 20px; text-align: center; font-size: 10px; color: #94a3b8; font-weight: 700; letter-spacing: 1px; }
         .flag-icon { width: 16px; height: 11px; border-radius: 1px; object-fit: cover; }
     </style>
 </head>
@@ -193,20 +126,14 @@
             </div>
             <div class="info-display-wrapper">
                 <div id="flag-display"></div>
-                <div class="display-text">
-                    <span id="label-reg">---</span>
-                    <span style="color:#e2e8f0; margin:0 2px;">|</span>
-                    <span id="label-lng">--</span>
-                </div>
+                <div class="display-text"><span id="label-reg">---</span><span style="color:#e2e8f0; margin:0 2px;">|</span><span id="label-lng">--</span></div>
             </div>
         </header>
 
         <div class="content-area">
             <div class="order-card">
                 <div class="order-header">
-                    <div class="order-icon-circle">
-                        <svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg>
-                    </div>
+                    <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
                     <div class="order-title" id="text-new-request">تفاصيل الطلب</div>
                 </div>
 
@@ -215,7 +142,7 @@
                         <label class="label" id="label-platform">رابط المنصة</label>
                         <div class="input-box" id="box-platform">
                             <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                            <input id="platformLink" readonly placeholder="بانتظار التعرف على الحساب...">
+                            <input id="platformLink" readonly placeholder="...">
                         </div>
                     </div>
 
@@ -223,7 +150,7 @@
                         <label class="label" id="label-category">الفئة المختارة</label>
                         <div class="input-box clickable-box" id="box-category">
                             <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                            <span id="category">اضغط لتحديد نوع الخدمة...</span>
+                            <span id="category">اضغط للتحديد...</span>
                         </div>
                     </div>
 
@@ -231,7 +158,7 @@
                         <label class="label" id="label-quantity">الميزانية ($)</label>
                         <div class="input-box" id="box-quantity">
                             <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A2,2 0 0,1 8,11V9A2,2 0 0,1 10,7H11V6H13V7H15V9H11V10H14A2,2 0 0,1 16,12V14A2,2 0 0,1 14,16H13V17H11Z"/></svg>
-                            <input id="quantity" type="number" min="10" inputmode="decimal" placeholder="الحد الأدنى 10 دولار">
+                            <input id="quantity" type="number" min="10" inputmode="decimal" placeholder="Min $10">
                         </div>
                     </div>
 
@@ -259,16 +186,13 @@
                     </div>
                 </div>
             </div>
-            <div class="servio-footer">SECURE TRANSACTION BY SERVIO</div>
         </div>
     </div>
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        function validateEmail(email) {
-            return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        }
+        function validateEmail(email) { return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/); }
 
         function goToCategory() {
             const currentLink = document.getElementById("platformLink").value;
@@ -279,8 +203,8 @@
         }
 
         const translations = {
-            ar: { navT1: "مركز الشحن", navT2: "الرسمي", newRequest: "تفاصيل الطلب", platform: "رابط المنصة", category: "الفئة المختارة", quantity: "الميزانية ($)", price: "إجمالي المستحق", email: "البريد الإلكتروني", placeholderLink: "بانتظار التعرف على الحساب...", placeholderCat: "اضغط لتحديد نوع الخدمة...", placeholderQty: "الحد الأدنى 10 دولار", payBtn: "تأكيد الطلب والدفع", safeText: "بوابة دفع آمنة مشفرة بواسطة SERVIO" },
-            en: { navT1: "Official Top Up", navT2: "Center", newRequest: "Order Details", platform: "Platform Link", category: "Category", quantity: "Budget ($)", price: "Total Due", email: "Email", placeholderLink: "Awaiting link...", placeholderCat: "Tap to select service...", placeholderQty: "Min budget $10", payBtn: "Confirm & Pay", safeText: "Secure & Encrypted Gateway" }
+            ar: { navT1: "مركز الشحن", navT2: "الرسمي", newRequest: "تفاصيل الطلب", platform: "رابط المنصة", category: "الفئة المختارة", quantity: "الميزانية ($)", price: "إجمالي المستحق", email: "البريد الإلكتروني", placeholderLink: "بانتظار الرابط...", placeholderCat: "اضغط للتحديد...", placeholderQty: "الحد الأدنى 10$", payBtn: "تأكيد الطلب والدفع", safeText: "بوابة دفع آمنة مشفرة بواسطة SERVIO" },
+            en: { navT1: "Official Top Up", navT2: "Center", newRequest: "Order Details", platform: "Platform Link", category: "Category", quantity: "Budget ($)", price: "Total Due", email: "Email", placeholderLink: "Waiting link...", placeholderCat: "Tap to select...", placeholderQty: "Min $10", payBtn: "Confirm & Pay", safeText: "Secure Encrypted Gateway" }
         };
 
         const flags = {
@@ -311,34 +235,22 @@
             document.getElementById('label-email').innerText = dict.email;
             document.getElementById('btn-text-content').innerText = dict.payBtn;
             document.getElementById('safe-text').innerText = dict.safeText;
-            
             document.getElementById('platformLink').placeholder = dict.placeholderLink;
             document.getElementById('quantity').placeholder = dict.placeholderQty;
 
-            // استعادة الرابط من URL أو التخزين
             const params = new URLSearchParams(window.location.search);
             const linkFromUrl = params.get('link');
-            if (linkFromUrl) {
-                document.getElementById("platformLink").value = decodeURIComponent(linkFromUrl);
-            } else if (localStorage.getItem("temp_link")) {
-                document.getElementById("platformLink").value = localStorage.getItem("temp_link");
-            }
+            if (linkFromUrl) { document.getElementById("platformLink").value = decodeURIComponent(linkFromUrl); }
+            else if (localStorage.getItem("temp_link")) { document.getElementById("platformLink").value = localStorage.getItem("temp_link"); }
 
             const savedCategory = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
-            
             if (savedCategory) {
                 categorySpan.textContent = savedCategory;
                 categorySpan.style.color = "var(--text-dark)";
                 document.getElementById("email").value = localStorage.getItem("temp_email") || "";
                 const savedQty = localStorage.getItem("temp_qty");
-                if (savedQty) {
-                    document.getElementById("quantity").value = savedQty;
-                    document.getElementById("display-price").textContent = `$${parseFloat(savedQty).toFixed(2)}`;
-                }
-            } else {
-                categorySpan.textContent = dict.placeholderCat;
-                categorySpan.style.color = "#94a3b8";
+                if (savedQty) { document.getElementById("quantity").value = savedQty; document.getElementById("display-price").textContent = `$${parseFloat(savedQty).toFixed(2)}`; }
             }
 
             const flagKey = regionData.keys[regIdx];
@@ -347,23 +259,15 @@
             else flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
         }
 
-        function flashError(boxId) {
-            const box = document.getElementById(boxId);
-            box.classList.add('error-state');
-            setTimeout(() => { box.classList.remove('error-state'); }, 1000);
-        }
+        function flashError(boxId) { const box = document.getElementById(boxId); box.classList.add('error-state'); setTimeout(() => { box.classList.remove('error-state'); }, 1000); }
 
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
-            
             const quantityInput = document.getElementById("quantity");
             const priceDisplay = document.getElementById("display-price");
             const payBtn = document.getElementById("payBtn");
 
-            quantityInput.addEventListener("input", () => {
-                const val = parseFloat(quantityInput.value) || 0;
-                priceDisplay.textContent = `$${Math.max(0, val).toFixed(2)}`;
-            });
+            quantityInput.addEventListener("input", () => { const val = parseFloat(quantityInput.value) || 0; priceDisplay.textContent = `$${Math.max(0, val).toFixed(2)}`; });
 
             payBtn.addEventListener("click", async function() {
                 const budget = parseFloat(quantityInput.value) || 0;
@@ -379,48 +283,31 @@
 
                 if (!isValid) return;
 
-                // --- تفعيل حالة التحميل السلسة ---
+                // تفعيل التحميل
                 payBtn.classList.add('loading');
                 payBtn.disabled = true;
 
                 try {
-                    const data = { 
-                        platformLink: link, 
-                        category: chosenCat, 
-                        quantity: budget, 
-                        charge: priceDisplay.textContent, 
-                        gmail: email 
-                    };
+                    const data = { platformLink: link, category: chosenCat, quantity: budget, charge: priceDisplay.textContent, gmail: email };
+                    await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
 
-                    await fetch(scriptURL, { 
-                        method: "POST", 
-                        mode: "no-cors", 
-                        body: JSON.stringify(data) 
-                    });
-
-                    // تنظيف البيانات
-                    localStorage.removeItem("chosen_service");
-                    localStorage.removeItem("temp_link");
-                    localStorage.removeItem("temp_email");
-                    localStorage.removeItem("temp_qty");
-
-                    // التوجيه مع الرابط
+                    // تنظيف البيانات والتوجيه بعد نصف ثانية من نجاح الإرسال
                     setTimeout(() => {
+                        localStorage.removeItem("chosen_service");
+                        localStorage.removeItem("temp_link");
+                        localStorage.removeItem("temp_email");
+                        localStorage.removeItem("temp_qty");
                         window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                    }, 1500);
+                    }, 500);
 
                 } catch (error) {
-                    window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                } finally {
-                    // إعادة الزر لوضعه الطبيعي بعد 4 ثواني لضمان القدرة على الضغط مجدداً
+                    // في حال الخطأ ننتظر نصف ثانية أيضاً قبل التوجيه القسري
                     setTimeout(() => {
-                        payBtn.classList.remove('loading');
-                        payBtn.disabled = false;
-                    }, 4000);
+                        window.location.href = `Confirm/?link=${encodeURIComponent(link)}`;
+                    }, 500);
                 }
             });
         });
-
         window.onpageshow = function(event) { updateUI(); };
     </script>
 </body>
