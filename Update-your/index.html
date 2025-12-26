@@ -13,6 +13,7 @@
             --primary-blue: #2563eb;
             --accent: #000000;
             --success-green: #10b981;
+            --bg-gray: #f8fafc;
         }
 
         body { 
@@ -29,98 +30,95 @@
         }
 
         header { 
-            width: 100%; height: 65px; background-color: #fff; 
+            width: 100%; height: 60px; background-color: #fff; 
             border-bottom: 1px solid #e2e8f0; display: flex; 
             align-items: center; justify-content: space-between; 
             padding: 0 16px; box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000;
         }
         .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 26px; width: auto; }
-        .v-line { width: 1.5px; height: 20px; background-color: #e2e8f0; margin: 0 12px; }
-        .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span { font-size: 10px; font-weight: 800; color: #64748b; line-height: 1.1; text-transform: uppercase; }
+        .logo-img { height: 22px; width: auto; }
+        .v-line { width: 1.5px; height: 18px; background-color: #e2e8f0; margin: 0 10px; }
+        .title-box span { font-size: 9px; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; line-height: 1.1; }
 
-        .header-left-group { display: flex; align-items: center; }
         .info-display-wrapper { 
-            display: flex; align-items: center; background: #f8fafc; 
-            border: 1px solid #e2e8f0; border-radius: 8px; 
-            padding: 0 10px; height: 36px; gap: 8px;
+            display: flex; align-items: center; background: var(--bg-gray); 
+            border: 1px solid #e2e8f0; border-radius: 6px; 
+            padding: 0 8px; height: 32px; gap: 6px;
         }
-        .display-text { font-size: 11px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 4px; }
-        .flag-icon { width: 18px; height: 13px; border-radius: 2px; object-fit: cover; }
+        .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
 
-        .content-area { padding: 20px; flex: 1; }
+        .content-area { padding: 12px 16px; flex: 1; }
 
+        /* تحسين البطاقة لتقليل الفراغات */
         .order-card {
-            width: 100%; background: #ffffff; border-radius: 28px;
-            border: 1px solid #edf2f7; box-shadow: 0 15px 35px -5px rgba(0,0,0,0.05);
-            padding: 24px; box-sizing: border-box;
+            width: 100%; background: #ffffff; border-radius: 20px;
+            border: 1px solid #edf2f7; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.04);
+            padding: 20px; box-sizing: border-box;
         }
 
         .order-header { 
-            display: flex; flex-direction: column; align-items: center; 
-            gap: 12px; margin-bottom: 25px; text-align: center;
+            display: flex; align-items: center; 
+            gap: 12px; margin-bottom: 18px; padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
         }
         
         .order-icon-circle {
-            width: 60px; height: 60px; background: #f8fafc; 
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            border: 1px solid #f1f5f9;
+            width: 45px; height: 45px; background: var(--bg-gray); 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
         }
-        .order-icon-circle svg { width: 30px; height: 30px; fill: var(--accent); }
-        .order-title { font-size: 17px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.2px; line-height: 1.3; }
+        .order-icon-circle svg { width: 22px; height: 22px; fill: var(--accent); }
+        .order-title { font-size: 15px; font-weight: 800; color: var(--text-dark); }
 
-        .form-grid { display: flex; flex-direction: column; gap: 18px; }
+        .form-grid { display: flex; flex-direction: column; gap: 14px; }
 
         .field { width: 100%; }
-        .field .label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; margin-right: 4px; display: block; }
+        .field .label { font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block; }
 
         .input-box {
-            display: flex; align-items: center; background: #fdfdfe;
-            border: 1.5px solid #f1f5f9; border-radius: 14px; padding: 0 16px; 
-            height: 54px; transition: all 0.2s ease;
+            display: flex; align-items: center; background: #fff;
+            border: 1.5px solid #f1f5f9; border-radius: 12px; padding: 0 12px; 
+            height: 48px; transition: all 0.2s ease;
         }
         
-        .input-box svg { width: 20px; height: 20px; fill: #94a3b8; margin-left: 12px; flex-shrink: 0; }
+        .input-box svg { width: 18px; height: 18px; fill: #94a3b8; margin-left: 10px; flex-shrink: 0; }
         .input-box input, .input-box span {
             flex: 1; border: none; outline: none; background: none;
-            font-size: 15px; font-weight: 600; color: var(--text-dark);
-            text-align: right; height: 100%; display: flex; align-items: center;
+            font-size: 14px; font-weight: 600; color: var(--text-dark);
+            text-align: right;
         }
 
+        /* تحسين قسم السعر */
         .price-container {
-            background: #f8fafc; border-radius: 16px; padding: 18px;
+            background: #f8fafc; border-radius: 12px; padding: 12px 16px;
             display: flex; justify-content: space-between; align-items: center;
-            margin: 8px 0; border: 1px dashed #cbd5e1;
+            margin: 5px 0; border: 1px dashed #cbd5e1;
         }
 
-        .price-label { font-size: 14px; font-weight: 700; color: #475569; }
-        .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
+        .price-label { font-size: 13px; font-weight: 700; color: #475569; }
+        .price-value { font-size: 20px; font-weight: 800; color: var(--primary-blue); }
 
         #payBtn {
-            width: 100%; margin-top: 15px; height: 60px; border: none;
-            border-radius: 16px; background: #000000;
-            color: #ffffff; font-size: 16px; font-weight: 700; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 100%; height: 54px; border: none;
+            border-radius: 12px; background: #000;
+            color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         
-        #payBtn:active { transform: scale(0.98); background: #1a1a1a; }
-        .btn-lock-icon svg { width: 18px; height: 18px; fill: #ffffff; }
-
         .security-badge {
             display: flex; align-items: center; justify-content: center;
-            gap: 6px; margin-top: 12px; color: #64748b; font-size: 11px; font-weight: 600;
+            gap: 5px; margin-top: 10px; color: #64748b; font-size: 10px; font-weight: 600;
         }
-        .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
+        .security-badge svg { width: 12px; height: 12px; fill: var(--success-green); }
 
         .servio-footer { 
-            margin-top: 25px; padding: 10px 0; text-align: center; 
-            font-size: 10px; color: #94a3b8; font-weight: 700; 
-            letter-spacing: 1px; text-transform: uppercase;
+            margin-top: 20px; padding-bottom: 20px; text-align: center; 
+            font-size: 9px; color: #cbd5e1; font-weight: 700; 
+            letter-spacing: 0.5px;
         }
+
+        .flag-icon { width: 16px; height: 11px; border-radius: 1px; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -135,14 +133,12 @@
                     <span id="nav-t2">Center</span>
                 </div>
             </div>
-            <div class="header-left-group">
-                <div class="info-display-wrapper">
-                    <div id="flag-display"></div>
-                    <div class="display-text">
-                        <span id="label-reg">---</span>
-                        <span style="color:#e2e8f0;">|</span>
-                        <span id="label-lng">--</span>
-                    </div>
+            <div class="info-display-wrapper">
+                <div id="flag-display"></div>
+                <div class="display-text">
+                    <span id="label-reg">---</span>
+                    <span style="color:#e2e8f0; margin:0 2px;">|</span>
+                    <span id="label-lng">--</span>
                 </div>
             </div>
         </header>
@@ -153,7 +149,7 @@
                     <div class="order-icon-circle">
                         <svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg>
                     </div>
-                    <div class="order-title" id="text-new-request">عزز جمهورك</div>
+                    <div class="order-title" id="text-new-request">تفاصيل الطلب</div>
                 </div>
 
                 <div class="form-grid">
@@ -165,24 +161,24 @@
                         </div>
                     </div>
 
-                    <div class="field" onclick="location.href='../Category/'" style="cursor: pointer;">
+                    <div class="field" onclick="goToCategory()" style="cursor: pointer;">
                         <label class="label" id="label-category">الفئة المختارة</label>
-                        <div class="input-box" style="background: #f8fafc; border-style: dashed;">
+                        <div class="input-box" style="background: #fdfdfd; border-style: dashed; border-color: #cbd5e1;">
                             <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                            <span id="category">Select Category...</span>
+                            <span id="category">...</span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label class="label" id="label-quantity">الميزانية المختارة ($)</label>
+                        <label class="label" id="label-quantity">الميزانية ($)</label>
                         <div class="input-box">
                             <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A2,2 0 0,1 8,11V9A2,2 0 0,1 10,7H11V6H13V7H15V9H11V10H14A2,2 0 0,1 16,12V14A2,2 0 0,1 14,16H13V17H11Z"/></svg>
-                            <input id="quantity" type="number" min="10" placeholder="الأدنى: 10 دولار">
+                            <input id="quantity" type="number" min="10">
                         </div>
                     </div>
 
                     <div class="field">
-                        <label class="label" id="label-email">البريد الإلكتروني للإشعارات</label>
+                        <label class="label" id="label-email">البريد الإلكتروني</label>
                         <div class="input-box">
                             <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
                             <input id="email" type="email" placeholder="example@gmail.com">
@@ -190,80 +186,55 @@
                     </div>
 
                     <div class="price-container">
-                        <span class="price-label" id="label-price">إجمالي المستحق</span>
+                        <span class="price-label" id="label-price">المستحق</span>
                         <span class="price-value" id="display-price">$0.00</span>
                     </div>
 
                     <button id="payBtn">
-                        <span class="btn-lock-icon">
-                            <svg viewBox="0 0 24 24"><path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V7A5,5 0 0,1 12,2A5,5 0 0,1 17,7V8H18M12,4A3,3 0 0,0 9,7V8H15V7A3,3 0 0,0 12,4Z"/></svg>
-                        </span>
-                        <span id="btn-text-content">إتمام عملية الدفع</span>
+                        <span id="btn-text-content">دفع الآن</span>
                     </button>
+                    
                     <div class="security-badge">
                         <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
-                        <span id="safe-text">دفع آمن ومشفّر عبر نظام SERVIO</span>
+                        <span id="safe-text">آمن ومشفّر بواسطة SERVIO</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="servio-footer" id="footer-text">SECURE TRANSACTION BY SERVIO</div>
+            <div class="servio-footer">SECURE TRANSACTION BY SERVIO</div>
         </div>
     </div>
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // دالة لجلب الرابط من الـ URL (المشكلة التي ذكرتها)
-        function getLinkFromUrl() {
+        function goToCategory() {
+            const currentLink = document.getElementById("platformLink").value;
+            location.href = `../Category/?link=${encodeURIComponent(currentLink)}`;
+        }
+
+        function getLink() {
             const params = new URLSearchParams(window.location.search);
-            const link = params.get('link');
-            if (link) {
-                localStorage.setItem("saved_player_link", link);
-                return link;
+            const linkParam = params.get('link');
+            if (linkParam) {
+                localStorage.setItem("saved_player_link", linkParam);
+                return linkParam;
             }
             return localStorage.getItem("saved_player_link") || "";
         }
 
-        function forceResetFields(clearCategory = false) {
-            const quantity = document.getElementById("quantity");
-            const email = document.getElementById("email");
-            const priceDisplay = document.getElementById("display-price");
-
-            if(quantity) quantity.value = "";
-            if(email) email.value = "";
-            if(priceDisplay) priceDisplay.textContent = "$0.00";
-
-            if (clearCategory) {
-                localStorage.removeItem("chosen_service");
-            }
-        }
-
         const translations = {
-            ar: {
-                navT1: "مركز الشحن", navT2: "الرسمي", newRequest: "عزز جمهورك",
-                platform: "رابط المنصة", category: "الفئة المختارة", quantity: "الميزانية المختارة ($)",
-                placeholderQty: "الأدنى: 10 دولار", price: "إجمالي المستحق", email: "البريد الإلكتروني",
-                placeholderCat: "اختر الفئة من هنا...", payBtn: "إتمام عملية الدفع",
-                safeText: "دفع آمن ومشفّر عبر نظام SERVIO", footer: "عملية آمنة وموثوقة بواسطة SERVIO"
-            },
-            en: {
-                navT1: "Official Top Up", navT2: "Center", newRequest: "Audience Boost",
-                platform: "Platform Link", category: "Chosen Category", quantity: "Chosen Budget ($)",
-                placeholderQty: "Minimum: $10", price: "Total Amount Due", email: "Email Address",
-                placeholderCat: "Select Category...", payBtn: "Proceed to Payment",
-                safeText: "Secure & Encrypted via SERVIO System", footer: "SECURE TRANSACTION BY SERVIO"
-            }
+            ar: { navT1: "مركز الشحن", navT2: "الرسمي", newRequest: "تفاصيل الطلب", platform: "رابط المنصة", category: "الفئة المختارة", quantity: "الميزانية ($)", placeholderQty: "الأدنى 10", price: "المستحق", email: "البريد الإلكتروني", placeholderCat: "اختر الفئة...", payBtn: "دفع الآن", safeText: "آمن ومشفّر بواسطة SERVIO" },
+            en: { navT1: "Official Top Up", navT2: "Center", newRequest: "Order Details", platform: "Platform Link", category: "Category", quantity: "Budget ($)", placeholderQty: "Min 10", price: "Total", email: "Email", placeholderCat: "Select...", payBtn: "Pay Now", safeText: "Secure & Encrypted" }
         };
 
         const flags = {
-            mena: `<svg viewBox="0 0 24 24" style="fill:#64748b; width:16px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            mena: `<svg viewBox="0 0 24 24" style="fill:#64748b; width:14px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
-            other: `<svg viewBox="0 0 24 24" style="fill:#64748b; width:16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
+            other: `<svg viewBox="0 0 24 24" style="fill:#64748b; width:14px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
         const regionData = {
-            regions: { ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"], en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] },
+            regions: { ar: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "أخرى"], en: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi", "Tunisia", "UAE", "Other"] },
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
 
@@ -284,15 +255,13 @@
             document.getElementById('label-email').innerText = dict.email;
             document.getElementById('btn-text-content').innerText = dict.payBtn;
             document.getElementById('safe-text').innerText = dict.safeText;
-            document.getElementById('footer-text').innerText = dict.footer;
             document.getElementById('quantity').placeholder = dict.placeholderQty;
 
-            // تحديث عرض الفئة (Category) من الـ localStorage
             const savedCategory = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
             if (savedCategory) {
                 categorySpan.textContent = savedCategory;
-                categorySpan.style.color = "#1e293b";
+                categorySpan.style.color = "var(--text-dark)";
             } else {
                 categorySpan.textContent = dict.placeholderCat;
                 categorySpan.style.color = "#94a3b8";
@@ -301,65 +270,52 @@
             const flagKey = regionData.keys[regIdx];
             const flagBox = document.getElementById('flag-display');
             if (flagKey === 'mena' || flagKey === 'other') flagBox.innerHTML = flags[flagKey];
-            else flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon" style="width:18px;">`;
+            else flagBox.innerHTML = `<img src="${flags[flagKey]}" class="flag-icon">`;
+            
+            document.getElementById("platformLink").value = getLink();
         }
 
-        function initLogic() {
+        document.addEventListener('DOMContentLoaded', () => {
             const quantity = document.getElementById("quantity");
-            const email = document.getElementById("email");
-            const btn = document.getElementById("payBtn");
             const priceDisplay = document.getElementById("display-price");
-            const platform = document.getElementById("platformLink");
-
-            // استقبال الرابط من الصفحة السابقة
-            platform.value = getLinkFromUrl();
             
             quantity.addEventListener("input", () => {
                 const val = parseFloat(quantity.value) || 0;
                 priceDisplay.textContent = `$${val.toFixed(2)}`;
             });
 
-            btn.addEventListener("click", () => {
+            document.getElementById("payBtn").addEventListener("click", function() {
                 const budget = parseFloat(quantity.value) || 0;
                 const chosenCat = localStorage.getItem("chosen_service");
-                const lang = localStorage.getItem('pref_lang') || 'ar';
+                const email = document.getElementById("email").value;
 
-                if (budget < 10 || !chosenCat || !email.value) return;
+                if (budget < 10 || !chosenCat || !email) {
+                    alert("يرجى إكمال جميع الحقول بشكل صحيح");
+                    return;
+                }
 
-                btn.disabled = true;
-                document.getElementById('btn-text-content').textContent = (lang === 'ar') ? "...جاري المعالجة" : "Processing...";
+                this.disabled = true;
+                this.innerText = "...";
 
                 const data = {
-                    platformLink: platform.value,
+                    platformLink: document.getElementById("platformLink").value,
                     category: chosenCat,
                     quantity: budget,
                     charge: priceDisplay.textContent,
-                    gmail: email.value
+                    gmail: email
                 };
 
                 fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
                 .then(() => {
-                    forceResetFields(true);
+                    localStorage.removeItem("chosen_service");
                     window.location.href = "Confirm/"; 
-                }).catch(() => {
-                    forceResetFields(true);
-                    window.location.href = "Confirm/";
-                });
+                }).catch(() => { window.location.href = "Confirm/"; });
             });
-        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // لا تصفر الفئة هنا لكي تظهر عند الدخول
-            forceResetFields(false); 
-            initLogic();
             updateUI();
         });
 
-        window.addEventListener('pageshow', (event) => {
-            // تحديث الـ UI عند العودة للخلف للتأكد من ظهور الفئة
-            updateUI();
-        });
-
+        window.onpageshow = function() { updateUI(); };
     </script>
 </body>
 </html>
