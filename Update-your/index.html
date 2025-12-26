@@ -214,12 +214,11 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // --- وظيفة استقبال الرابط من الـ URL (تعديل الطلب) ---
+        // دالة لجلب الرابط من الـ URL (المشكلة التي ذكرتها)
         function getLinkFromUrl() {
             const params = new URLSearchParams(window.location.search);
             const link = params.get('link');
             if (link) {
-                // تخزينه أيضاً في المتصفح لضمان استمراريته عند الانتقال بين الفئات
                 localStorage.setItem("saved_player_link", link);
                 return link;
             }
@@ -230,7 +229,6 @@
             const quantity = document.getElementById("quantity");
             const email = document.getElementById("email");
             const priceDisplay = document.getElementById("display-price");
-            const categorySpan = document.getElementById("category");
 
             if(quantity) quantity.value = "";
             if(email) email.value = "";
@@ -238,11 +236,6 @@
 
             if (clearCategory) {
                 localStorage.removeItem("chosen_service");
-                const lang = localStorage.getItem('pref_lang') || 'ar';
-                if(categorySpan) {
-                    categorySpan.textContent = (lang === 'ar') ? "اختر الفئة من هنا..." : "Select Category...";
-                    categorySpan.style.color = "#94a3b8";
-                }
             }
         }
 
@@ -294,6 +287,7 @@
             document.getElementById('footer-text').innerText = dict.footer;
             document.getElementById('quantity').placeholder = dict.placeholderQty;
 
+            // تحديث عرض الفئة (Category) من الـ localStorage
             const savedCategory = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
             if (savedCategory) {
@@ -317,7 +311,7 @@
             const priceDisplay = document.getElementById("display-price");
             const platform = document.getElementById("platformLink");
 
-            // --- التعديل هنا لضمان كتابة الرابط القادم من الصفحة الأولى ---
+            // استقبال الرابط من الصفحة السابقة
             platform.value = getLinkFromUrl();
             
             quantity.addEventListener("input", () => {
@@ -355,17 +349,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // لا تصفر الفئة هنا لكي تظهر عند الدخول
             forceResetFields(false); 
             initLogic();
             updateUI();
         });
 
         window.addEventListener('pageshow', (event) => {
-            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-                forceResetFields(true);
-            } else {
-                forceResetFields(false);
-            }
+            // تحديث الـ UI عند العودة للخلف للتأكد من ظهور الفئة
             updateUI();
         });
 
