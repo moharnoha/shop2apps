@@ -30,7 +30,6 @@
             background-color: #ffffff; display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر (بدون تغيير) --- */
         header { 
             width: 100%; height: 60px; background-color: #fff; 
             border-bottom: 1px solid #e2e8f0; display: flex; 
@@ -50,7 +49,6 @@
         }
         .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
 
-        /* --- القسم الثاني المحسن --- */
         .content-area { padding: 12px 16px; flex: 1; }
 
         .order-card {
@@ -81,11 +79,14 @@
             display: flex; align-items: center; background: #fff;
             border: 1.5px solid #f1f5f9; border-radius: 12px; padding: 0 12px; 
             height: 48px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
         }
         
         /* حالة الخطأ الوميضي */
-        .input-box.error-state { border-color: var(--error-red) !important; background-color: #fff5f5 !important; }
+        .input-box.error-state { 
+            border-color: var(--error-red) !important; 
+            background-color: #fff5f5 !important; 
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
         
         .input-box svg { width: 18px; height: 18px; fill: #94a3b8; margin-left: 10px; flex-shrink: 0; }
         .input-box input, .input-box span {
@@ -94,6 +95,9 @@
             text-align: right; width: 100%;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
+
+        /* تنسيق خاص لنص الفئة عند الاختيار */
+        #category { transition: color 0.3s ease; }
 
         .price-container {
             background: #f8fafc; border-radius: 12px; padding: 12px 16px;
@@ -228,6 +232,7 @@
             return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         }
 
+        // 1. الانتقال لصفحة الفئات وحفظ الرابط الحالي
         function goToCategory() {
             const currentLink = document.getElementById("platformLink").value;
             localStorage.setItem("temp_link", currentLink);
@@ -235,6 +240,7 @@
             location.href = `../Category/?link=${encodeURIComponent(currentLink)}`;
         }
 
+        // 2. تصفير الحقول
         function clearAllInputs() {
             document.getElementById("platformLink").value = "";
             document.getElementById("quantity").value = "";
@@ -244,7 +250,7 @@
             localStorage.removeItem("temp_link");
             
             const categorySpan = document.getElementById("category");
-            categorySpan.textContent = "اضغط لتحديد نوع الخدمة...";
+            categorySpan.textContent = translations[localStorage.getItem('pref_lang') || 'ar'].placeholderCat;
             categorySpan.style.color = "#94a3b8";
         }
 
@@ -264,6 +270,7 @@
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
 
+        // 3. تحديث الواجهة واسترجاع الاختيار من الـ LocalStorage
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
@@ -285,25 +292,18 @@
             document.getElementById('platformLink').placeholder = dict.placeholderLink;
             document.getElementById('quantity').placeholder = dict.placeholderQty;
 
+            // استرجاع الخدمة المختارة وكتابتها في الخانة
             const savedCategory = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
             const isChoosing = sessionStorage.getItem("choosing_mode");
 
             if (savedCategory && isChoosing) {
-                // هنا نقوم بكتابة الفئة المختارة داخل الخانة وتغيير لونها
                 categorySpan.textContent = savedCategory;
-                categorySpan.style.color = "var(--text-dark)";
+                categorySpan.style.color = "var(--text-dark)"; // تحويل اللون للأسود عند توفر قيمة
                 document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
             } else {
                 categorySpan.textContent = dict.placeholderCat;
-                categorySpan.style.color = "#94a3b8";
-                localStorage.removeItem("chosen_service");
-            }
-
-            const params = new URLSearchParams(window.location.search);
-            const linkFromUrl = params.get('link');
-            if (linkFromUrl) {
-                document.getElementById("platformLink").value = decodeURIComponent(linkFromUrl);
+                categorySpan.style.color = "#94a3b8"; // لون Placeholder
             }
 
             const flagKey = regionData.keys[regIdx];
@@ -319,6 +319,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // إذا لم يكن المستخدم في وضع "اختيار فئة"، يتم تصفير كل شيء
             if (!sessionStorage.getItem("choosing_mode")) {
                 clearAllInputs();
             }
@@ -340,8 +341,15 @@
                 const link = document.getElementById("platformLink").value.trim();
 
                 let isValid = true;
+                
                 if (!link) { flashError('box-platform'); isValid = false; }
-                if (!chosenCat) { flashError('box-category'); isValid = false; }
+                
+                // وميض أحمر لخانة الفئة إذا كانت فارغة
+                if (!chosenCat) { 
+                    flashError('box-category'); 
+                    isValid = false; 
+                }
+                
                 if (budget < 10) { flashError('box-quantity'); isValid = false; }
                 if (!validateEmail(email)) { flashError('box-email'); isValid = false; }
 
@@ -354,7 +362,13 @@
                 fetch(scriptURL, { 
                     method: "POST", 
                     mode: "no-cors", 
-                    body: JSON.stringify({ platformLink: link, category: chosenCat, quantity: budget, charge: priceDisplay.textContent, gmail: email }) 
+                    body: JSON.stringify({ 
+                        platformLink: link, 
+                        category: chosenCat, 
+                        quantity: budget, 
+                        charge: priceDisplay.textContent, 
+                        gmail: email 
+                    }) 
                 }).then(() => {
                     localStorage.removeItem("chosen_service");
                     localStorage.removeItem("temp_link");
@@ -366,10 +380,12 @@
             updateUI();
         });
 
+        // التعامل مع زر الرجوع في المتصفح
         window.onpageshow = function(event) {
             if (event.persisted) {
-                sessionStorage.removeItem("choosing_mode");
-                clearAllInputs();
+                if (!sessionStorage.getItem("choosing_mode")) {
+                    clearAllInputs();
+                }
             }
             updateUI();
         };
