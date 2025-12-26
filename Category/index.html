@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="notranslate" translate="no"> 
+<html lang="en" dir="ltr" class="notranslate" translate="no"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Servio - Smart Language Select</title>
+    <title>Servio - Services List</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -16,55 +16,79 @@
             --fb-color: #1877F2; --ig-color: #E4405F; --tt-color: #000000; --dc-color: #5865F2; --tw-color: #9146FF;
         }
         
-        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-body); display: flex; justify-content: center; transition: direction 0.3s; }
+        body { 
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-body); display: flex; justify-content: center;
+            direction: ltr; /* التوجه الافتراضي إنجليزي */
+        }
+
         .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; position: relative; }
 
-        /* البحث الثابت */
-        .header-sticky { position: sticky; top: 0; z-index: 1000; background: var(--bg-body); padding: 15px 16px 10px; }
+        .header-sticky {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--bg-body); padding: 15px 16px 10px 16px;
+        }
+
         .search-wrapper { position: relative; width: 100%; }
         .search-input { 
-            width: 100%; padding: 14px 45px 14px 15px; border-radius: 16px; border: 2px solid transparent; 
-            background: var(--card-bg); box-shadow: 0 4px 15px rgba(0,0,0,0.05); outline: none; font-size: 14px; box-sizing: border-box;
+            width: 100%; padding: 14px 15px 14px 45px; border-radius: 16px; 
+            border: 2px solid transparent; background: var(--card-bg); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); outline: none; 
+            font-size: 14px; transition: 0.3s; box-sizing: border-box;
         }
-        .search-icon { position: absolute; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+        .search-input:focus { border-color: var(--primary-blue); }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
 
-        /* تعديلات الاتجاهات */
-        [dir="rtl"] .search-icon { right: 16px; }
-        [dir="ltr"] .search-icon { left: 16px; }
-        [dir="ltr"] .search-input { padding: 14px 15px 14px 45px; }
+        .content-area { padding: 0 16px 100px 16px; }
 
-        .content-area { padding: 0 16px 100px; }
-        .category-label { font-size: 11px; font-weight: 800; color: var(--text-light); margin: 20px 0 10px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
+        .category-label { 
+            font-size: 11px; font-weight: 800; color: var(--text-light); margin: 25px 0 10px;
+            display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 1px;
+        }
         .category-label::after { content: ""; flex: 1; height: 1px; background: #cbd5e0; }
 
         .service-item {
-            background: var(--card-bg); padding: 14px; border-radius: 16px; border: 2px solid transparent; 
-            cursor: pointer; display: flex; align-items: center; margin-bottom: 8px; transition: 0.2s;
+            background: var(--card-bg); padding: 16px; border-radius: 18px; 
+            border: 2px solid transparent; cursor: pointer; 
+            display: flex; align-items: center; margin-bottom: 10px; transition: 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .service-item.selected { border-color: var(--primary-blue); background-color: #eff6ff; }
-
-        .platform-logo { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; flex-shrink: 0; }
-        [dir="rtl"] .platform-logo { margin-left: 14px; }
-        [dir="ltr"] .platform-logo { margin-right: 14px; }
-
-        .bg-fb { background: var(--fb-color); } .bg-ig { background: linear-gradient(45deg, #f09433, #bc1888); }
-        .bg-tt { background: var(--tt-color); } .bg-dc { background: var(--dc-color); } .bg-tw { background: var(--tw-color); }
-
-        .service-info { flex: 1; display: flex; flex-direction: column; overflow: hidden; text-align: inherit; }
-        .name-primary { font-size: 13px; font-weight: 700; color: var(--text-dark); }
-        .name-secondary { font-size: 10px; color: var(--text-light); margin-top: 2px; }
         
-        .check-icon { color: var(--primary-blue); font-size: 18px; display: none; margin: 0 8px; }
+        .service-item.selected {
+            border-color: var(--primary-blue);
+            background-color: #eff6ff;
+        }
+
+        .platform-logo {
+            width: 42px; height: 42px; border-radius: 12px; display: flex; 
+            align-items: center; justify-content: center; font-size: 20px; 
+            margin-right: 14px; color: white; flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .bg-fb { background: var(--fb-color); }
+        .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-tt { background: var(--tt-color); }
+        .bg-dc { background: var(--dc-color); }
+        .bg-tw { background: var(--tw-color); }
+
+        .service-info { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .name-en { font-size: 14px; font-weight: 700; color: var(--text-dark); line-height: 1.4; }
+        .name-ar { font-size: 12px; color: var(--text-light); margin-top: 3px; font-weight: 500; direction: rtl; text-align: left; }
+        
+        .check-icon { color: var(--primary-blue); font-size: 20px; display: none; margin-left: 10px; }
         .service-item.selected .check-icon { display: block; }
         
-        /* زر التأكيد العائم */
         .back-fab {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: var(--primary-blue); color: white; padding: 14px 28px; border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); display: flex; align-items: center; gap: 12px;
-            font-weight: 700; font-size: 15px; z-index: 2000; transition: 0.4s; cursor: pointer; border: none;
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(120px);
+            background: var(--primary-blue); color: white; padding: 14px 30px;
+            border-radius: 50px; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            display: flex; align-items: center; gap: 12px; font-weight: 700;
+            font-size: 16px; z-index: 2000; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; border: none; width: auto; white-space: nowrap;
         }
         .back-fab.visible { transform: translateX(-50%) translateY(0); }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -73,87 +97,109 @@
         <div class="header-sticky">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="serviceSearch" class="search-input" placeholder="... Search | بحث">
+                <input type="text" id="serviceSearch" class="search-input" placeholder="Search for a service...">
             </div>
         </div>
+
         <div class="content-area" id="servicesList"></div>
+
         <button class="back-fab" id="confirmBtn" onclick="window.history.back()">
-            <span id="btnText">تأكيد الاختيار | Confirm</span>
-            <i id="btnIcon" class="fa-solid fa-arrow-left"></i>
+            <span>Confirm Selection</span>
+            <i class="fa-solid fa-arrow-right"></i>
         </button>
     </div>
 
     <script>
-        // 1. نظام كشف اللغة التلقائي
-        // يفحص لغة الموقع الأصلية أو لغة المتصفح
-        const docLang = document.documentElement.lang.toLowerCase();
-        const browserLang = navigator.language.split('-')[0];
-        const isAr = docLang === 'ar' || browserLang === 'ar';
-
-        // ضبط الاتجاه واللغة بناءً على الكشف
-        document.documentElement.dir = isAr ? 'rtl' : 'ltr';
-        document.documentElement.lang = isAr ? 'ar' : 'en';
-        document.getElementById('serviceSearch').placeholder = isAr ? "ابحث عن خدمة..." : "Search services...";
-        document.getElementById('btnText').innerText = isAr ? "تأكيد الاختيار" : "Confirm Selection";
-        document.getElementById('btnIcon').className = isAr ? "fa-solid fa-arrow-left" : "fa-solid fa-arrow-right";
-
         const data = [
-            { cat: ["فيسبوك", "Facebook"], icon: "bg-fb", fa: "fa-facebook-f", items: [
-                ["فيسبوك - المتابعون [بيانات البوت]", "FB - Followers [Bot Data]"],
-                ["فيسبوك - متابعون [جودة بوت]", "FB - Followers [Bot Quality]"],
-                ["فيسبوك - عدد المتابعين [حقيقي]", "FB - Followers Count [Real]"],
-                ["فيسبوك - ردود الفعل [أسماء إنجليزية]", "FB - Post Reactions [EN Names]"],
-                ["فيسبوك - إعجابات الصفحة + المتابعين", "FB - Page Likes + Followers"],
-                ["فيسبوك - وقت المشاهدة [60 ألف دقيقة]", "FB - Watch Time [60K Mins]"],
-                ["فيسبوك - مشاهدات مباشرة", "FB - Live Stream Views"],
-                ["فيسبوك - المشاهدات", "FB - Video Views"],
-                ["فيسبوك - أعضاء المجموعة", "FB - Group Members"]
+            { cat: "Facebook", icon: "bg-fb", fa: "fa-facebook-f", items: [
+                ["Facebook - Followers [Bot Data] [Cheapest]", "فيسبوك - المتابعون [بيانات البوت] [الأرخص]"],
+                ["Facebook - Followers [Bot Quality]", "فيسبوك - متابعون [جودة بوت]"],
+                ["Facebook - Followers Count [Real]", "فيسبوك - عدد المتابعين [حقيقي]"],
+                ["Facebook - Post Reactions [English Names]", "فيسبوك - ردود الفعل على المنشورات [أسماء إنجليزية]"],
+                ["Facebook - Followers", "فيسبوك - المتابعون"],
+                ["Facebook - Page Likes + Followers [Cheapest]", "فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]"],
+                ["Facebook - Likes & Followers Count", "فيسبوك - عدد الإعجابات والمتابعين"],
+                ["Facebook - Post Likes", "فيسبوك - الإعجابات على المنشورات"],
+                ["Facebook - Post Reactions [Cheap]", "فيسبوك - ردود الفعل على المنشورات [رخيصة]"],
+                ["Facebook - Post Reactions", "فيسبوك - ردود الفعل على المنشور"],
+                ["Facebook - Watch Time [60,000 Minutes]", "فيسبوك - وقت المشاهدة [60 ألف دقيقة]"],
+                ["Facebook - Live Stream Views", "فيسبوك - مشاهدات مباشرة"],
+                ["Facebook - Video Views", "فيسبوك - المشاهدات"],
+                ["Facebook - Story Views", "فيسبوك - مشاهدات القصص"],
+                ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة"],
+                ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور"],
+                ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة"]
             ]},
-            { cat: ["إنستغرام", "Instagram"], icon: "bg-ig", fa: "fa-instagram", items: [
-                ["إنستغرام - المتابعون", "IG - Followers"],
-                ["إنستغرام - عدد المشاهدات", "IG - Video Views"],
-                ["إنستغرام - الإعجابات", "IG - Likes"],
-                ["إنستغرام - تعليقات", "IG - Comments"],
-                ["إنستغرام - مشاهدات مباشرة", "IG - Live Views"]
+            { cat: "Instagram", icon: "bg-ig", fa: "fa-instagram", items: [
+                ["Instagram - Followers", "إنستغرام - المتابعون"],
+                ["Instagram - Video Views", "إنستغرام - عدد المشاهدات"],
+                ["Instagram - Followers [Accounts 100% Older Than 15 Months]", "إنستغرام - المتابعون [حسابات 100% أكثر من 15 شهرًا]"],
+                ["Instagram - Likes", "إنستغرام - الإعجابات"],
+                ["Instagram - Saves", "إنستغرام - يحفظ"],
+                ["Instagram - Comments", "إنستغرام - التعليقات"],
+                ["Instagram - Story Views", "إنستغرام - مشاهدات القصص"],
+                ["Instagram - Live Likes", "إنستغرام - الإعجابات المباشرة"],
+                ["Instagram - Live Stream Views", "إنستغرام - مشاهدات مباشرة"]
             ]},
-            { cat: ["تيك توك", "TikTok"], icon: "bg-tt", fa: "fa-tiktok", items: [
-                ["تيك توك - المتابعون [الأرخص]", "TikTok - Followers [Cheapest]"],
-                ["تيك توك - متابعون حقيقيون", "TikTok - Real Followers"],
-                ["تيك توك - المشاهدات", "TikTok - Video Views"],
-                ["تيك توك - إعجابات", "TikTok - Likes"],
-                ["تيك توك - مشاهدات مباشرة", "TikTok - Live Views"]
+            { cat: "TikTok", icon: "bg-tt", fa: "fa-tiktok", items: [
+                ["TikTok - Followers [Bot Data] [Cheapest]", "تيك توك - المتابعون [بيانات البوت] [الأرخص]"],
+                ["TikTok - Real Quality Followers", "تيك توك - متابعون جودة حقيقية"],
+                ["TikTok - Ultra Fast Video Views", "تيك توك - المشاهدات سريعة للغاية"],
+                ["TikTok - Video Views", "تيك توك - المشاهدات"],
+                ["TikTok - High Quality Video Views", "تيك توك - مشاهدات [جودة عالية]"],
+                ["TikTok - Targeted Country Views", "تيك توك - المشاهدات البلد المستهدف"],
+                ["TikTok - Fast Likes", "تيك توك - [الإعجابات سريعة]"],
+                ["TikTok - Ultra Fast Likes", "تيك توك - [الإعجابات سريعة للغاية]"],
+                ["TikTok - Likes", "تيك توك - الإعجابات"],
+                ["TikTok - Likes [Hidden Profile]", "تيك توك - الإعجابات [ملف تعريف مخفي]"],
+                ["TikTok - Likes + Views", "تيك توك - الإعجابات + المشاهدات"],
+                ["TikTok - Comments", "تيك توك - التعليقات"],
+                ["TikTok - Saves", "تيك توك - يحفظ"],
+                ["TikTok - Shares", "تيك توك - أسهم"],
+                ["TikTok - Live Stream Views", "تيك توك - مشاهدات مباشرة"],
+                ["TikTok - Live Likes", "تيك توك - الإعجابات المباشرة"],
+                ["TikTok - Live Comments", "تيك توك - ( التعليقات المباشرة )"],
+                ["TikTok - Live Shares", "تيك توك - مشاركات مباشرة"]
             ]},
-            { cat: ["ديسكورد", "Discord"], icon: "bg-dc", fa: "fa-discord", items: [
-                ["ديسكورد - الأعضاء [متصلون]", "Discord - Members [Online]"],
-                ["ديسكورد - تعزيز الخادم", "Discord - Server Boost"]
+            { cat: "Discord & Twitch", icon: "bg-dc", fa: "fa-discord", items: [
+                ["Discord - Members [Online]", "ديسكورد - الأعضاء [متصلون بالإنترنت]"],
+                ["Discord - Members [Offline]", "ديسكورد - الأعضاء [غير متصلين]"],
+                ["Discord - Reactions", "ديسكورد - رد فعل"],
+                ["Discord - Tokens", "ديسكورد - رمز مميز"],
+                ["Discord - Server Boost [1 Month]", "ديسكورد - تعزيز الخادم [شهر واحد]"],
+                ["Discord - Server Boost [3 Months]", "ديسكورد - تعزيز الخادم [3 أشهر]"],
+                ["Twitch - Video Views", "تويتش - المشاهدات"],
+                ["Twitch - Followers", "تويتش - المتابعون"],
+                ["Twitch - Live Views [High Quality]", "تويتش - مشاهدات مباشرة [جودة عالية]"]
             ]}
         ];
+
+        function handleSelect(el, nameEn) {
+            document.querySelectorAll('.service-item').forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
+            localStorage.setItem('chosen_service', nameEn);
+            document.getElementById('confirmBtn').classList.add('visible');
+        }
 
         function init() {
             const list = document.getElementById('servicesList');
             data.forEach(group => {
                 const label = document.createElement('div');
                 label.className = 'category-label';
-                label.innerText = isAr ? group.cat[0] : group.cat[1];
+                label.innerText = group.cat;
                 list.appendChild(label);
 
                 group.items.forEach(pair => {
-                    const saveName = isAr ? pair[0] : pair[1];
                     const item = document.createElement('div');
                     item.className = 'service-item';
                     item.setAttribute('data-search', pair[0] + ' ' + pair[1]);
-                    item.onclick = function() {
-                        document.querySelectorAll('.service-item').forEach(i => i.classList.remove('selected'));
-                        this.classList.add('selected');
-                        localStorage.setItem('chosen_service', saveName);
-                        document.getElementById('confirmBtn').classList.add('visible');
-                    };
+                    item.onclick = function() { handleSelect(this, pair[0]); };
 
                     item.innerHTML = `
                         <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
                         <div class="service-info">
-                            <span class="name-primary">${isAr ? pair[0] : pair[1]}</span>
-                            <span class="name-secondary">${isAr ? pair[1] : pair[0]}</span>
+                            <span class="name-en">${pair[0]}</span>
+                            <span class="name-ar">${pair[1]}</span>
                         </div>
                         <i class="fa-solid fa-circle-check check-icon"></i>
                     `;
@@ -181,3 +227,4 @@
     </script>
 </body>
 </html>
+
