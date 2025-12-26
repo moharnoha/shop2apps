@@ -50,6 +50,7 @@
 
         .content-area { padding: 12px 16px; flex: 1; }
 
+        /* تحسين البطاقة لتقليل الفراغات */
         .order-card {
             width: 100%; background: #ffffff; border-radius: 20px;
             border: 1px solid #edf2f7; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.04);
@@ -87,6 +88,7 @@
             text-align: right;
         }
 
+        /* تحسين قسم السعر */
         .price-container {
             background: #f8fafc; border-radius: 12px; padding: 12px 16px;
             display: flex; justify-content: space-between; align-items: center;
@@ -101,6 +103,7 @@
             border-radius: 12px; background: #000;
             color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; 
             display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         
         .security-badge {
@@ -112,6 +115,7 @@
         .servio-footer { 
             margin-top: 20px; padding-bottom: 20px; text-align: center; 
             font-size: 9px; color: #cbd5e1; font-weight: 700; 
+            letter-spacing: 0.5px;
         }
 
         .flag-icon { width: 16px; height: 11px; border-radius: 1px; object-fit: cover; }
@@ -125,8 +129,8 @@
                 <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
                 <div class="v-line"></div>
                 <div class="title-box">
-                    <span id="nav-t1">---</span>
-                    <span id="nav-t2">---</span>
+                    <span id="nav-t1">Official Top Up</span>
+                    <span id="nav-t2">Center</span>
                 </div>
             </div>
             <div class="info-display-wrapper">
@@ -203,13 +207,11 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // وظيفة الانتقال للفئات مع حمل الرابط الحالي
         function goToCategory() {
             const currentLink = document.getElementById("platformLink").value;
             location.href = `../Category/?link=${encodeURIComponent(currentLink)}`;
         }
 
-        // استرجاع الرابط من العنوان أو الذاكرة
         function getLink() {
             const params = new URLSearchParams(window.location.search);
             const linkParam = params.get('link');
@@ -273,17 +275,6 @@
             document.getElementById("platformLink").value = getLink();
         }
 
-        // دالة تصفير البيانات بالكامل
-        function resetSystem() {
-            localStorage.removeItem("chosen_service");
-            localStorage.removeItem("saved_player_link");
-            document.getElementById("quantity").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("platformLink").value = "";
-            document.getElementById("display-price").textContent = "$0.00";
-            updateUI();
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             const quantity = document.getElementById("quantity");
             const priceDisplay = document.getElementById("display-price");
@@ -297,19 +288,17 @@
                 const budget = parseFloat(quantity.value) || 0;
                 const chosenCat = localStorage.getItem("chosen_service");
                 const email = document.getElementById("email").value;
-                const platformLink = document.getElementById("platformLink").value;
 
-                if (budget < 10 || !chosenCat || !email || !platformLink) {
-                    alert("يرجى إكمال جميع الحقول");
+                if (budget < 10 || !chosenCat || !email) {
+                    alert("يرجى إكمال جميع الحقول بشكل صحيح");
                     return;
                 }
 
                 this.disabled = true;
-                const originalText = this.innerText;
                 this.innerText = "...";
 
                 const data = {
-                    platformLink: platformLink,
+                    platformLink: document.getElementById("platformLink").value,
                     category: chosenCat,
                     quantity: budget,
                     charge: priceDisplay.textContent,
@@ -318,12 +307,9 @@
 
                 fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
                 .then(() => {
-                    resetSystem(); // تصفير شامل
+                    localStorage.removeItem("chosen_service");
                     window.location.href = "Confirm/"; 
-                }).catch(() => {
-                    resetSystem(); // تصفير شامل حتى في حالة الخطأ
-                    window.location.href = "Confirm/";
-                });
+                }).catch(() => { window.location.href = "Confirm/"; });
             });
 
             updateUI();
