@@ -43,7 +43,6 @@
         .logo-img { height: 22px; width: auto; }
         .v-line { width: 1.5px; height: 18px; background-color: #e2e8f0; margin: 0 10px; }
         
-        /* التعديل هنا ليكون النص في سطر واحد وبالشكل المطلوب */
         .title-box span { 
             font-size: 11px; 
             font-weight: 800; 
@@ -53,22 +52,24 @@
             white-space: nowrap;
         }
 
+        /* --- تعديل لضمان ثبات الترتيب (العلم ثم البلد ثم اللغة) --- */
         .info-display-wrapper { 
             display: flex; align-items: center; 
             background: #ffffff;
-            border: 1px solid #e2e8f0; border-radius: 6px; padding: 0 8px; height: 32px; gap: 6px; 
+            border: 1px solid #e2e8f0; border-radius: 6px; padding: 0 8px; height: 32px; gap: 6px;
+            flex-direction: row-reverse; /* يثبت الترتيب ليكون العلم في أقصى اليمين/اليسار حسب الرغبة */
         }
         
-        .display-text { font-size: 10px; font-weight: 700; color: var(--text-dark); }
-        
-        .content-area { 
-            padding: 20px 16px; flex: 1; 
-            background: var(--bg-gray);
+        .display-text { 
+            font-size: 10px; font-weight: 700; color: var(--text-dark); 
+            display: flex; align-items: center; gap: 4px;
+            flex-direction: row-reverse; /* يضمن بقاء الفاصل في مكانه */
         }
+        
+        .content-area { padding: 20px 16px; flex: 1; background: var(--bg-gray); }
 
         .order-card { 
-            width: 100%; 
-            background: #ffffff;
+            width: 100%; background: #ffffff;
             border-radius: 24px; border: 1px solid rgba(226, 232, 240, 0.8); 
             box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
             padding: 24px; box-sizing: border-box; position: relative; 
@@ -86,7 +87,6 @@
         .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; height: 52px; transition: all 0.3s ease; }
         .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
         .clickable-box { cursor: pointer; background: #fafafa; }
-        
         .input-box.error-state { border-color: var(--error-red) !important; background-color: #fff5f5; animation: shake 0.4s ease; }
 
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
@@ -133,7 +133,14 @@
                     <span id="nav-full-title">مركز الشحن الرسمي</span>
                 </div>
             </div>
-            <div class="info-display-wrapper"><div id="flag-display"></div><div class="display-text"><span id="label-reg">---</span><span style="color:#e2e8f0; margin:0 2px;">|</span><span id="label-lng">--</span></div></div>
+            <div class="info-display-wrapper">
+                <div id="flag-display"></div>
+                <div class="display-text">
+                    <span id="label-reg">---</span>
+                    <span style="color:#e2e8f0;">|</span>
+                    <span id="label-lng">--</span>
+                </div>
+            </div>
         </header>
 
         <div class="content-area">
