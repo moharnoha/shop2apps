@@ -30,7 +30,7 @@
             background-color: #ffffff; display: flex; flex-direction: column; 
         }
 
-        /* --- الهيدر (ثابت كما هو) --- */
+        /* --- الهيدر (بدون تغيير) --- */
         header { 
             width: 100%; height: 60px; background-color: #fff; 
             border-bottom: 1px solid #e2e8f0; display: flex; 
@@ -86,7 +86,7 @@
         .input-box:focus-within { border-color: var(--primary-blue); }
         
         .clickable-box { cursor: pointer; background: #fafafa; border-style: dashed; }
-        .clickable-box:active { transform: scale(0.99); }
+        .clickable-box:hover { background: #f8fafc; border-color: #cbd5e1; }
         
         .input-box.error-state { border-color: var(--error-red) !important; animation: shake 0.3s; }
         @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-4px);} 75% {transform: translateX(4px);} }
@@ -107,6 +107,7 @@
         .price-label { font-size: 13px; font-weight: 700; color: #475569; }
         .price-value { font-size: 20px; font-weight: 800; color: var(--primary-blue); }
 
+        /* زر الإرسال (الأسود) */
         #payBtn {
             width: 100%; height: 54px; border: none;
             border-radius: 12px; background: #000;
@@ -133,7 +134,7 @@
 
         .servio-footer { 
             margin-top: 25px; padding-bottom: 20px; text-align: center; 
-            font-size: 9px; color: #cbd5e1; font-weight: 700; letter-spacing: 0.5px;
+            font-size: 9px; color: #cbd5e1; font-weight: 700;
         }
 
         .flag-icon { width: 16px; height: 11px; border-radius: 1px; object-fit: cover; }
@@ -230,6 +231,7 @@
             return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         }
 
+        // الانتقال لاختيار الفئة وحفظ البيانات مؤقتاً
         function goToCategory() {
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             localStorage.setItem("temp_email", document.getElementById("email").value);
@@ -253,18 +255,22 @@
             keys: ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"]
         };
 
-        // دالة تحديث الواجهة مع إعادة ضبط الزر
+        function resetPayButton() {
+            const payBtn = document.getElementById("payBtn");
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            payBtn.disabled = false;
+            document.getElementById("btn-spinner").style.display = "none";
+            document.getElementById("btn-text-content").style.display = "block";
+            document.getElementById("btn-text-content").innerText = translations[lang].payBtn;
+        }
+
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const dict = translations[lang];
 
-            // إعادة ضبط الزر لحالته الطبيعية عند أي تحديث أو رجوع
-            const payBtn = document.getElementById("payBtn");
-            payBtn.disabled = false;
-            document.getElementById("btn-spinner").style.display = "none";
-            document.getElementById("btn-text-content").style.display = "block";
-            document.getElementById("btn-text-content").innerText = dict.payBtn;
+            // إعادة ضبط الزر فوراً عند التحديث
+            resetPayButton();
 
             document.getElementById('nav-t1').innerText = dict.navT1;
             document.getElementById('nav-t2').innerText = dict.navT2;
@@ -281,7 +287,6 @@
             document.getElementById('platformLink').placeholder = dict.placeholderLink;
             document.getElementById('quantity').placeholder = dict.placeholderQty;
 
-            // استعادة الفئة والبيانات
             const savedCategory = localStorage.getItem("chosen_service");
             const categorySpan = document.getElementById("category");
             
@@ -338,7 +343,6 @@
 
                 if (!isValid) return;
 
-                // تفعيل وضع التحميل
                 payBtn.disabled = true;
                 document.getElementById("btn-spinner").style.display = "block";
                 document.getElementById("btn-text-content").style.display = "none";
@@ -357,9 +361,10 @@
             });
         });
 
-        // هذا الجزء يضمن إعادة تفعيل الصفحة والزر فوراً عند الضغط على زر "رجوع" في المتصفح
+        // هذا هو الجزء المسؤول عن تفعيل الصفحة والزر فوراً عند الرجوع بالمتصفح
         window.onpageshow = function(event) {
             updateUI();
+            resetPayButton(); // تأكيد إضافي لتنشيط الزر
         };
     </script>
 </body>
