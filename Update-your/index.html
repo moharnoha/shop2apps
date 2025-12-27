@@ -25,17 +25,28 @@
             display: flex; justify-content: center;
         }
 
-        .container-wrapper { width: 100%; display: flex; justify-content: center; }
+        .container-wrapper { 
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
 
         .main-container { 
-            width: 100%; max-width: 100%; min-height: 100vh; 
-            background-color: #f7fafc; display: flex; flex-direction: column; 
+            width: 100%; 
+            max-width: 100%; 
+            min-height: 100vh; 
+            background-color: #f7fafc;
+            display: flex; 
+            flex-direction: column; 
         }
 
         @media (min-width: 481px) {
             .main-container {
-                max-width: 800px; margin: 20px; border-radius: 20px;
-                min-height: auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+                max-width: 800px; 
+                margin: 20px;
+                border-radius: 20px;
+                min-height: auto;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             }
         }
 
@@ -43,7 +54,8 @@
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
-            padding: 0 12px; box-sizing: border-box; position: sticky; top: 0; z-index: 1000;
+            padding: 0 12px; box-sizing: border-box; position: sticky; 
+            top: 0; z-index: 1000;
         }
 
         .brand-section { display: flex; align-items: center; }
@@ -54,7 +66,8 @@
 
         .info-display-wrapper { 
             display: flex; align-items: center; background: #f1f5f9; 
-            border: 1px solid #e2e8f0; border-radius: 6px; padding: 0 12px; height: 34px; gap: 5px;
+            border: 1px solid #e2e8f0; border-radius: 6px; 
+            padding: 0 12px; height: 34px; gap: 5px;
         }
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
@@ -64,7 +77,8 @@
         .content-area { padding: 20px 16px; flex: 1; }
         .order-card { 
             width: 100%; background: #ffffff; border-radius: 24px; 
-            border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+            border: 1px solid rgba(226, 232, 240, 0.8); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
             padding: 24px; box-sizing: border-box;
         }
 
@@ -76,7 +90,7 @@
         .form-grid { display: flex; flex-direction: column; gap: 18px; }
         .field .label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; display: block; }
         
-        .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; height: 52px; transition: all 0.2s ease; }
+        .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; height: 52px; transition: all 0.3s ease; }
         .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
         .input-box svg { width: 20px; height: 20px; fill: #94a3b8; flex-shrink: 0; }
         
@@ -85,23 +99,27 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
+        /* التعديل في تنسيق حاوية السعر ليكون مرناً مع الأرقام الطويلة */
         .price-container { 
             background: #f8fafc; border-radius: 16px; padding: 16px; 
             display: flex; justify-content: space-between; align-items: center; 
             border: 1px solid #e2e8f0; flex-wrap: wrap; gap: 12px;
         }
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
-        .price-value { font-size: 20px; font-weight: 800; color: var(--primary-blue); font-family: 'Inter', monospace; }
+        .price-value { 
+            font-size: 20px; font-weight: 800; color: var(--primary-blue); 
+            font-family: 'Inter', monospace; word-break: break-all;
+        }
 
         #payBtn {
             width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
-            position: relative; display: flex; align-items: center; justify-content: center; transition: background 0.3s;
+            position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
         }
         #payBtn:disabled { background: #444; cursor: not-allowed; }
 
         .spinner {
             position: absolute; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.2); 
-            border-top-color: #fff; border-radius: 50%; opacity: 0;
+            border-top-color: #fff; border-radius: 50%; opacity: 0; pointer-events: none;
         }
         .loading .spinner { opacity: 1; animation: spin 0.8s linear infinite; }
         .loading #btn-text { opacity: 0; }
@@ -153,7 +171,7 @@
                             </div>
                         </div>
 
-                        <div class="field" onclick="saveAndGoToCategory()">
+                        <div class="field" onclick="goToCategory()">
                             <label class="label" id="label-category"></label>
                             <div class="input-box" style="cursor:pointer" id="box-category">
                                 <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
@@ -165,7 +183,7 @@
                             <label class="label" id="label-quantity"></label>
                             <div class="input-box" id="box-quantity">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="number" min="1" inputmode="numeric">
+                                <input id="quantity" type="number" min="1" inputmode="numeric" value="1">
                             </div>
                         </div>
 
@@ -237,15 +255,21 @@
 
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
+        // دالة الحساب المحدثة: ضرب الوحدات + إخفاء الأصفار الزائدة
         function calculateTotalPrice() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
+            
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const quantity = parseFloat(qtyInput.value) || 0;
+            
             const total = unitPrice * quantity;
+            
+            // تحويل الرقم إلى دقة 7 أرقام ثم استخدام Number() لحذف الأصفار الزائدة
             const finalFormatted = Number(total.toFixed(7));
+            
             displayPrice.innerText = `$${finalFormatted}`;
-            return finalFormatted;
+            return total;
         }
 
         function updateUI() {
@@ -256,7 +280,6 @@
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.documentElement.lang = lang;
 
-            // تحديث نصوص الهيدر
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
@@ -275,112 +298,84 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
 
-            // --- منطق استعادة الرابط (دائم) ---
-            const params = new URLSearchParams(window.location.search);
-            const linkParam = params.get('link');
-            const storedLink = localStorage.getItem("perm_link");
-            const finalLink = linkParam ? decodeURIComponent(linkParam) : storedLink;
-            if (finalLink) {
-                document.getElementById("platformLink").value = finalLink;
-                localStorage.setItem("perm_link", finalLink);
-            }
-
-            // --- منطق "الفئة المختارة" (يرجع طبيعي عند التحديث أو الدخول الجديد) ---
-            // نستخدم sessionStorage هنا لأنها تمسح بمجرد إغلاق التبويب أو إعادة التحميل في بعض المتصفحات
-            // ولكننا نريدها أن تمسح إذا لم يكن المستخدم قادماً من صفحة Category
-            const isFromCategory = document.referrer.includes('Category');
             const chosen = localStorage.getItem("chosen_service");
             const catSpan = document.getElementById("category");
-
-            if (isFromCategory && chosen) {
-                // إذا جاء من صفحة الفئات، نعرض الفئة ونحفظها مؤقتاً
+            if (chosen) {
                 catSpan.innerText = chosen;
                 catSpan.style.color = "var(--text-dark)";
-                document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-                document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
             } else {
-                // في أي حالة أخرى (تحميل صفحة، رجوع من صفحة تأكيد، إلخ) ترجع طبيعية
                 catSpan.innerText = t.placeholderCat;
                 catSpan.style.color = "#94a3b8";
-                document.getElementById("email").value = "";
-                document.getElementById("quantity").value = "";
-                // مسح المخلفات المؤقتة
-                localStorage.removeItem("chosen_service");
-                localStorage.removeItem("service_price");
             }
+
+            const params = new URLSearchParams(window.location.search);
+            const link = params.get('link') || localStorage.getItem("temp_link");
+            if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
+            document.getElementById("email").value = localStorage.getItem("temp_email") || "";
+            
+            const savedQty = localStorage.getItem("temp_qty");
+            if (savedQty) document.getElementById("quantity").value = savedQty;
             
             calculateTotalPrice();
         }
 
-        function saveAndGoToCategory() {
+        function goToCategory() {
+            localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             localStorage.setItem("temp_email", document.getElementById("email").value);
             localStorage.setItem("temp_qty", document.getElementById("quantity").value);
-            const currentLink = encodeURIComponent(document.getElementById("platformLink").value);
-            location.href = `../Category/?link=${currentLink}`;
-        }
-
-        async function handlePayment() {
-            const btn = document.getElementById("payBtn");
-            const link = document.getElementById("platformLink").value;
-            const email = document.getElementById("email").value;
-            const qty = parseFloat(document.getElementById("quantity").value) || 0;
-            const service = localStorage.getItem("chosen_service");
-            const finalCharge = calculateTotalPrice();
-
-            let hasError = false;
-            const flash = (id) => { 
-                document.getElementById(id).classList.add('error-state'); 
-                hasError = true; 
-                setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); 
-            };
-
-            if (!link) flash('box-platform');
-            if (!service) flash('box-category');
-            if (qty < 1) flash('box-quantity');
-            if (!email.includes('@')) flash('box-email');
-
-            if (hasError) return;
-
-            btn.classList.add('loading');
-            btn.disabled = true;
-
-            try {
-                const data = { 
-                    platformLink: link, 
-                    category: service, 
-                    quantity: qty, 
-                    charge: `$${finalCharge}`, 
-                    gmail: email 
-                };
-                
-                await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-
-                setTimeout(() => {
-                    // عند الدفع بنجاح، يرجع كل شيء طبيعي (حتى الرابط إذا أردت مسحه هنا)
-                    localStorage.removeItem("chosen_service");
-                    localStorage.removeItem("perm_link"); 
-                    location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                }, 600);
-            } catch (e) {
-                location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-            }
+            location.href = `../Category/?link=${encodeURIComponent(document.getElementById("platformLink").value)}`;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
-            document.getElementById("quantity").oninput = calculateTotalPrice;
-            document.getElementById("payBtn").onclick = handlePayment;
+            const qtyInput = document.getElementById("quantity");
+            qtyInput.oninput = calculateTotalPrice;
+
+            document.getElementById("payBtn").onclick = async function() {
+                const link = document.getElementById("platformLink").value;
+                const email = document.getElementById("email").value;
+                const qty = parseFloat(qtyInput.value) || 0;
+                const service = localStorage.getItem("chosen_service");
+                const finalCharge = calculateTotalPrice();
+
+                let err = false;
+                const flash = (id) => { document.getElementById(id).classList.add('error-state'); err = true; setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); };
+
+                if (!link) flash('box-platform');
+                if (!service) flash('box-category');
+                if (qty < 1) flash('box-quantity');
+                if (!email.includes('@')) flash('box-email');
+
+                if (err) return;
+
+                this.classList.add('loading');
+                this.disabled = true;
+
+                try {
+                    const data = { 
+                        platformLink: link, 
+                        category: service, 
+                        quantity: qty, 
+                        charge: `$${Number(finalCharge.toFixed(7))}`, 
+                        gmail: email 
+                    };
+                    await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
+                    setTimeout(() => {
+                        ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+                        location.href = `Confirm/?link=${encodeURIComponent(link)}`;
+                    }, 500);
+                } catch (e) {
+                    location.href = `Confirm/?link=${encodeURIComponent(link)}`;
+                }
+            };
         });
 
-        window.onpageshow = function(event) {
+        window.addEventListener('pageshow', () => {
             const btn = document.getElementById("payBtn");
             btn.classList.remove('loading');
             btn.disabled = false;
-            // التحقق مما إذا كان الانتقال ناتج عن أزرار المتصفح (رجوع/تقديم)
-            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-                updateUI();
-            }
-        };
+            updateUI();
+        });
     </script>
 </body>
 </html>
