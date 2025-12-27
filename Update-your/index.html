@@ -145,14 +145,19 @@
         };
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
-        // نضام التصفير والتحديث (System Reset & Update)
-        function initSystem() {
-            const isReturn = performance.navigation.type === 2; // اكتشاف الرجوع للخلف
-            if (isReturn || !localStorage.getItem('session_active')) {
-                // تصفير الخانات المؤقتة عند الدخول الجديد أو الرجوع
-                ["temp_link", "temp_email", "temp_qty", "chosen_service", "service_price"].forEach(k => localStorage.removeItem(k));
-                localStorage.setItem('session_active', 'true');
-            }
+        // نضام التوازن: يحفظ الرابط والفئة، ويصفي الباقي عند الحاجة
+        function balanceSystem() {
+            // استرجاع الرابط والفئة فقط لضمان الاستمرارية
+            const savedLink = localStorage.getItem("temp_link");
+            const savedCat = localStorage.getItem("chosen_service");
+            
+            if (savedLink) document.getElementById("platformLink").value = savedLink;
+            
+            // تصفير الإيميل والكمية عند تحميل الصفحة لضمان التحقق الجديد (أو اتركها إذا كنت تفضل حفظها)
+            // سأتركها فارغة ليكون النظام "متزناً" ويطلب الإدخال مجدداً
+            document.getElementById("email").value = "";
+            document.getElementById("quantity").value = "";
+            
             updateUI();
         }
 
@@ -188,36 +193,34 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
 
-            // تحديث القيم من التخزين (إن وجدت)
-            document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
-            document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-            document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
-            
             const chosen = localStorage.getItem("chosen_service");
             const catSpan = document.getElementById("category");
-            if (chosen) { catSpan.innerText = chosen; catSpan.style.color = "var(--text-dark)"; } 
-            else { catSpan.innerText = t.placeholderCat; catSpan.style.color = "#94a3b8"; }
+            if (chosen) { 
+                catSpan.innerText = chosen; 
+                catSpan.style.color = "var(--text-dark)"; 
+            } else { 
+                catSpan.innerText = t.placeholderCat; 
+                catSpan.style.color = "#94a3b8"; 
+            }
             
             calculateTotalPrice();
         }
 
         function goToCategory() {
-            // حفظ الحالة قبل الذهاب لاختيار الفئة
+            // حفظ الرابط الحالي قبل الانتقال لاختيار الفئة
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
-            localStorage.setItem("temp_email", document.getElementById("email").value);
-            localStorage.setItem("temp_qty", document.getElementById("quantity").value);
             location.href = `../Category/`; 
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            initSystem();
-            const inputs = ["platformLink", "quantity", "email"];
-            inputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', () => {
-                    if (id === "quantity") calculateTotalPrice();
-                    localStorage.setItem(`temp_${id.replace('platformLink','link')}`, document.getElementById(id).value);
-                });
+            balanceSystem();
+
+            // حفظ الرابط تلقائياً عند الكتابة لضمان بقائه
+            document.getElementById("platformLink").addEventListener('input', (e) => {
+                localStorage.setItem("temp_link", e.target.value);
             });
+
+            document.getElementById("quantity").addEventListener('input', calculateTotalPrice);
 
             document.getElementById("payBtn").onclick = async function() {
                 const link = document.getElementById("platformLink").value.trim();
@@ -248,8 +251,8 @@
                     const payload = { platformLink: link, category: service, quantity: qty, charge: `$${finalCharge}`, gmail: email };
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
                     
-                    // مسح البيانات فور النجاح لضمان نظافة الطلب القادم
-                    ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+                    // مسح البيانات الشامل بعد النجاح فقط
+                    ["chosen_service", "temp_link", "service_price"].forEach(k => localStorage.removeItem(k));
                     
                     setTimeout(() => { location.href = `Confirm/?link=${encodeURIComponent(link)}`; }, 600);
                 } catch (e) {
@@ -258,8 +261,12 @@
             };
         });
 
-        // التأكد من تصفير الحالة عند مغادرة الصفحة نهائياً
-        window.onbeforeunload = () => { localStorage.removeItem('session_active'); };
+        // تحديث الحسابات عند الرجوع للصفحة
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                balanceSystem();
+            }
+        };
     </script>
 </body>
 </html>
