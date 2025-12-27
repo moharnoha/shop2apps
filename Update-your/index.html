@@ -16,6 +16,7 @@
             --success-green: #10b981;
             --error-red: #ef4444;
             --bg-gray: #f1f5f9;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body { 
@@ -23,112 +24,98 @@
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg-gray); 
             display: flex; justify-content: center;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .container-wrapper { 
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
+        .container-wrapper { width: 100%; display: flex; justify-content: center; }
         .main-container { 
-            width: 100%; 
-            max-width: 100%; 
-            min-height: 100vh; 
-            background-color: #f7fafc;
-            display: flex; 
-            flex-direction: column; 
+            width: 100%; max-width: 100%; min-height: 100vh; 
+            background-color: #f7fafc; display: flex; flex-direction: column; 
         }
 
         @media (min-width: 481px) {
             .main-container {
-                max-width: 800px; 
-                margin: 20px;
-                border-radius: 20px;
-                min-height: auto;
-                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+                max-width: 500px; /* جعل العرض أكثر انضباطاً للهواتف والأجهزة اللوحية */
+                margin: 20px auto; border-radius: 24px; min-height: auto;
+                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
             }
         }
 
         header { 
-            width: 100%; height: 65px; background-color: var(--bg-light); 
+            width: 100%; height: 65px; background: rgba(248, 251, 255, 0.8);
+            backdrop-filter: blur(10px); /* إضافة تأثير زجاجي */
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
-            padding: 0 12px; box-sizing: border-box; position: sticky; 
+            padding: 0 16px; box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000;
         }
 
         .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 28px; width: auto; }
-        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
-        .title-box { display: flex; flex-direction: column; }
-        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
+        .logo-img { height: 26px; width: auto; }
+        .v-line { width: 1px; height: 20px; background-color: #cbd5e0; margin: 0 12px; }
+        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); display: block; }
 
         .info-display-wrapper { 
-            display: flex; align-items: center; background: #f1f5f9; 
-            border: 1px solid #e2e8f0; border-radius: 6px; 
-            padding: 0 12px; height: 34px; gap: 5px;
+            display: flex; align-items: center; background: #fff; 
+            border: 1px solid #e2e8f0; border-radius: 10px; 
+            padding: 0 10px; height: 36px; gap: 8px;
         }
 
-        .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
-        .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
-        .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
+        .display-text { font-size: 11px; font-weight: 700; color: #64748b; }
+        .flag-icon { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; }
+        .mena-icon { width: 18px; height: 18px; fill: #64748b; }
 
-        .content-area { padding: 20px 16px; flex: 1; }
+        .content-area { padding: 24px 16px; flex: 1; }
         .order-card { 
-            width: 100%; background: #ffffff; border-radius: 24px; 
-            border: 1px solid rgba(226, 232, 240, 0.8); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
-            padding: 24px; box-sizing: border-box;
+            background: #ffffff; border-radius: 28px; 
+            border: 1px solid #ffffff; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 10px 15px -3px rgba(0,0,0,0.03); 
+            padding: 24px;
         }
 
-        .order-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
-        .order-icon-circle { width: 48px; height: 48px; background: #f8fafc; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
-        .order-icon-circle svg { width: 24px; height: 24px; fill: currentColor; }
-        .order-title { font-size: 17px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
+        .order-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+        .order-icon-circle { 
+            width: 44px; height: 44px; background: #f0f7ff; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; color: var(--primary-blue); 
+        }
 
-        .form-grid { display: flex; flex-direction: column; gap: 18px; }
-        .field .label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; display: block; }
+        .form-grid { display: flex; flex-direction: column; gap: 20px; }
+        .field .label { font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 8px; display: block; }
         
-        .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; height: 52px; transition: all 0.3s ease; }
-        .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
-        .input-box svg { width: 20px; height: 20px; fill: #94a3b8; flex-shrink: 0; }
+        .input-box { 
+            display: flex; align-items: center; background: #f8fafc; 
+            border: 1.5px solid #edf2f7; border-radius: 16px; 
+            padding: 0 14px; height: 54px; transition: var(--transition); 
+        }
+        .input-box:focus-within { border-color: var(--primary-blue); background: #fff; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
         
-        [dir="rtl"] .input-box svg { margin-left: 10px; }
-        [dir="ltr"] .input-box svg { margin-right: 10px; }
-
-        .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
+        .input-box input { border: none; outline: none; background: none; font-size: 15px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
         .price-container { 
-            background: #f8fafc; border-radius: 16px; padding: 16px; 
+            background: #f1f5f9; border-radius: 18px; padding: 20px; 
             display: flex; justify-content: space-between; align-items: center; 
-            border: 1px solid #e2e8f0; flex-wrap: wrap; gap: 12px;
+            border: 1px dashed #cbd5e0;
         }
-        .price-label { font-size: 14px; font-weight: 700; color: #475569; }
-        .price-value { 
-            font-size: 20px; font-weight: 800; color: var(--primary-blue); 
-            font-family: 'Inter', monospace; word-break: break-all;
-        }
+        .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); font-family: 'Inter', sans-serif; }
 
         #payBtn {
-            width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
-            position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+            width: 100%; height: 58px; border: none; border-radius: 18px; 
+            background: var(--accent); color: #fff; font-size: 16px; font-weight: 700; 
+            cursor: pointer; transition: var(--transition); margin-top: 10px;
         }
-        #payBtn:disabled { background: #444; cursor: not-allowed; }
+        #payBtn:active { transform: scale(0.98); }
+        #payBtn:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* حالة الخطأ الموحدة */
+        .error-state { border-color: var(--error-red) !important; background-color: #fffafa !important; }
 
         .spinner {
-            position: absolute; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.2); 
-            border-top-color: #fff; border-radius: 50%; opacity: 0; pointer-events: none;
+            display: none; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.3); 
+            border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite;
         }
-        .loading .spinner { opacity: 1; animation: spin 0.8s linear infinite; }
-        .loading #btn-text { opacity: 0; }
+        .loading .spinner { display: block; }
+        .loading #btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
-        .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
-        
-        .error-state { border-color: var(--error-red) !important; background-color: #fff5f5; animation: shake 0.4s ease; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
     </style>
 </head>
 <body>
@@ -137,7 +124,7 @@
         <div class="main-container">
             <header>
                 <div class="brand-section">
-                    <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
+                    <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img" alt="Logo">
                     <div class="v-line"></div>
                     <div class="title-box">
                         <span id="nav-t1"></span>
@@ -147,9 +134,8 @@
                 <div class="info-display-wrapper">
                     <div id="flag-display"></div>
                     <div class="display-text">
-                        <span id="label-reg">---</span>
-                        <span style="color:#cbd5e0;">|</span>
-                        <span id="label-lng">--</span>
+                        <span id="label-reg"></span>
+                        <span id="label-lng" style="margin-right:4px; padding:2px 4px; background:#f1f5f9; border-radius:4px;"></span>
                     </div>
                 </div>
             </header>
@@ -157,46 +143,45 @@
             <div class="content-area">
                 <div class="order-card">
                     <div class="order-header">
-                        <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
-                        <div class="order-title" id="text-order-details"></div>
+                        <div class="order-icon-circle">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        </div>
+                        <div class="order-title" id="text-order-details" style="font-size: 18px; font-weight: 800;"></div>
                     </div>
 
                     <div class="form-grid">
                         <div class="field">
                             <label class="label" id="label-platform"></label>
                             <div class="input-box" id="box-platform">
-                                <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                                <input id="platformLink" readonly placeholder="...">
+                                <input id="platformLink" type="text" spellcheck="false">
                             </div>
                         </div>
 
-                        <div class="field" onclick="goToCategory()">
+                        <div class="field">
                             <label class="label" id="label-category"></label>
-                            <div class="input-box" style="cursor:pointer" id="box-category">
-                                <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                                <span id="category"></span>
+                            <div class="input-box" id="box-category" style="cursor:pointer" onclick="goToCategory()">
+                                <span id="category" style="font-size: 14px; font-weight: 600;"></span>
                             </div>
                         </div>
 
-                        <div class="field">
-                            <label class="label" id="label-quantity"></label>
-                            <div class="input-box" id="box-quantity">
-                                <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="number" min="1" inputmode="numeric" placeholder="0">
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 12px;">
+                            <div class="field">
+                                <label class="label" id="label-quantity"></label>
+                                <div class="input-box" id="box-quantity">
+                                    <input id="quantity" type="number" inputmode="numeric" value="1" min="1">
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" id="label-email"></label>
-                            <div class="input-box" id="box-email">
-                                <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
-                                <input id="email" type="email" placeholder="example@gmail.com">
+                            <div class="field">
+                                <label class="label" id="label-email"></label>
+                                <div class="input-box" id="box-email">
+                                    <input id="email" type="email" placeholder="mail@example.com">
+                                </div>
                             </div>
                         </div>
 
                         <div class="price-container">
                             <span class="price-label" id="label-total"></span>
-                            <span class="price-value" id="display-price">$0</span>
+                            <span class="price-value" id="display-price">$0.00</span>
                         </div>
 
                         <button id="payBtn">
@@ -204,8 +189,8 @@
                             <div class="spinner"></div>
                         </button>
                         
-                        <div class="security-badge">
-                            <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
+                        <div class="security-badge" style="text-align:center; font-size:11px; color:#94a3b8; display:flex; align-items:center; justify-content:center; gap:5px;">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="#10b981"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
                             <span id="safe-text"></span>
                         </div>
                     </div>
@@ -217,51 +202,49 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
+        // توحيد ترجمات النظام
         const translations = {
             ar: {
                 navT1: "مركز الشحن", navT2: "الرسمي",
-                orderTitle: "تفاصيل الطلب",
-                labelPlatform: "رابط المنصة",
-                labelCat: "الفئة المختارة",
-                labelQty: "الكمية المطلوبة",
+                orderTitle: "تفاصيل طلبك",
+                labelPlatform: "رابط المنصة / الحساب",
+                labelCat: "الخدمة المختارة",
+                labelQty: "الكمية",
                 labelEmail: "البريد الإلكتروني",
-                total: "إجمالي المستحق",
-                btn: "تأكيد الطلب والدفع",
-                safe: "بوابة دفع آمنة مشفرة بواسطة SERVIO",
-                placeholderCat: "اضغط لتحديد الخدمة...",
-                regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"]
+                total: "الإجمالي",
+                btn: "إتمام عملية الدفع",
+                safe: "تشفير SSL آمن 100%",
+                placeholderCat: "اختر الخدمة من هنا...",
+                regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "دولي"]
             },
             en: {
-                navT1: "Official Top Up", navT2: "Center",
-                orderTitle: "Order Details",
+                navT1: "Official", navT2: "Top Up",
+                orderTitle: "Order Summary",
                 labelPlatform: "Platform Link",
-                labelCat: "Selected Category",
-                labelQty: "Quantity",
-                labelEmail: "Email Address",
-                total: "Total Due",
-                btn: "Confirm & Pay",
-                safe: "Secure Encrypted Payment by SERVIO",
-                placeholderCat: "Tap to select service...",
-                regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other"]
+                labelCat: "Service",
+                labelQty: "Qty",
+                labelEmail: "Email",
+                total: "Total Amount",
+                btn: "Pay Now",
+                safe: "Secure 256-bit SSL Payment",
+                placeholderCat: "Select a service...",
+                regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Global"]
             }
         };
 
         const flags = {
-            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
-            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>`,
+            algeria: "dz", egypt: "eg", iraq: "iq", morocco: "ma", nigeria: "ng", oman: "om", palestine: "ps", qatar: "qa", saudi: "sa", tunisia: "tn", uae: "ae",
+            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>`
         };
 
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
         function calculateTotalPrice() {
-            const qtyInput = document.getElementById("quantity");
-            const displayPrice = document.getElementById("display-price");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
-            const quantity = parseFloat(qtyInput.value) || 0;
-            const total = unitPrice * quantity;
-            const finalFormatted = Number(total.toFixed(7));
-            displayPrice.innerText = `$${finalFormatted}`;
+            const qty = Math.max(1, parseFloat(document.getElementById("quantity").value) || 0);
+            const total = (unitPrice * qty).toFixed(2);
+            document.getElementById("display-price").innerText = `$${total}`;
             return total;
         }
 
@@ -271,17 +254,12 @@
             const t = translations[lang];
 
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            document.documentElement.lang = lang;
-
+            
+            // تحديث النصوص
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = t.regions[regIdx];
-
-            const flagKey = regionKeys[regIdx] || 'mena';
-            const flagBox = document.getElementById('flag-display');
-            flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
-
             document.getElementById('text-order-details').innerText = t.orderTitle;
             document.getElementById('label-platform').innerText = t.labelPlatform;
             document.getElementById('label-category').innerText = t.labelCat;
@@ -291,115 +269,95 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
 
-            const chosen = localStorage.getItem("chosen_service");
-            const catSpan = document.getElementById("category");
-            if (chosen) {
-                catSpan.innerText = chosen;
-                catSpan.style.color = "var(--text-dark)";
+            // تحديث العلم بشكل أنظف
+            const flagKey = regionKeys[regIdx];
+            const flagBox = document.getElementById('flag-display');
+            if (['mena', 'other'].includes(flagKey)) {
+                flagBox.innerHTML = flags[flagKey];
             } else {
-                catSpan.innerText = t.placeholderCat;
-                catSpan.style.color = "#94a3b8";
+                flagBox.innerHTML = `<img src="https://flagcdn.com/${flags[flagKey]}.svg" class="flag-icon">`;
             }
 
+            // تحديث الفئة المختارة
+            const chosen = localStorage.getItem("chosen_service");
+            const catSpan = document.getElementById("category");
+            catSpan.innerText = chosen || t.placeholderCat;
+            catSpan.style.color = chosen ? "var(--text-dark)" : "#94a3b8";
+
+            // استعادة البيانات المؤقتة
             const params = new URLSearchParams(window.location.search);
-            const link = params.get('link') || localStorage.getItem("temp_link");
-            if (link) {
-                document.getElementById("platformLink").value = decodeURIComponent(link);
-                localStorage.setItem("temp_link", decodeURIComponent(link));
-            }
+            document.getElementById("platformLink").value = params.get('link') || localStorage.getItem("temp_link") || "";
+            document.getElementById("email").value = localStorage.getItem("temp_email") || "";
+            document.getElementById("quantity").value = localStorage.getItem("temp_qty") || 1;
             
             calculateTotalPrice();
         }
 
-        function clearInputs() {
-            // تصفير القيم في التخزين ما عدا الرابط واللغة
-            localStorage.removeItem("chosen_service");
-            localStorage.removeItem("service_price");
-            localStorage.removeItem("temp_email");
-            localStorage.removeItem("temp_qty");
-
-            // تصفير الحقول في الواجهة
-            document.getElementById("quantity").value = "";
-            document.getElementById("email").value = "";
-            
-            // تحديث عرض الخدمة والسعر
-            updateUI();
-        }
-
         function goToCategory() {
+            // حفظ الحالة قبل الانتقال
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             localStorage.setItem("temp_email", document.getElementById("email").value);
             localStorage.setItem("temp_qty", document.getElementById("quantity").value);
-            location.href = `../Category/?link=${encodeURIComponent(document.getElementById("platformLink").value)}`;
+            location.href = `../Category/`;
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // تصفير الحقول عند التحميل لأول مرة (لضمان النظام فارغ)
-            // إذا كان هناك خدمة مختارة، لا نصفر (للسماح بالعودة من صفحة الفئات)
-            if (!localStorage.getItem("chosen_service")) {
-                clearInputs();
-            } else {
-                // استرجاع القيم المؤقتة إذا كانت موجودة (عند العودة من صفحة الفئات)
-                document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-                document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
-                updateUI();
-            }
+        document.getElementById("quantity").oninput = calculateTotalPrice;
 
-            const qtyInput = document.getElementById("quantity");
-            qtyInput.oninput = calculateTotalPrice;
-
-            document.getElementById("payBtn").onclick = async function() {
-                const link = document.getElementById("platformLink").value;
-                const email = document.getElementById("email").value;
-                const qty = parseFloat(qtyInput.value) || 0;
-                const service = localStorage.getItem("chosen_service");
-                const finalCharge = calculateTotalPrice();
-
-                let err = false;
-                const flash = (id) => { document.getElementById(id).classList.add('error-state'); err = true; setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); };
-
-                if (!link) flash('box-platform');
-                if (!service) flash('box-category');
-                if (qty <= 0) flash('box-quantity');
-                if (!email.includes('@')) flash('box-email');
-
-                if (err) return;
-
-                this.classList.add('loading');
-                this.disabled = true;
-
-                try {
-                    const data = { 
-                        platformLink: link, 
-                        category: service, 
-                        quantity: qty, 
-                        charge: `$${Number(finalCharge.toFixed(7))}`, 
-                        gmail: email 
-                    };
-                    await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-                    setTimeout(() => {
-                        // تصفير البيانات بعد النجاح
-                        ["chosen_service", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
-                        location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                    }, 500);
-                } catch (e) {
-                    location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                }
+        document.getElementById("payBtn").onclick = async function() {
+            const btn = this;
+            const fields = {
+                link: document.getElementById("platformLink"),
+                email: document.getElementById("email"),
+                qty: document.getElementById("quantity"),
+                cat: document.getElementById("box-category")
             };
-        });
 
-        // تصفير البيانات عند الضغط على زر الرجوع في المتصفح لضمان حالة "الفراغ"
-        window.addEventListener('pageshow', (event) => {
-            const btn = document.getElementById("payBtn");
-            btn.classList.remove('loading');
-            btn.disabled = false;
-            
-            // إذا عاد المستخدم من صفحة التأكيد أو صفحة خارجية
-            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-                // تصفير كل شيء ما عدا الرابط
-                clearInputs();
+            // التحقق من صحة البيانات (Validation)
+            let isValid = true;
+            Object.values(fields).forEach(f => (f.closest('.input-box') || f).classList.remove('error-state'));
+
+            if (!fields.link.value.trim()) { fields.link.parentElement.classList.add('error-state'); isValid = false; }
+            if (!fields.email.value.includes('@')) { fields.email.parentElement.classList.add('error-state'); isValid = false; }
+            if (!localStorage.getItem("chosen_service")) { fields.cat.classList.add('error-state'); isValid = false; }
+
+            if (!isValid) return;
+
+            // بدء التحميل
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            const payload = {
+                platformLink: fields.link.value,
+                category: localStorage.getItem("chosen_service"),
+                quantity: fields.qty.value,
+                charge: document.getElementById("display-price").innerText,
+                gmail: fields.email.value,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // استخدام إرسال البيانات بشكل آمن
+                await fetch(scriptURL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                
+                // مسح البيانات بعد النجاح
+                ["temp_link", "temp_email", "temp_qty", "chosen_service"].forEach(k => localStorage.removeItem(k));
+                
+                setTimeout(() => {
+                    location.href = `Confirm/?link=${encodeURIComponent(payload.platformLink)}`;
+                }, 800);
+            } catch (e) {
+                console.error("Submission error", e);
+                btn.classList.remove('loading');
+                btn.disabled = false;
             }
-        });
+        };
+
+        window.onload = updateUI;
     </script>
 </body>
 </html>
