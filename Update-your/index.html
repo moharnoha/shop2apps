@@ -99,7 +99,6 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
-        /* التعديل في تنسيق حاوية السعر ليكون مرناً مع الأرقام الطويلة */
         .price-container { 
             background: #f8fafc; border-radius: 16px; padding: 16px; 
             display: flex; justify-content: space-between; align-items: center; 
@@ -183,7 +182,7 @@
                             <label class="label" id="label-quantity"></label>
                             <div class="input-box" id="box-quantity">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="number" min="1" inputmode="numeric" value="1">
+                                <input id="quantity" type="number" min="1" inputmode="numeric" placeholder="0">
                             </div>
                         </div>
 
@@ -255,7 +254,17 @@
 
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
-        // دالة الحساب المحدثة: ضرب الوحدات + إخفاء الأصفار الزائدة
+        function resetFormToInitialState() {
+            ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+            document.getElementById("platformLink").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("quantity").value = ""; // تفريغ الكمية تماماً
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            document.getElementById("category").innerText = translations[lang].placeholderCat;
+            document.getElementById("category").style.color = "#94a3b8";
+            calculateTotalPrice();
+        }
+
         function calculateTotalPrice() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
@@ -264,8 +273,6 @@
             const quantity = parseFloat(qtyInput.value) || 0;
             
             const total = unitPrice * quantity;
-            
-            // تحويل الرقم إلى دقة 7 أرقام ثم استخدام Number() لحذف الأصفار الزائدة
             const finalFormatted = Number(total.toFixed(7));
             
             displayPrice.innerText = `$${finalFormatted}`;
@@ -334,7 +341,8 @@
             document.getElementById("payBtn").onclick = async function() {
                 const link = document.getElementById("platformLink").value;
                 const email = document.getElementById("email").value;
-                const qty = parseFloat(qtyInput.value) || 0;
+                const qtyVal = document.getElementById("quantity").value; // قراءة القيمة كنص للتأكد من أنها ليست فارغة
+                const qty = parseFloat(qtyVal) || 0;
                 const service = localStorage.getItem("chosen_service");
                 const finalCharge = calculateTotalPrice();
 
@@ -343,7 +351,7 @@
 
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
-                if (qty < 1) flash('box-quantity');
+                if (!qtyVal || qty < 1) flash('box-quantity'); // التحقق من أن الحقل ليس فارغاً وأن القيمة أكبر من 0
                 if (!email.includes('@')) flash('box-email');
 
                 if (err) return;
@@ -361,7 +369,6 @@
                     };
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
                     setTimeout(() => {
-                        ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
                         location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                     }, 500);
                 } catch (e) {
@@ -370,10 +377,14 @@
             };
         });
 
-        window.addEventListener('pageshow', () => {
+        window.addEventListener('pageshow', (event) => {
             const btn = document.getElementById("payBtn");
             btn.classList.remove('loading');
             btn.disabled = false;
+
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                resetFormToInitialState();
+            }
             updateUI();
         });
     </script>
