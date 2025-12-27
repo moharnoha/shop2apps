@@ -240,11 +240,9 @@
         function calculateTotalPrice() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
-            
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const quantity = parseFloat(qtyInput.value) || 0;
             const total = unitPrice * quantity;
-            
             const finalFormatted = Number(total.toFixed(7));
             displayPrice.innerText = `$${finalFormatted}`;
             return finalFormatted;
@@ -258,7 +256,7 @@
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.documentElement.lang = lang;
 
-            // تحديث النصوص
+            // تحديث نصوص الهيدر
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
@@ -277,48 +275,44 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
 
-            // استعادة الرابط - الأولوية للرابط في الرابط (URL) ثم الذاكرة
+            // --- منطق استعادة الرابط (دائم) ---
             const params = new URLSearchParams(window.location.search);
             const linkParam = params.get('link');
-            const storedLink = localStorage.getItem("perm_link"); // نستخدم مفتاحاً دائماً للرابط
-            
+            const storedLink = localStorage.getItem("perm_link");
             const finalLink = linkParam ? decodeURIComponent(linkParam) : storedLink;
             if (finalLink) {
                 document.getElementById("platformLink").value = finalLink;
-                localStorage.setItem("perm_link", finalLink); // تأكيد الحفظ الدائم
+                localStorage.setItem("perm_link", finalLink);
             }
 
-            // استعادة باقي البيانات أو تركها فارغة بناءً على حالة "العودة"
-            const isReturningFromCategory = document.referrer.includes('Category');
-            
-            if (isReturningFromCategory) {
-                // استعادة البيانات إذا كنت عائداً من اختيار الخدمة
-                const chosen = localStorage.getItem("chosen_service");
-                const catSpan = document.getElementById("category");
-                if (chosen) {
-                    catSpan.innerText = chosen;
-                    catSpan.style.color = "var(--text-dark)";
-                } else {
-                    catSpan.innerText = t.placeholderCat;
-                    catSpan.style.color = "#94a3b8";
-                }
+            // --- منطق "الفئة المختارة" (يرجع طبيعي عند التحديث أو الدخول الجديد) ---
+            // نستخدم sessionStorage هنا لأنها تمسح بمجرد إغلاق التبويب أو إعادة التحميل في بعض المتصفحات
+            // ولكننا نريدها أن تمسح إذا لم يكن المستخدم قادماً من صفحة Category
+            const isFromCategory = document.referrer.includes('Category');
+            const chosen = localStorage.getItem("chosen_service");
+            const catSpan = document.getElementById("category");
+
+            if (isFromCategory && chosen) {
+                // إذا جاء من صفحة الفئات، نعرض الفئة ونحفظها مؤقتاً
+                catSpan.innerText = chosen;
+                catSpan.style.color = "var(--text-dark)";
                 document.getElementById("email").value = localStorage.getItem("temp_email") || "";
                 document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
             } else {
-                // إذا دخل الصفحة من مكان آخر (أو تحديث كامل)، نفرغ الخانات عدا الرابط
-                document.getElementById("category").innerText = t.placeholderCat;
-                document.getElementById("category").style.color = "#94a3b8";
+                // في أي حالة أخرى (تحميل صفحة، رجوع من صفحة تأكيد، إلخ) ترجع طبيعية
+                catSpan.innerText = t.placeholderCat;
+                catSpan.style.color = "#94a3b8";
                 document.getElementById("email").value = "";
                 document.getElementById("quantity").value = "";
-                // مسح البيانات المؤقتة عدا الرابط الدائم
-                ["chosen_service", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+                // مسح المخلفات المؤقتة
+                localStorage.removeItem("chosen_service");
+                localStorage.removeItem("service_price");
             }
             
             calculateTotalPrice();
         }
 
         function saveAndGoToCategory() {
-            // حفظ الحالة الحالية قبل الانتقال
             localStorage.setItem("temp_email", document.getElementById("email").value);
             localStorage.setItem("temp_qty", document.getElementById("quantity").value);
             const currentLink = encodeURIComponent(document.getElementById("platformLink").value);
@@ -359,15 +353,12 @@
                     gmail: email 
                 };
                 
-                await fetch(scriptURL, { 
-                    method: "POST", 
-                    mode: "no-cors", 
-                    body: JSON.stringify(data) 
-                });
+                await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
 
                 setTimeout(() => {
-                    // مسح كل شيء عند النجاح للبدء من جديد
-                    ["chosen_service", "temp_email", "temp_qty", "service_price", "perm_link"].forEach(k => localStorage.removeItem(k));
+                    // عند الدفع بنجاح، يرجع كل شيء طبيعي (حتى الرابط إذا أردت مسحه هنا)
+                    localStorage.removeItem("chosen_service");
+                    localStorage.removeItem("perm_link"); 
                     location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                 }, 600);
             } catch (e) {
@@ -381,12 +372,14 @@
             document.getElementById("payBtn").onclick = handlePayment;
         });
 
-        // هذا المستمع يضمن تحديث الصفحة حتى لو تم العودة إليها بالأسهم (Back Button)
         window.onpageshow = function(event) {
             const btn = document.getElementById("payBtn");
             btn.classList.remove('loading');
             btn.disabled = false;
-            updateUI();
+            // التحقق مما إذا كان الانتقال ناتج عن أزرار المتصفح (رجوع/تقديم)
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                updateUI();
+            }
         };
     </script>
 </body>
