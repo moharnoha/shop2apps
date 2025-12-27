@@ -99,9 +99,27 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
-        .price-container { background: #f8fafc; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0; }
-        .price-label { font-size: 14px; font-weight: 700; color: #475569; }
-        .price-value { font-size: 22px; font-weight: 800; color: var(--primary-blue); }
+        /* التعديل: حاوية السعر تدعم النصوص الطويلة وتتجنب التشوه */
+        .price-container { 
+            background: #f8fafc; 
+            border-radius: 16px; 
+            padding: 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border: 1px solid #e2e8f0; 
+            flex-wrap: wrap; /* يسمح بالنزول لسطر جديد إذا كان الرقم ضخماً جداً */
+            gap: 10px;
+        }
+        .price-label { font-size: 14px; font-weight: 700; color: #475569; white-space: nowrap; }
+        .price-value { 
+            font-size: 22px; 
+            font-weight: 800; 
+            color: var(--primary-blue); 
+            word-break: break-all; /* كسر الأرقام الطويلة جداً */
+            text-align: left;
+            min-width: fit-content;
+        }
 
         #payBtn {
             width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
@@ -247,16 +265,17 @@
 
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
-        // وظيفة حساب السعر الإجمالي بناءً على الكمية وسعر الوحدة المجلوب من صفحة Category
+        // التعديل: وظيفة حساب السعر الإجمالي تضمن عرض الفواصل العشرية دائماً
         function calculateTotalPrice() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
             
-            // نفترض أن صفحة Category تحفظ سعر الوحدة في localStorage تحت مفتاح "service_price"
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const quantity = parseFloat(qtyInput.value) || 0;
             
             const total = unitPrice * quantity;
+            
+            // toFixed(2) تضمن ظهور رقمين بعد الفاصلة دائماً
             displayPrice.innerText = `$${total.toFixed(2)}`;
             return total;
         }
@@ -308,7 +327,6 @@
                 document.getElementById("quantity").value = savedQty;
             }
             
-            // تحديث السعر فور التحميل
             calculateTotalPrice();
         }
 
@@ -375,4 +393,3 @@
     </script>
 </body>
 </html>
-
