@@ -99,7 +99,6 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
-        /* التعديل في تنسيق حاوية السعر ليكون مرناً مع الأرقام الطويلة */
         .price-container { 
             background: #f8fafc; border-radius: 16px; padding: 16px; 
             display: flex; justify-content: space-between; align-items: center; 
@@ -167,7 +166,7 @@
                             <label class="label" id="label-platform"></label>
                             <div class="input-box" id="box-platform">
                                 <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                                <input id="platformLink" readonly placeholder="...">
+                                <input id="platformLink" readonly>
                             </div>
                         </div>
 
@@ -183,7 +182,7 @@
                             <label class="label" id="label-quantity"></label>
                             <div class="input-box" id="box-quantity">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="number" min="1" inputmode="numeric" value="1">
+                                <input id="quantity" type="number" min="1" inputmode="numeric">
                             </div>
                         </div>
 
@@ -229,7 +228,9 @@
                 total: "إجمالي المستحق",
                 btn: "تأكيد الطلب والدفع",
                 safe: "بوابة دفع آمنة مشفرة بواسطة SERVIO",
-                placeholderCat: "اضغط لتحديد الخدمة...",
+                placeholderCat: "يرجى الضغط لاختيار الخدمة المطلوبة...",
+                placeholderLink: "انتظار جلب الرابط...",
+                placeholderQty: "أدخل الكمية هنا",
                 regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"]
             },
             en: {
@@ -242,7 +243,9 @@
                 total: "Total Due",
                 btn: "Confirm & Pay",
                 safe: "Secure Encrypted Payment by SERVIO",
-                placeholderCat: "Tap to select service...",
+                placeholderCat: "Please tap to select a service...",
+                placeholderLink: "Waiting for link...",
+                placeholderQty: "Enter quantity here",
                 regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other"]
             }
         };
@@ -255,19 +258,13 @@
 
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
-        // دالة الحساب المحدثة: ضرب الوحدات + إخفاء الأصفار الزائدة
         function calculateTotalPrice() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
-            
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const quantity = parseFloat(qtyInput.value) || 0;
-            
             const total = unitPrice * quantity;
-            
-            // تحويل الرقم إلى دقة 7 أرقام ثم استخدام Number() لحذف الأصفار الزائدة
             const finalFormatted = Number(total.toFixed(7));
-            
             displayPrice.innerText = `$${finalFormatted}`;
             return total;
         }
@@ -297,6 +294,9 @@
             document.getElementById('label-total').innerText = t.total;
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
+
+            document.getElementById('platformLink').placeholder = t.placeholderLink;
+            document.getElementById('quantity').placeholder = t.placeholderQty;
 
             const chosen = localStorage.getItem("chosen_service");
             const catSpan = document.getElementById("category");
@@ -343,7 +343,7 @@
 
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
-                if (qty < 1) flash('box-quantity');
+                if (!qty || qty < 1) flash('box-quantity');
                 if (!email.includes('@')) flash('box-email');
 
                 if (err) return;
