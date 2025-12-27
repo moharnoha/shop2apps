@@ -88,7 +88,6 @@
         .order-title { font-size: 17px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
 
         .form-grid { display: flex; flex-direction: column; gap: 18px; }
-        .field { width: 100%; }
         .field .label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; display: block; }
         
         .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #edf2f7; border-radius: 14px; padding: 0 14px; height: 52px; transition: all 0.3s ease; }
@@ -100,34 +99,33 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
-        /* القسم المعدل لمعالجة الأرقام الضخمة */
+        /* ضبط حاوية السعر لمنع التشوه مع الأرقام الكبيرة جداً */
         .price-container { 
             background: #f8fafc; 
             border-radius: 16px; 
             padding: 16px; 
             display: flex; 
-            flex-direction: row;
             justify-content: space-between; 
             align-items: center; 
             border: 1px solid #e2e8f0; 
+            flex-wrap: wrap; 
             gap: 12px;
-            overflow: hidden; /* يمنع خروج النص */
+            min-height: 64px;
+            overflow: hidden;
         }
-        .price-label { 
-            font-size: 14px; 
-            font-weight: 700; 
-            color: #475569; 
-            white-space: nowrap; 
-            flex-shrink: 0; 
-        }
+
+        .price-label { font-size: 13px; font-weight: 700; color: #475569; white-space: nowrap; }
+        
         .price-value { 
-            font-size: clamp(16px, 4vw, 22px); /* يصغر الخط تلقائياً إذا ضاق المكان */
+            font-size: 18px; 
             font-weight: 800; 
             color: var(--primary-blue); 
+            word-break: break-all; 
             text-align: left;
-            overflow-wrap: anywhere; /* كسر النص في أي نقطة للأرقام الطويلة جداً */
-            word-break: break-all;
-            min-width: 0; /* يسمح للعنصر بالتقلص داخل الـ flex */
+            font-family: 'Inter', monospace; 
+            letter-spacing: -0.5px;
+            flex: 1;
+            min-width: 150px;
         }
 
         #payBtn {
@@ -216,7 +214,7 @@
 
                         <div class="price-container">
                             <span class="price-label" id="label-total"></span>
-                            <span class="price-value" id="display-price">$0.00</span>
+                            <span class="price-value" id="display-price">$0.0000000</span>
                         </div>
 
                         <button id="payBtn">
@@ -274,23 +272,24 @@
 
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
-        // الوظيفة المحدثة لعرض الأرقام الضخمة بوضوح تام
+        // نضام الضرب: الوحدة الواحدة * الكمية المختارة
         function calculateTotalPrice() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
             
+            // جلب سعر الوحدة الرئيسية (تمن الوحدة الواحدة)
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
+            
+            // الكمية المطلوبة
             const quantity = parseFloat(qtyInput.value) || 0;
             
+            // العملية الحسابية: سعر الوحدة * الكمية
             const total = unitPrice * quantity;
             
-            // استخدام toLocaleString يضيف فواصل الآلاف ويعرض الفواصل العشرية بوضوح تام
-            const formattedTotal = total.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 20 // يسمح بظهور تفاصيل عشرية دقيقة جداً للأرقام المجهرية
-            });
-            
+            // إظهار 7 أرقام بعد الفاصلة للدقة المالية الحقيقية
+            const formattedTotal = total.toFixed(7);
             displayPrice.innerText = `$${formattedTotal}`;
+            
             return total;
         }
 
@@ -362,10 +361,7 @@
                 const email = document.getElementById("email").value;
                 const qty = parseFloat(qtyInput.value) || 0;
                 const service = localStorage.getItem("chosen_service");
-                
-                // للحفظ في قاعدة البيانات، نحفظ الرقم بدقة 20 خانة عشرية كحد أقصى
-                const finalChargeValue = calculateTotalPrice();
-                const finalChargeString = `$${finalChargeValue.toFixed(2)}`;
+                const finalCharge = calculateTotalPrice();
 
                 let err = false;
                 const flash = (id) => { document.getElementById(id).classList.add('error-state'); err = true; setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); };
@@ -385,7 +381,7 @@
                         platformLink: link, 
                         category: service, 
                         quantity: qty, 
-                        charge: finalChargeString, 
+                        charge: `$${finalCharge.toFixed(7)}`, 
                         gmail: email 
                     };
                     
