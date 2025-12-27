@@ -255,7 +255,11 @@
                     item.onclick = function() {
                         document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
                         this.classList.add('selected');
-                        localStorage.setItem('chosen_service', nameToShow + " (" + price + "$)");
+                        
+                        // التعديل هنا: تخزين السعر بشكل مستقل
+                        localStorage.setItem('chosen_service', nameToShow);
+                        localStorage.setItem('service_price', price);
+                        
                         document.getElementById('confirmBtn').classList.add('visible');
                     };
                     item.innerHTML = `
