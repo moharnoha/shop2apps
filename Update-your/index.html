@@ -258,7 +258,7 @@
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.documentElement.lang = lang;
 
-            // Header Info
+            // تحديث النصوص
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
@@ -268,7 +268,6 @@
             const flagBox = document.getElementById('flag-display');
             flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // Labels
             document.getElementById('text-order-details').innerText = t.orderTitle;
             document.getElementById('label-platform').innerText = t.labelPlatform;
             document.getElementById('label-category').innerText = t.labelCat;
@@ -278,30 +277,48 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
 
-            // Values Recovery
+            // استعادة الرابط - الأولوية للرابط في الرابط (URL) ثم الذاكرة
             const params = new URLSearchParams(window.location.search);
-            const linkFromURL = params.get('link');
-            const savedLink = localStorage.getItem("temp_link");
-            document.getElementById("platformLink").value = linkFromURL ? decodeURIComponent(linkFromURL) : (savedLink || "");
-
-            const chosen = localStorage.getItem("chosen_service");
-            const catSpan = document.getElementById("category");
-            if (chosen) {
-                catSpan.innerText = chosen;
-                catSpan.style.color = "var(--text-dark)";
-            } else {
-                catSpan.innerText = t.placeholderCat;
-                catSpan.style.color = "#94a3b8";
+            const linkParam = params.get('link');
+            const storedLink = localStorage.getItem("perm_link"); // نستخدم مفتاحاً دائماً للرابط
+            
+            const finalLink = linkParam ? decodeURIComponent(linkParam) : storedLink;
+            if (finalLink) {
+                document.getElementById("platformLink").value = finalLink;
+                localStorage.setItem("perm_link", finalLink); // تأكيد الحفظ الدائم
             }
 
-            document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-            document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "1";
+            // استعادة باقي البيانات أو تركها فارغة بناءً على حالة "العودة"
+            const isReturningFromCategory = document.referrer.includes('Category');
+            
+            if (isReturningFromCategory) {
+                // استعادة البيانات إذا كنت عائداً من اختيار الخدمة
+                const chosen = localStorage.getItem("chosen_service");
+                const catSpan = document.getElementById("category");
+                if (chosen) {
+                    catSpan.innerText = chosen;
+                    catSpan.style.color = "var(--text-dark)";
+                } else {
+                    catSpan.innerText = t.placeholderCat;
+                    catSpan.style.color = "#94a3b8";
+                }
+                document.getElementById("email").value = localStorage.getItem("temp_email") || "";
+                document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
+            } else {
+                // إذا دخل الصفحة من مكان آخر (أو تحديث كامل)، نفرغ الخانات عدا الرابط
+                document.getElementById("category").innerText = t.placeholderCat;
+                document.getElementById("category").style.color = "#94a3b8";
+                document.getElementById("email").value = "";
+                document.getElementById("quantity").value = "";
+                // مسح البيانات المؤقتة عدا الرابط الدائم
+                ["chosen_service", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+            }
             
             calculateTotalPrice();
         }
 
         function saveAndGoToCategory() {
-            localStorage.setItem("temp_link", document.getElementById("platformLink").value);
+            // حفظ الحالة الحالية قبل الانتقال
             localStorage.setItem("temp_email", document.getElementById("email").value);
             localStorage.setItem("temp_qty", document.getElementById("quantity").value);
             const currentLink = encodeURIComponent(document.getElementById("platformLink").value);
@@ -345,41 +362,31 @@
                 await fetch(scriptURL, { 
                     method: "POST", 
                     mode: "no-cors", 
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data) 
                 });
 
-                // تأخير بسيط لضمان تجربة بصرية سلسة
                 setTimeout(() => {
-                    ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+                    // مسح كل شيء عند النجاح للبدء من جديد
+                    ["chosen_service", "temp_email", "temp_qty", "service_price", "perm_link"].forEach(k => localStorage.removeItem(k));
                     location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                }, 800);
-
+                }, 600);
             } catch (e) {
-                // في حال فشل الاتصال، ننتقل لصفحة التأكيد لضمان استمرار التدفق
                 location.href = `Confirm/?link=${encodeURIComponent(link)}`;
             }
         }
 
-        // مراقبة أحداث الصفحة
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
-            document.getElementById("quantity").oninput = () => {
-                calculateTotalPrice();
-                localStorage.setItem("temp_qty", document.getElementById("quantity").value);
-            };
-            document.getElementById("email").oninput = () => {
-                localStorage.setItem("temp_email", document.getElementById("email").value);
-            };
+            document.getElementById("quantity").oninput = calculateTotalPrice;
             document.getElementById("payBtn").onclick = handlePayment;
         });
 
-        // التعامل مع العودة للخلف في المتصفح (BFCache)
+        // هذا المستمع يضمن تحديث الصفحة حتى لو تم العودة إليها بالأسهم (Back Button)
         window.onpageshow = function(event) {
             const btn = document.getElementById("payBtn");
             btn.classList.remove('loading');
             btn.disabled = false;
-            updateUI(); 
+            updateUI();
         };
     </script>
 </body>
