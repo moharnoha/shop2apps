@@ -25,28 +25,17 @@
             display: flex; justify-content: center;
         }
 
-        .container-wrapper { 
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
+        .container-wrapper { width: 100%; display: flex; justify-content: center; }
 
         .main-container { 
-            width: 100%; 
-            max-width: 100%; 
-            min-height: 100vh; 
-            background-color: #f7fafc;
-            display: flex; 
-            flex-direction: column; 
+            width: 100%; max-width: 100%; min-height: 100vh; 
+            background-color: #f7fafc; display: flex; flex-direction: column; 
         }
 
         @media (min-width: 481px) {
             .main-container {
-                max-width: 800px; 
-                margin: 20px;
-                border-radius: 20px;
-                min-height: auto;
-                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+                max-width: 800px; margin: 20px; border-radius: 20px;
+                min-height: auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             }
         }
 
@@ -54,8 +43,7 @@
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
             align-items: center; justify-content: space-between; 
-            padding: 0 12px; box-sizing: border-box; position: sticky; 
-            top: 0; z-index: 1000;
+            padding: 0 12px; position: sticky; top: 0; z-index: 1000;
         }
 
         .brand-section { display: flex; align-items: center; }
@@ -105,10 +93,7 @@
             border: 1px solid #e2e8f0; flex-wrap: wrap; gap: 12px;
         }
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
-        .price-value { 
-            font-size: 20px; font-weight: 800; color: var(--primary-blue); 
-            font-family: 'Inter', monospace; word-break: break-all;
-        }
+        .price-value { font-size: 20px; font-weight: 800; color: var(--primary-blue); font-family: 'Inter', monospace; word-break: break-all; }
 
         #payBtn {
             width: 100%; height: 56px; border: none; border-radius: 14px; background: #000; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; 
@@ -254,28 +239,22 @@
 
         const regionKeys = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"];
 
+        // دالة التصفير عند الخروج من الموقع أو الرجوع من صفحة خارجية
         function resetFormToInitialState() {
             ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
             document.getElementById("platformLink").value = "";
             document.getElementById("email").value = "";
-            document.getElementById("quantity").value = ""; // تفريغ الكمية تماماً
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            document.getElementById("category").innerText = translations[lang].placeholderCat;
-            document.getElementById("category").style.color = "#94a3b8";
-            calculateTotalPrice();
+            document.getElementById("quantity").value = "";
+            updateUI();
         }
 
         function calculateTotalPrice() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
-            
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const quantity = parseFloat(qtyInput.value) || 0;
-            
             const total = unitPrice * quantity;
-            const finalFormatted = Number(total.toFixed(7));
-            
-            displayPrice.innerText = `$${finalFormatted}`;
+            displayPrice.innerText = `$${Number(total.toFixed(7))}`;
             return total;
         }
 
@@ -305,6 +284,7 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
 
+            // تحديث اسم الخدمة في الخانة الثانية
             const chosen = localStorage.getItem("chosen_service");
             const catSpan = document.getElementById("category");
             if (chosen) {
@@ -315,13 +295,13 @@
                 catSpan.style.color = "#94a3b8";
             }
 
+            // استعادة القيم المؤقتة (عند التنقل بين الصفحات الداخلية فقط)
             const params = new URLSearchParams(window.location.search);
             const link = params.get('link') || localStorage.getItem("temp_link");
             if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
-            document.getElementById("email").value = localStorage.getItem("temp_email") || "";
             
-            const savedQty = localStorage.getItem("temp_qty");
-            if (savedQty) document.getElementById("quantity").value = savedQty;
+            document.getElementById("email").value = localStorage.getItem("temp_email") || "";
+            document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
             
             calculateTotalPrice();
         }
@@ -341,8 +321,7 @@
             document.getElementById("payBtn").onclick = async function() {
                 const link = document.getElementById("platformLink").value;
                 const email = document.getElementById("email").value;
-                const qtyVal = document.getElementById("quantity").value; // قراءة القيمة كنص للتأكد من أنها ليست فارغة
-                const qty = parseFloat(qtyVal) || 0;
+                const qtyVal = document.getElementById("quantity").value;
                 const service = localStorage.getItem("chosen_service");
                 const finalCharge = calculateTotalPrice();
 
@@ -351,7 +330,7 @@
 
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
-                if (!qtyVal || qty < 1) flash('box-quantity'); // التحقق من أن الحقل ليس فارغاً وأن القيمة أكبر من 0
+                if (!qtyVal || parseFloat(qtyVal) <= 0) flash('box-quantity');
                 if (!email.includes('@')) flash('box-email');
 
                 if (err) return;
@@ -360,13 +339,7 @@
                 this.disabled = true;
 
                 try {
-                    const data = { 
-                        platformLink: link, 
-                        category: service, 
-                        quantity: qty, 
-                        charge: `$${Number(finalCharge.toFixed(7))}`, 
-                        gmail: email 
-                    };
+                    const data = { platformLink: link, category: service, quantity: qtyVal, charge: `$${Number(finalCharge.toFixed(7))}`, gmail: email };
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
                     setTimeout(() => {
                         location.href = `Confirm/?link=${encodeURIComponent(link)}`;
@@ -377,13 +350,16 @@
             };
         });
 
+        // مراقبة أحداث الصفحة للتعامل مع الرجوع والتحديث
         window.addEventListener('pageshow', (event) => {
             const btn = document.getElementById("payBtn");
             btn.classList.remove('loading');
             btn.disabled = false;
 
+            // إذا دخل المستخدم عن طريق الرجوع من "خارج الموقع" أو تحديث كامل
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-                resetFormToInitialState();
+                 // ملاحظة: هنا لا نصفر البيانات إذا كان المستخدم راجعاً من صفحة الاختيار
+                 // لذلك نعتمد على updateUI() التي تجلب الخدمة المختارة من localStorage
             }
             updateUI();
         });
