@@ -171,13 +171,13 @@
                 ["Facebook - Post Reactions [Cheap]", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "0.0001972"],
                 ["Facebook - Post Reactions", "فيسبوك - ردود الفعل على المنشور", "0.000648"],
                 ["Facebook - Watch Time [60k Mins]", "فيسبوك - وقت المشاهدة [60 ألف دقيقة]", "1.728"],
-                ["Facebook - Live Views (1)", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
+                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
                 ["Facebook - Video Views", "فيسبوك - المشاهدات", "0.0000542"],
                 ["Facebook - Story Views", "فيسبوك - مشاهدات القصص", "0.002457"],
                 ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة", "0.001026"],
                 ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور", "0.000104"],
                 ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة", "0.00125"],
-                ["Facebook - Live Views (2)", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
+                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
                 ["Facebook - Services [Global | Real]", "فيسبوك - خدمات [ عالمي | حقيقي ]", "0.01316"],
                 ["Facebook - Services [Global | HQ]", "فيسبوك - خدمات [ عالمي | جودة عالية ]", "0.0096"]
             ]},
@@ -240,6 +240,9 @@
             const t = translations[lang];
             const isAr = lang === 'ar';
 
+            // استرجاع الخدمة المختارة سابقاً (بواسطة المعرف index)
+            const savedServiceId = localStorage.getItem('chosen_service_id'); 
+
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
@@ -255,24 +258,39 @@
 
             const list = document.getElementById('servicesList');
             list.innerHTML = "";
-            servicesData.forEach(group => {
+
+            servicesData.forEach((group, gIdx) => {
                 const label = document.createElement('div');
                 label.className = 'category-label';
                 label.innerText = isAr ? group.cat[1] : group.cat[0];
                 list.appendChild(label);
 
-                group.items.forEach(pair => {
+                group.items.forEach((pair, sIdx) => {
                     const nameToShow = isAr ? pair[1] : pair[0];
                     const price = pair[2];
+                    const serviceId = `${gIdx}-${sIdx}`; // معرف فريد للخدمة
+
                     const item = document.createElement('div');
                     item.className = 'service-item';
+                    if (savedServiceId === serviceId) {
+                        item.classList.add('selected');
+                        document.getElementById('confirmBtn').classList.add('visible');
+                        // تحديث النص المخزن في الـ localStorage ليكون باللغة الحالية
+                        localStorage.setItem('chosen_service', nameToShow);
+                    }
+
                     item.onclick = function() {
                         document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
                         this.classList.add('selected');
+                        
+                        // تخزين المعرف (للترجمة) والبيانات (للاستخدام في الصفحة السابقة)
+                        localStorage.setItem('chosen_service_id', serviceId);
                         localStorage.setItem('chosen_service', nameToShow);
                         localStorage.setItem('service_price', price);
+                        
                         document.getElementById('confirmBtn').classList.add('visible');
                     };
+
                     item.innerHTML = `
                         <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
                         <div class="service-info">
