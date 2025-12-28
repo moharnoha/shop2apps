@@ -56,6 +56,8 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         
+        .limit-hint { font-size: 10px; color: #94a3b8; margin-top: 6px; font-weight: 600; display: flex; gap: 8px; }
+
         #email { direction: ltr; text-align: left; }
         .price-container { background: #f8fafc; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0; flex-wrap: wrap; gap: 12px; }
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
@@ -126,7 +128,11 @@
                             <label class="label" id="label-quantity"></label>
                             <div class="input-box" id="box-quantity">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="number" min="1" inputmode="numeric">
+                                <input id="quantity" type="number" inputmode="numeric">
+                            </div>
+                            <div class="limit-hint">
+                                <span id="min-hint"></span>
+                                <span id="max-hint"></span>
                             </div>
                         </div>
 
@@ -251,6 +257,7 @@
                 placeholderCat: "يرجى الضغط لاختيار الخدمة المطلوبة...",
                 placeholderLink: "انتظار جلب الرابط...",
                 placeholderQty: "أدخل الكمية هنا",
+                minText: "الأدنى: ", maxText: "الأقصى: ",
                 regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"]
             },
             en: {
@@ -266,6 +273,7 @@
                 placeholderCat: "Please tap to select a service...",
                 placeholderLink: "Waiting for link...",
                 placeholderQty: "Enter quantity here",
+                minText: "Min: ", maxText: "Max: ",
                 regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"]
             }
         };
@@ -280,9 +288,13 @@
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
-            const quantity = parseFloat(qtyInput.value) || 0;
+            const maxVal = parseInt(localStorage.getItem("service_max")) || 1000000;
             
-            // حفظ الكمية الحالية في التخزين المؤقت لتجنب فقدانها عند العودة
+            if (parseInt(qtyInput.value) > maxVal) {
+                qtyInput.value = maxVal;
+            }
+            
+            const quantity = parseFloat(qtyInput.value) || 0;
             localStorage.setItem("temp_qty", qtyInput.value);
             
             const total = unitPrice * quantity;
@@ -313,8 +325,16 @@
             document.getElementById('label-total').innerText = t.total;
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
+            
+            // إعادة ضبط الـ Placeholders
+            document.getElementById('platformLink').placeholder = t.placeholderLink;
+            document.getElementById('quantity').placeholder = t.placeholderQty;
 
-            // تحديث "الفئة المختارة" حسب اللغة المختارة في الهيدر
+            const minVal = localStorage.getItem("service_min") || "--";
+            const maxVal = localStorage.getItem("service_max") || "--";
+            document.getElementById('min-hint').innerText = t.minText + minVal;
+            document.getElementById('max-hint').innerText = t.maxText + maxVal;
+
             const sId = localStorage.getItem('chosen_service_id');
             const catSpan = document.getElementById("category");
             
@@ -323,8 +343,6 @@
                 const gIdx = parseInt(parts[1]);
                 const iIdx = parseInt(parts[2]);
                 const translatedName = servicesMatrix[gIdx].items[iIdx][isAr ? 1 : 0];
-                
-                localStorage.setItem('chosen_service', translatedName);
                 catSpan.innerText = translatedName;
                 catSpan.style.color = "var(--text-dark)";
             } else {
@@ -332,15 +350,11 @@
                 catSpan.style.color = "#94a3b8";
             }
 
-            // استعادة القيم المدخلة
             const params = new URLSearchParams(window.location.search);
             const link = params.get('link') || localStorage.getItem("temp_link");
             if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
-            
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-            
-            const savedQty = localStorage.getItem("temp_qty");
-            if (savedQty) document.getElementById("quantity").value = savedQty;
+            document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
             
             calculateTotalPrice();
         }
@@ -361,9 +375,10 @@
             document.getElementById("payBtn").onclick = async function() {
                 const link = document.getElementById("platformLink").value;
                 const email = document.getElementById("email").value;
-                const qty = parseFloat(qtyInput.value) || 0;
+                const qty = parseInt(qtyInput.value) || 0;
                 const service = localStorage.getItem("chosen_service");
-                const finalCharge = calculateTotalPrice();
+                const minVal = parseInt(localStorage.getItem("service_min")) || 1;
+                const maxVal = parseInt(localStorage.getItem("service_max")) || 1000000;
 
                 let err = false;
                 const flash = (id) => { 
@@ -374,7 +389,7 @@
 
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
-                if (!qty || qty < 1) flash('box-quantity');
+                if (!qty || qty < minVal || qty > maxVal) flash('box-quantity');
                 if (!email.toLowerCase().endsWith('@gmail.com')) flash('box-email');
 
                 if (err) return;
@@ -383,17 +398,11 @@
                 this.disabled = true;
 
                 try {
-                    const data = { 
-                        platformLink: link, 
-                        category: service, 
-                        quantity: qty, 
-                        charge: `$${finalCharge.toFixed(7)}`, 
-                        gmail: email 
-                    };
+                    const finalCharge = calculateTotalPrice();
+                    const data = { platformLink: link, category: service, quantity: qty, charge: `$${finalCharge.toFixed(7)}`, gmail: email };
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
                     setTimeout(() => {
-                        // تنظيف الذاكرة بعد النجاح فقط
-                        ["chosen_service", "chosen_service_id", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+                        ["chosen_service", "chosen_service_id", "temp_link", "temp_email", "temp_qty", "service_price", "service_min", "service_max"].forEach(k => localStorage.removeItem(k));
                         location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                     }, 500);
                 } catch (e) { location.href = `Confirm/?link=${encodeURIComponent(link)}`; }
