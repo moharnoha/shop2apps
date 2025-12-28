@@ -219,20 +219,11 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // منطق التصفير الشامل عند التحديث أو الدخول الجديد
-        window.addEventListener('load', () => {
-            const navEntries = performance.getEntriesByType("navigation");
-            if (navEntries.length > 0) {
-                const navType = navEntries[0].type;
-                // إذا كان الدخول "جديد"، "تحديث"، أو "رجوع/تقدم"
-                // نستثني فقط حالة "back_forward" إذا أردت، لكن بناءً على طلبك سنصفر في كل الحالات
-                if (navType === "reload" || navType === "navigate" || navType === "back_forward") {
-                    // مسح البيانات لضمان رجوع الموقع لسيرته الأولى
-                    ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
-                    updateUI(); // تحديث الواجهة فوراً بعد المسح
-                }
-            }
-        });
+        // الجزء المسؤول عن تصفير الموقع عند التحديث (النظام الجديد)
+        // يتم تنفيذه فقط عند إعادة تحميل الصفحة الفعلية (Reload) وليس عند الانتقال بين الصفحات الداخلية
+        if (performance.navigation.type === 1) {
+             ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+        }
 
         const translations = {
             ar: {
@@ -327,10 +318,12 @@
 
             const params = new URLSearchParams(window.location.search);
             const link = params.get('link') || localStorage.getItem("temp_link");
+            if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
             
-            document.getElementById("platformLink").value = link ? decodeURIComponent(link) : "";
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-            document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
+            
+            const savedQty = localStorage.getItem("temp_qty");
+            if (savedQty) document.getElementById("quantity").value = savedQty;
             
             calculateTotalPrice();
         }
@@ -387,16 +380,10 @@
             };
         });
 
-        window.addEventListener('pageshow', (event) => {
-            // تصفير الأزرار
+        window.addEventListener('pageshow', () => {
             const btn = document.getElementById("payBtn");
             btn.classList.remove('loading');
             btn.disabled = false;
-            
-            // إذا تم الوصول للصفحة عبر زر "الرجوع" في المتصفح، نقوم بمسح البيانات أيضاً
-            if (event.persisted) {
-                ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
-            }
             updateUI();
         });
     </script>
