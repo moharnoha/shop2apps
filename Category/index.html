@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Servio - Full Services</title>
+    <title>Servio - All Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -41,7 +41,6 @@
 
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
-        .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
 
         .search-sticky { position: sticky; top: 65px; z-index: 1000; background: var(--bg-gray); padding: 12px 16px; }
         .search-wrapper { position: relative; width: 100%; }
@@ -59,17 +58,18 @@
 
         .service-item { 
             background: var(--card-bg); padding: 14px; border-radius: 18px; border: 2px solid transparent; 
-            cursor: pointer; display: flex; align-items: center; margin-bottom: 10px; 
+            cursor: pointer; display: flex; flex-direction: column; margin-bottom: 12px; 
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         .service-item:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
         .service-item.selected { border-color: var(--primary-blue); background-color: #f0f7ff; }
 
+        .service-main { display: flex; align-items: center; width: 100%; }
+
         .platform-logo { 
             width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; 
             justify-content: center; font-size: 20px; margin-inline-end: 14px; color: white; flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .bg-fb { background: var(--fb-color); }
         .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
@@ -83,6 +83,11 @@
         .price-row { display: flex; align-items: center; gap: 8px; }
         .service-price { font-size: 13px; font-weight: 800; color: var(--price-color); }
         .qty-label { font-size: 10px; font-weight: 600; color: var(--qty-color); background: #f1f5f9; padding: 2px 8px; border-radius: 6px; }
+
+        .limits-row { 
+            margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e8f0;
+            display: flex; gap: 15px; font-size: 10.5px; color: #64748b; font-weight: 600;
+        }
 
         .check-icon { color: var(--primary-blue); font-size: 22px; display: none; margin-inline-start: 10px; }
         .service-item.selected .check-icon { display: block; animation: scaleIn 0.3s ease; }
@@ -141,107 +146,104 @@
             ar: { 
                 navT1: "مركز الشحن", navT2: "الرسمي",
                 search: "ابحث عن خدمة...", btn: "تأكيد الاختيار",
-                qty: "الكمية: 1",
+                qty: "الكمية: 1", min: "أدنى:", max: "أقصى:",
                 regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"] 
             },
             en: { 
                 navT1: "Official Top Up", navT2: "Center",
                 search: "Search service...", btn: "Confirm Selection",
-                qty: "Qty: 1",
+                qty: "Qty: 1", min: "Min:", max: "Max:",
                 regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
             }
         };
 
         const flags = {
-            mena: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            mena: `<svg class="mena-icon" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#94a3b8;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
             algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
-            other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
+            other: `<svg class="mena-icon" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#94a3b8;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
         const servicesData = [
             { cat: ["Facebook", "فيسبوك"], icon: "bg-fb", fa: "fa-facebook-f", items: [
-                ["Facebook - Followers [Bot Data] [Cheapest]", "فيسبوك - المتابعون [بيانات البوت] [الأرخص]", "0.0002592"],
-                ["Facebook - Followers [Bot Quality]", "فيسبوك - متابعون [جودة بوت]", "0.000476"],
-                ["Facebook - Followers Count [Real]", "فيسبوك - عدد المتابعين [حقيقي]", "0.00088"],
-                ["Facebook - Post Reactions [Global]", "فيسبوك - ردود الفعل على المنشورات [عالمي]", "0.0016936"],
-                ["Facebook - Followers", "فيسبوك - المتابعون", "0.0010048"],
-                ["Facebook - Page Likes + Followers [Cheapest]", "فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]", "0.0004972"],
-                ["Facebook - Likes & Followers Count", "فيسبوك - عدد الإعجابات والمتابعين", "0.001485"],
-                ["Facebook - Post Likes", "فيسبوك - الإعجابات على المنشورات", "0.00054"],
-                ["Facebook - Post Reactions [Cheap]", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "0.0001972"],
-                ["Facebook - Post Reactions", "فيسبوك - ردود الفعل على المنشور", "0.000648"],
-                ["Facebook - Watch Time [60k Mins]", "فيسبوك - وقت المشاهدة [60 ألف دقيقة]", "1.728"],
-                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
-                ["Facebook - Video Views", "فيسبوك - المشاهدات", "0.0000542"],
-                ["Facebook - Story Views", "فيسبوك - مشاهدات القصص", "0.002457"],
-                ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة", "0.001026"],
-                ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور", "0.000104"],
-                ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة", "0.00125"],
-                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
-                ["Facebook - Services [Global | Real]", "فيسبوك - خدمات [ عالمي | حقيقي ]", "0.01316"],
-                ["Facebook - Services [Global | HQ]", "فيسبوك - خدمات [ عالمي | جودة عالية ]", "0.0096"]
+                ["Facebook - Followers [Bot Data] [Cheapest]", "فيسبوك - المتابعون [بيانات البوت] [الأرخص]", "0.0002592", "100", "10000"],
+                ["Facebook - Followers [Bot Quality]", "فيسبوك - متابعون [جودة بوت]", "0.000476", "100", "100000"],
+                ["Facebook - Followers Count [Real]", "فيسبوك - عدد المتابعين [حقيقي]", "0.00088", "10", "1,000,000"],
+                ["Facebook - Post Reactions [Global]", "فيسبوك - ردود الفعل على المنشورات [عالمي]", "0.0016936", "10", "30000"],
+                ["Facebook - Followers", "فيسبوك - المتابعون", "0.0010048", "50", "1,000,000"],
+                ["Facebook - Page Likes + Followers [Cheapest]", "فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]", "0.0004972", "10", "1,000,000"],
+                ["Facebook - Likes & Followers Count", "فيسبوك - عدد الإعجابات والمتابعين", "0.001485", "10", "500000"],
+                ["Facebook - Post Likes", "فيسبوك - الإعجابات على المنشورات", "0.00054", "20", "500000"],
+                ["Facebook - Post Reactions [Cheap]", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "0.0001972", "20", "500000"],
+                ["Facebook - Post Reactions", "فيسبوك - ردود الفعل على المنشور", "0.000648", "10", "100000"],
+                ["Facebook - Watch Time [60k Mins]", "فيسبوك - وقت المشاهدة [ لكل 1 في الكمية 60 ألف دقيقة ]", "1.728", null, null],
+                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114", "10", "30000"],
+                ["Facebook - Video Views", "فيسبوك - المشاهدات", "0.0000542", "100", "2147483647"],
+                ["Facebook - Story Views", "فيسبوك - مشاهدات القصص", "0.002457", "100", "10000"],
+                ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة", "0.001026", "10", "50000"],
+                ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور", "0.000104", "100", "100,000,000"],
+                ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة", "0.00125", "10", "1,000,000"],
+                ["Facebook - Live Views (Duplicate)", "فيسبوك - مشاهدات مباشرة", "0.0018114", "10", "30000"],
+                ["Facebook - Services [Global | Real]", "فيسبوك - خدمات [ عالمي | حقيقي ]", "0.01316", "500", "15000"],
+                ["Facebook - Services [Global | HQ]", "فيسبوك - خدمات [ عالمي | جودة عالية ]", "0.0096", "500", "10000"]
             ]},
             { cat: ["Instagram", "إنستغرام"], icon: "bg-ig", fa: "fa-instagram", items: [
-                ["Instagram - Followers", "إنستغرام - المتابعون", "0.002943"],
-                ["Instagram - Followers [Old Accounts]", "إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]", "0.0054"],
-                ["Instagram - Likes", "إنستغرام - الإعجابات", "0.000486"],
-                ["Instagram - Video Views", "إنستغرام - عدد المشاهدات", "0.0000018"],
-                ["Instagram - Saves", "إنستغرام - يحفظ", "0.0000946"],
-                ["Instagram - Comments [MENA Support]", "إنستغرام - التعليقات [ الشرق الأوسط دعم اسطوري]", "0.00945"],
-                ["Instagram - Comments [Targeted]", "إنستغرام - التعليقات [ البلد المستهدف ]", "0.00945"],
-                ["Instagram - Story Views", "إنستغرام - مشاهدات القصص", "0.000162"],
-                ["Instagram - Live Likes", "إنستغرام - الإعجابات المباشرة", "0.000513"],
-                ["Instagram - Live Stream Views", "إنستغرام - مشاهدات مباشرة", "0.002025"]
+                ["Instagram - Followers", "إنستغرام - المتابعون", "0.002943", "10", "5,000,000"],
+                ["Instagram - Followers [Old Accounts]", "إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]", "0.0054", "10", "5,000,000"],
+                ["Instagram - Likes", "إنستغرام - الإعجابات", "0.000486", "10", "500000"],
+                ["Instagram - Video Views", "إنستغرام - عدد المشاهدات", "0.0000018", "100", "2147483647"],
+                ["Instagram - Saves", "إنستغرام - يحفظ", "0.0000946", "10", "400000"],
+                ["Instagram - Comments [MENA Support]", "إنستغرام - التعليقات [ الشرق الأوسط دعم اسطوري]", "0.00945", "10", "10000"],
+                ["Instagram - Comments [Targeted]", "إنستغرام - التعليقات [ البلد المستهدف ]", "0.00945", "10", "10000"],
+                ["Instagram - Story Views", "إنستغرام - مشاهدات القصص", "0.000162", "100", "200000"],
+                ["Instagram - Live Likes", "إنستغرام - الإعجابات المباشرة", "0.000513", "100", "50000"],
+                ["Instagram - Live Views", "إنستغرام - مشاهدات مباشرة", "0.002025", "5", "5000"]
             ]},
             { cat: ["TikTok", "تيك توك"], icon: "bg-tt", fa: "fa-tiktok", items: [
-                ["TikTok - Followers [Bot Data]", "تيك توك - المتابعون [بيانات البوت] [الأرخص]", "0.0008074"],
-                ["TikTok - Real Followers", "تيك توك - متابعون جودة حقيقية", "0.00324"],
-                ["TikTok - Ultra Fast Views", "تيك توك - المشاهدات سريعة للغاية", "0.000001"],
-                ["TikTok - Video Views", "تيك توك - المشاهدات", "0.000001"],
-                ["TikTok - HQ Views [MENA]", "تيك توك - مشاهدات [جودة عالية شرق اوسط ]", "0.000017"],
-                ["TikTok - HQ Views", "تيك توك - مشاهدات [جودة عالية ]", "0.000017"],
-                ["TikTok - Targeted Views", "تيك توك - المشاهدات [البلد المستهدف]", "0.0001336"],
-                ["TikTok - Fast Likes", "تيك توك - [الإعجابات سريعة]", "0.000055"],
-                ["TikTok - Ultra Fast Likes", "تيك توك - [الإعجابات سريعة للغاية ]", "0.000045"],
-                ["TikTok - Likes", "تيك توك - الإعجابات", "0.0001536"],
-                ["TikTok - Hidden Profile Likes", "تيك توك - الإعجابات [ملف تعريف مخفي]", "0.000045"],
-                ["TikTok - Likes + Views", "تيك توك - الإعجابات + المشاهدات", "0.0003876"],
-                ["TikTok - Real Comments", "تيك توك - التعليقات [ داعمين حسب دولتك حقيقي ]", "0.0028"],
-                ["TikTok - Saves", "تيك توك - يحفظ", "0.0000432"],
-                ["TikTok - Shares", "تيك توك - أسهم", "0.000132"],
-                ["TikTok - Live Views", "تيك توك - مشاهدات مباشرة", "0.000972"],
-                ["TikTok - Live Likes", "تيك توك - الإعجابات المباشرة", "0.000033"],
-                ["TikTok - Live Comments", "تيك توك - ( التعليقات المباشرة )", "0.000924"],
-                ["TikTok - Live Shares", "تيك توك - مشاركات مباشرة", "0.0000114"]
+                ["TikTok - Followers [Bot Data]", "تيك توك - المتابعون [بيانات البوت] [الأرخص]", "0.0008074", "50", "1,000,000"],
+                ["TikTok - Real Followers", "تيك توك - متابعون جودة حقيقية", "0.00324", "10", "100000"],
+                ["TikTok - Ultra Fast Views", "تيك توك - المشاهدات سريعة للغاية", "0.000001", "50", "217545811"],
+                ["TikTok - Video Views", "تيك توك - المشاهدات", "0.000001", "100", "2147483647"],
+                ["TikTok - HQ Views [MENA]", "تيك توك - مشاهدات [جودة عالية شرق اوسط ]", "0.000017", "50", "2147483647"],
+                ["TikTok - HQ Views (Global)", "تيك توك - مشاهدات [جودة عالية ]", "0.000017", "50", "2147483647"],
+                ["TikTok - Targeted Views", "تيك توك - المشاهدات [البلد المستهدف]", "0.0001336", "500", "5,000,000"],
+                ["TikTok - Fast Likes", "تيك توك - [الإعجابات سريعة]", "0.000055", "10", "1,000,000"],
+                ["TikTok - Ultra Fast Likes", "تيك توك - [الإعجابات سريعة للغاية ]", "0.000045", "10", "5,000,000"],
+                ["TikTok - Likes", "تيك توك - الإعجابات", "0.0001536", "10", "1,000,000"],
+                ["TikTok - Hidden Profile Likes", "تيك توك - الإعجابات [ملف تعريف مخفي]", "0.000045", "10", "1,000,000"],
+                ["TikTok - Likes + Views", "تيك توك - الإعجابات + المشاهدات", "0.0003876", "10", "1,000,000"],
+                ["TikTok - Real Comments", "تيك توك - التعليقات [ داعمين حسب دولتك حقيقي ]", "0.0028", "1", "5000"],
+                ["TikTok - Saves", "تيك توك - يحفظ", "0.0000432", "100", "2147483647"],
+                ["TikTok - Shares", "تيك توك - أسهم", "0.000132", "10", "2147483647"],
+                ["TikTok - Live Views", "تيك توك - مشاهدات مباشرة", "0.000972", "100", "100000"],
+                ["TikTok - Live Likes", "تيك توك - الإعجابات المباشرة", "0.000033", "10", "2147483647"],
+                ["TikTok - Live Comments", "تيك توك - ( التعليقات المباشرة )", "0.000924", "1", "1000"],
+                ["TikTok - Live Shares", "تيك توك - مشاركات مباشرة", "0.0000114", "10", "2147483647"]
             ]},
             { cat: ["Discord", "ديسكورد"], icon: "bg-dc", fa: "fa-discord", items: [
-                ["Discord - Members [Online]", "دیسكورد - الأعضاء [متصلون بالإنترنت]", "0.0110566"],
-                ["Discord - Members [Offline]", "ديسكورد - الأعضاء [غير متصلين]", "0.0095684"],
-                ["Discord - Reaction", "دیسكورد - رد فعل", "0.0106314"],
-                ["Discord - Token", "دیسكورد - رمز مميز", "0.8979246"],
-                ["Discord - Server Boost [1 Month]", "دیسكورد - تعزيز الخادم [ الشهر الواحد ]", "8.6306"]
+                ["Discord - Members [Online]", "دیسكورد - الأعضاء [متصلون بالإنترنت]", "0.0110566", "50", "20000"],
+                ["Discord - Members [Offline]", "ديسكورد - الأعضاء [غير متصلين]", "0.0095684", "50", "100000"],
+                ["Discord - Reaction", "دیسكورد - رد فعل", "0.0106314", "50", "3000"],
+                ["Discord - Token", "دیسكورد - رمز مميز", "0.8979246", "50", "10000"],
+                ["Discord - Server Boost [1 Month]", "دیسكورد - تعزيز الخادم [ شهر واحد =1 في الكمية]", "8.6306", null, null]
             ]},
             { cat: ["Twitch", "تويتش"], icon: "bg-tw", fa: "fa-twitch", items: [
-                ["Twitch - Video Views", "تويتش - المشاهدات", "0.00027"],
-                ["Twitch - Followers", "تويتش - المتابعون", "0.000324"],
-                ["Twitch - Live Views [Low Quality]", "تويتش - مشاهدات مباشرة [جودة منخفضة]", "0.0006198"],
-                ["Twitch - Live Views [Medium Quality]", "تويتش - مشاهدات مباشرة [جودة متوسطة]", "0.0016136"],
-                ["Twitch - Live Views [High Quality]", "تويتش - مشاهدات مباشرة [جودة عالية]", "0.0027784"],
-                ["Twitch - Live Views [HQ | USA]", "تويتش - مشاهدات مباشرة جودة عالية | الولايات المتحدة الأمريكية ]", "0.0044214"],
-                ["Twitch - Live Views [HQ | MENA]", "تويتش - مشاهدات مباشرة جودة عالية | الشرق الاوسط شمال افريقيا ]", "0.0044214"],
-                ["Twitch - Live Views [HQ | EU]", "تويتش - مشاهدات مباشرة جودة عالية | الاتحاد الأوروبي  ]", "0.0044214"],
-                ["Twitch - Live Views [HQ | Region]", "تويتش - مشاهدات مباشرة جودة عالية | حسب المنطقة ]", "0.0044214"]
+                ["Twitch - Video Views", "تويتش - المشاهدات", "0.00027", "10", "10,000,000"],
+                ["Twitch - Followers", "تويتش - المتابعون", "0.000324", "9", "500000"],
+                ["Twitch - Live Views [Low Quality]", "تويتش - مشاهدات مباشرة [جودة منخفضة]", "0.0006198", "5", "500"],
+                ["Twitch - Live Views [Medium Quality]", "تويتش - مشاهدات مباشرة [جودة متوسطة]", "0.0016136", "5", "10000"],
+                ["Twitch - Live Views [High Quality]", "تويتش - مشاهدات مباشرة [جودة عالية]", "0.0027784", "5", "10000"],
+                ["Twitch - Live Views [HQ | USA]", "تويتش - مشاهدات مباشرة جودة عالية | الولايات المتحدة الأمريكية ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | MENA]", "تويتش - مشاهدات مباشرة جودة عالية | الشرق الاوسط شمال افريقيا ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | EU]", "تويتش - مشاهدات مباشرة جودة عالية | الاتحاد الأوروبي ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | Region]", "تويتش - مشاهدات مباشرة جودة عالية | حسب المنطقة ]", "0.0044214", "5", "4000"]
             ]}
         ];
 
         function init() {
-            // استخراج اللغة الحالية من الهيدر (أو التخزين)
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const t = translations[lang];
             const isAr = lang === 'ar';
-
-            // استرجاع "معرف" الخدمة المختارة لتحديث نصها حسب اللغة الحالية
             const savedServiceId = localStorage.getItem('chosen_service_id'); 
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
@@ -252,7 +254,7 @@
             
             const flagKey = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"][regIdx];
             const flagBox = document.getElementById('flag-display');
-            flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
+            flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon" style="width:18px;height:12px;border-radius:2px;">`;
 
             document.getElementById('serviceSearch').placeholder = t.search;
             document.getElementById('btn-text').innerText = t.btn;
@@ -266,20 +268,22 @@
                 label.innerText = isAr ? group.cat[1] : group.cat[0];
                 list.appendChild(label);
 
-                group.items.forEach((pair, sIdx) => {
-                    const nameToShow = isAr ? pair[1] : pair[0];
-                    const price = pair[2];
-                    const serviceId = `srv-${gIdx}-${sIdx}`; // معرف فريد يعتمد على الموقع في المصفوفة
+                group.items.forEach((data, sIdx) => {
+                    const nameToShow = isAr ? data[1] : data[0];
+                    const price = data[2];
+                    const min = data[3];
+                    const max = data[4];
+                    const serviceId = `srv-${gIdx}-${sIdx}`;
 
                     const item = document.createElement('div');
                     item.className = 'service-item';
-                    
-                    // إذا كان هذا العنصر هو المختار، نحدث النص المترجم في التخزين فوراً
-                    if (savedServiceId === serviceId) {
-                        item.classList.add('selected');
-                        document.getElementById('confirmBtn').classList.add('visible');
-                        localStorage.setItem('chosen_service', nameToShow); // ترجمة فورية
-                    }
+                    if (savedServiceId === serviceId) item.classList.add('selected');
+
+                    let limitsHtml = (min && max) ? 
+                        `<div class="limits-row">
+                            <span>${t.min} ${min}</span>
+                            <span>${t.max} ${max}</span>
+                        </div>` : '';
 
                     item.onclick = function() {
                         document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
@@ -288,24 +292,30 @@
                         localStorage.setItem('chosen_service_id', serviceId);
                         localStorage.setItem('chosen_service', nameToShow);
                         localStorage.setItem('service_price', price);
+                        localStorage.setItem('service_min', min || "1");
+                        localStorage.setItem('service_max', max || "999999");
                         
                         document.getElementById('confirmBtn').classList.add('visible');
                     };
 
                     item.innerHTML = `
-                        <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
-                        <div class="service-info">
-                            <span class="service-name">${nameToShow}</span>
-                            <div class="price-row">
-                                <span class="service-price">${price} $</span>
-                                <span class="qty-label">${t.qty}</span>
+                        <div class="service-main">
+                            <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
+                            <div class="service-info">
+                                <span class="service-name">${nameToShow}</span>
+                                <div class="price-row">
+                                    <span class="service-price">${price} $</span>
+                                    <span class="qty-label">${t.qty}</span>
+                                </div>
                             </div>
+                            <i class="fa-solid fa-circle-check check-icon"></i>
                         </div>
-                        <i class="fa-solid fa-circle-check check-icon"></i>
+                        ${limitsHtml}
                     `;
                     list.appendChild(item);
                 });
             });
+            if(savedServiceId) document.getElementById('confirmBtn').classList.add('visible');
         }
 
         document.getElementById('serviceSearch').addEventListener('input', function(e) {
