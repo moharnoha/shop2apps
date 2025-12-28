@@ -235,12 +235,13 @@
         ];
 
         function init() {
+            // استخراج اللغة الحالية من الهيدر (أو التخزين)
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const t = translations[lang];
             const isAr = lang === 'ar';
 
-            // استرجاع الخدمة المختارة سابقاً (بواسطة المعرف index)
+            // استرجاع "معرف" الخدمة المختارة لتحديث نصها حسب اللغة الحالية
             const savedServiceId = localStorage.getItem('chosen_service_id'); 
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
@@ -268,22 +269,22 @@
                 group.items.forEach((pair, sIdx) => {
                     const nameToShow = isAr ? pair[1] : pair[0];
                     const price = pair[2];
-                    const serviceId = `${gIdx}-${sIdx}`; // معرف فريد للخدمة
+                    const serviceId = `srv-${gIdx}-${sIdx}`; // معرف فريد يعتمد على الموقع في المصفوفة
 
                     const item = document.createElement('div');
                     item.className = 'service-item';
+                    
+                    // إذا كان هذا العنصر هو المختار، نحدث النص المترجم في التخزين فوراً
                     if (savedServiceId === serviceId) {
                         item.classList.add('selected');
                         document.getElementById('confirmBtn').classList.add('visible');
-                        // تحديث النص المخزن في الـ localStorage ليكون باللغة الحالية
-                        localStorage.setItem('chosen_service', nameToShow);
+                        localStorage.setItem('chosen_service', nameToShow); // ترجمة فورية
                     }
 
                     item.onclick = function() {
                         document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
                         this.classList.add('selected');
                         
-                        // تخزين المعرف (للترجمة) والبيانات (للاستخدام في الصفحة السابقة)
                         localStorage.setItem('chosen_service_id', serviceId);
                         localStorage.setItem('chosen_service', nameToShow);
                         localStorage.setItem('service_price', price);
