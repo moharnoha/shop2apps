@@ -128,7 +128,7 @@
                             <label class="label" id="label-quantity"></label>
                             <div class="input-box" id="box-quantity">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="number" inputmode="numeric">
+                                <input id="quantity" type="text" inputmode="numeric">
                             </div>
                             <div class="limit-hint">
                                 <span id="min-hint"></span>
@@ -290,14 +290,20 @@
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const maxVal = parseInt(localStorage.getItem("service_max")) || 1000000;
             
-            if (parseInt(qtyInput.value) > maxVal) {
+            // تنظيف المدخلات لتقبل الأرقام فقط
+            qtyInput.value = qtyInput.value.replace(/[^0-9]/g, '');
+            
+            let val = parseInt(qtyInput.value) || 0;
+            
+            // الحبس حسب الحد الأقصى
+            if (val > maxVal) {
+                val = maxVal;
                 qtyInput.value = maxVal;
             }
             
-            const quantity = parseFloat(qtyInput.value) || 0;
             localStorage.setItem("temp_qty", qtyInput.value);
             
-            const total = unitPrice * quantity;
+            const total = unitPrice * val;
             displayPrice.innerText = `$${Number(total.toFixed(7))}`;
             return total;
         }
@@ -326,7 +332,6 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
             
-            // إعادة ضبط الـ Placeholders
             document.getElementById('platformLink').placeholder = t.placeholderLink;
             document.getElementById('quantity').placeholder = t.placeholderQty;
 
@@ -398,7 +403,7 @@
                 this.disabled = true;
 
                 try {
-                    const finalCharge = calculateTotalPrice();
+                    const finalCharge = (parseFloat(localStorage.getItem("service_price")) || 0) * qty;
                     const data = { platformLink: link, category: service, quantity: qty, charge: `$${finalCharge.toFixed(7)}`, gmail: email };
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
                     setTimeout(() => {
