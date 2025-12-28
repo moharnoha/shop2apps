@@ -19,7 +19,6 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; }
         .main-container { width: 100%; max-width: 480px; background-color: var(--bg-gray); display: flex; flex-direction: column; min-height: 100vh; position: relative; }
 
-        /* --- الهيدر الجديد --- */
         header { 
             width: 100%; height: 65px; background-color: var(--bg-light); 
             border-bottom: 1px solid var(--border-gray); display: flex; 
@@ -44,7 +43,6 @@
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
         .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
 
-        /* --- قسم البحث والخدمات --- */
         .search-sticky { position: sticky; top: 65px; z-index: 1000; background: var(--bg-gray); padding: 12px 16px; }
         .search-wrapper { position: relative; width: 100%; }
         .search-input { 
@@ -173,12 +171,13 @@
                 ["Facebook - Post Reactions [Cheap]", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "0.0001972"],
                 ["Facebook - Post Reactions", "فيسبوك - ردود الفعل على المنشور", "0.000648"],
                 ["Facebook - Watch Time [60k Mins]", "فيسبوك - وقت المشاهدة [60 ألف دقيقة]", "1.728"],
-                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
+                ["Facebook - Live Views (1)", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
                 ["Facebook - Video Views", "فيسبوك - المشاهدات", "0.0000542"],
                 ["Facebook - Story Views", "فيسبوك - مشاهدات القصص", "0.002457"],
                 ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة", "0.001026"],
                 ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور", "0.000104"],
                 ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة", "0.00125"],
+                ["Facebook - Live Views (2)", "فيسبوك - مشاهدات مباشرة", "0.0018114"],
                 ["Facebook - Services [Global | Real]", "فيسبوك - خدمات [ عالمي | حقيقي ]", "0.01316"],
                 ["Facebook - Services [Global | HQ]", "فيسبوك - خدمات [ عالمي | جودة عالية ]", "0.0096"]
             ]},
@@ -242,19 +241,15 @@
             const isAr = lang === 'ar';
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
-            
-            // تحديث نصوص الهيدر
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = t.regions[regIdx];
             
-            // تحديث الأيقونة/العلم في الهيدر
             const flagKey = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"][regIdx];
             const flagBox = document.getElementById('flag-display');
             flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
-            // تحديث نصوص البحث والزر
             document.getElementById('serviceSearch').placeholder = t.search;
             document.getElementById('btn-text').innerText = t.btn;
 
@@ -274,10 +269,8 @@
                     item.onclick = function() {
                         document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
                         this.classList.add('selected');
-                        
                         localStorage.setItem('chosen_service', nameToShow);
                         localStorage.setItem('service_price', price);
-                        
                         document.getElementById('confirmBtn').classList.add('visible');
                     };
                     item.innerHTML = `
