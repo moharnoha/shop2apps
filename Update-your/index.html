@@ -99,6 +99,8 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
+        #email { direction: ltr; text-align: left; }
+
         .price-container { 
             background: #f8fafc; border-radius: 16px; padding: 16px; 
             display: flex; justify-content: space-between; align-items: center; 
@@ -217,6 +219,12 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
+        // الجزء المسؤول عن تصفير الموقع عند التحديث (النظام الجديد)
+        // يتم تنفيذه فقط عند إعادة تحميل الصفحة الفعلية (Reload) وليس عند الانتقال بين الصفحات الداخلية
+        if (performance.navigation.type === 1) {
+             ["chosen_service", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
+        }
+
         const translations = {
             ar: {
                 navT1: "مركز الشحن", navT2: "الرسمي",
@@ -224,7 +232,7 @@
                 labelPlatform: "رابط المنصة",
                 labelCat: "الفئة المختارة",
                 labelQty: "الكمية المطلوبة",
-                labelEmail: "البريد الإلكتروني",
+                labelEmail: "البريد الإلكتروني (Gmail)",
                 total: "إجمالي المستحق",
                 btn: "تأكيد الطلب والدفع",
                 safe: "بوابة دفع آمنة مشفرة بواسطة SERVIO",
@@ -239,7 +247,7 @@
                 labelPlatform: "Platform Link",
                 labelCat: "Selected Category",
                 labelQty: "Quantity",
-                labelEmail: "Email Address",
+                labelEmail: "Email Address (Gmail)",
                 total: "Total Due",
                 btn: "Confirm & Pay",
                 safe: "Secure Encrypted Payment by SERVIO",
@@ -311,6 +319,7 @@
             const params = new URLSearchParams(window.location.search);
             const link = params.get('link') || localStorage.getItem("temp_link");
             if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
+            
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
             
             const savedQty = localStorage.getItem("temp_qty");
@@ -344,7 +353,8 @@
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
                 if (!qty || qty < 1) flash('box-quantity');
-                if (!email.includes('@')) flash('box-email');
+                
+                if (!email.toLowerCase().endsWith('@gmail.com')) flash('box-email');
 
                 if (err) return;
 
