@@ -128,7 +128,7 @@
                             <label class="label" id="label-quantity"></label>
                             <div class="input-box" id="box-quantity">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="text" inputmode="numeric" placeholder="أدخل الكمية هنا">
+                                <input id="quantity" type="text" inputmode="numeric">
                             </div>
                             <div class="limit-hint">
                                 <span id="min-hint"></span>
@@ -284,19 +284,30 @@
             other: `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
         };
 
-        // دالة التحديث السريع للسعر دون منع الكتابة
-        function updatePriceOnly() {
+        // دالة لتنسيق الأرقام بفاصلة الآلاف
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function updatePriceAndFormat() {
             const qtyInput = document.getElementById("quantity");
             const displayPrice = document.getElementById("display-price");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             
-            // تنظيف المدخلات لتبقى أرقام فقط ولكن دون "حبس" القيمة فورياً
-            qtyInput.value = qtyInput.value.replace(/[^0-9]/g, '');
-            const val = parseInt(qtyInput.value) || 0;
+            // 1. استخراج الأرقام فقط من القيمة الحالية
+            let rawValue = qtyInput.value.replace(/[^0-9]/g, '');
             
-            const total = unitPrice * val;
+            // 2. تحديث السعر بناءً على القيمة الخام
+            const valNum = parseInt(rawValue) || 0;
+            const total = unitPrice * valNum;
             displayPrice.innerText = `$${Number(total.toFixed(7))}`;
-            localStorage.setItem("temp_qty", qtyInput.value);
+            
+            // 3. إعادة تنسيق حقل الإدخال ليظهر الفواصل للمستخدم
+            if (rawValue !== "") {
+                qtyInput.value = formatNumber(rawValue);
+            }
+            
+            localStorage.setItem("temp_qty", rawValue);
         }
 
         function updateUI() {
@@ -326,10 +337,11 @@
             document.getElementById('platformLink').placeholder = t.placeholderLink;
             document.getElementById('quantity').placeholder = t.placeholderQty;
 
+            // تنسيق الأرقام في التلميحات (الأدنى والأقصى)
             const minVal = localStorage.getItem("service_min") || "--";
             const maxVal = localStorage.getItem("service_max") || "--";
-            document.getElementById('min-hint').innerText = t.minText + minVal;
-            document.getElementById('max-hint').innerText = t.maxText + maxVal;
+            document.getElementById('min-hint').innerText = t.minText + (minVal !== "--" ? formatNumber(minVal) : "--");
+            document.getElementById('max-hint').innerText = t.maxText + (maxVal !== "--" ? formatNumber(maxVal) : "--");
 
             const sId = localStorage.getItem('chosen_service_id');
             const catSpan = document.getElementById("category");
@@ -349,15 +361,18 @@
             const link = params.get('link') || localStorage.getItem("temp_link");
             if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-            document.getElementById("quantity").value = localStorage.getItem("temp_qty") || "";
             
-            updatePriceOnly();
+            // استرجاع الكمية وتنسيقها عند التحميل
+            const savedQty = localStorage.getItem("temp_qty") || "";
+            document.getElementById("quantity").value = savedQty !== "" ? formatNumber(savedQty) : "";
+            
+            updatePriceAndFormat();
         }
 
         function goToCategory() {
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             localStorage.setItem("temp_email", document.getElementById("email").value);
-            localStorage.setItem("temp_qty", document.getElementById("quantity").value);
+            localStorage.setItem("temp_qty", document.getElementById("quantity").value.replace(/,/g, ''));
             location.href = `../Category/?link=${encodeURIComponent(document.getElementById("platformLink").value)}`;
         }
 
@@ -365,13 +380,15 @@
             updateUI();
             
             const qtyInput = document.getElementById("quantity");
-            qtyInput.addEventListener('input', updatePriceOnly);
+            qtyInput.addEventListener('input', updatePriceAndFormat);
 
             document.getElementById("payBtn").onclick = async function() {
                 const link = document.getElementById("platformLink").value;
                 const email = document.getElementById("email").value;
-                const qtyStr = qtyInput.value;
-                const qtyNum = parseInt(qtyStr) || 0;
+                
+                // استخلاص الرقم الصافي بدون فواصل للمعالجة
+                const qtyRaw = qtyInput.value.replace(/,/g, '');
+                const qtyNum = parseInt(qtyRaw) || 0;
                 
                 const service = localStorage.getItem("chosen_service");
                 const minVal = parseInt(localStorage.getItem("service_min")) || 1;
@@ -386,12 +403,7 @@
 
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
-                
-                // هنا يتم التحقق من الحد الأقصى عند الضغط فقط
-                if (qtyStr === "" || qtyNum < minVal || qtyNum > maxVal) {
-                    flash('box-quantity');
-                }
-                
+                if (qtyRaw === "" || qtyNum < minVal || qtyNum > maxVal) flash('box-quantity');
                 if (!email.toLowerCase().endsWith('@gmail.com')) flash('box-email');
 
                 if (err) return;
