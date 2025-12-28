@@ -19,21 +19,32 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; }
         .main-container { width: 100%; max-width: 480px; background-color: var(--bg-gray); display: flex; flex-direction: column; min-height: 100vh; position: relative; }
 
+        /* --- الهيدر الجديد --- */
         header { 
-            width: 100%; height: 65px; background-color: var(--bg-light); border-bottom: 1px solid var(--border-gray); 
-            display: flex; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box; 
-            position: sticky; top: 0; z-index: 1001;
+            width: 100%; height: 65px; background-color: var(--bg-light); 
+            border-bottom: 1px solid var(--border-gray); display: flex; 
+            align-items: center; justify-content: space-between; 
+            padding: 0 12px; box-sizing: border-box; position: sticky; 
+            top: 0; z-index: 1001;
         }
+
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 28px; width: auto; }
         .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
         .title-box { display: flex; flex-direction: column; }
         .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
-        
-        .info-display-wrapper { display: flex; align-items: center; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0 10px; height: 34px; gap: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+        .info-display-wrapper { 
+            display: flex; align-items: center; background: #f1f5f9; 
+            border: 1px solid #e2e8f0; border-radius: 6px; 
+            padding: 0 12px; height: 34px; gap: 5px;
+        }
+
         .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
         .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
+        .mena-icon { width: 16px; height: 16px; fill: #94a3b8; }
 
+        /* --- قسم البحث والخدمات --- */
         .search-sticky { position: sticky; top: 65px; z-index: 1000; background: var(--bg-gray); padding: 12px 16px; }
         .search-wrapper { position: relative; width: 100%; }
         .search-input { 
@@ -106,7 +117,7 @@
                 <div id="flag-display"></div>
                 <div class="display-text">
                     <span id="label-reg">---</span>
-                    <span style="color:#e2e8f0;">|</span>
+                    <span style="color:#cbd5e0;">|</span>
                     <span id="label-lng">--</span>
                 </div>
             </div>
@@ -130,12 +141,14 @@
     <script>
         const translations = {
             ar: { 
-                navT1: "مركز الشحن", navT2: "الرسمي", search: "ابحث عن خدمة...", btn: "تأكيد الاختيار",
+                navT1: "مركز الشحن", navT2: "الرسمي",
+                search: "ابحث عن خدمة...", btn: "تأكيد الاختيار",
                 qty: "الكمية: 1",
                 regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"] 
             },
             en: { 
-                navT1: "Official Top Up", navT2: "Center", search: "Search service...", btn: "Confirm Selection",
+                navT1: "Official Top Up", navT2: "Center",
+                search: "Search service...", btn: "Confirm Selection",
                 qty: "Qty: 1",
                 regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other"] 
             }
@@ -229,15 +242,21 @@
             const isAr = lang === 'ar';
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            
+            // تحديث نصوص الهيدر
             document.getElementById('nav-t1').innerText = t.navT1;
             document.getElementById('nav-t2').innerText = t.navT2;
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = t.regions[regIdx];
+            
+            // تحديث الأيقونة/العلم في الهيدر
+            const flagKey = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"][regIdx];
+            const flagBox = document.getElementById('flag-display');
+            flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
+
+            // تحديث نصوص البحث والزر
             document.getElementById('serviceSearch').placeholder = t.search;
             document.getElementById('btn-text').innerText = t.btn;
-
-            const flagKey = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"][regIdx];
-            document.getElementById('flag-display').innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon">`;
 
             const list = document.getElementById('servicesList');
             list.innerHTML = "";
@@ -256,7 +275,6 @@
                         document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
                         this.classList.add('selected');
                         
-                        // التعديل هنا: تخزين السعر بشكل مستقل
                         localStorage.setItem('chosen_service', nameToShow);
                         localStorage.setItem('service_price', price);
                         
