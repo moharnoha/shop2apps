@@ -161,7 +161,6 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        // مصفوفة البيانات الأساسية للمطابقة (نفس التي في صفحة التصنيفات)
         const servicesMatrix = [
             { items: [
                 ["Facebook - Followers [Bot Data] [Cheapest]", "فيسبوك - المتابعون [بيانات البوت] [الأرخص]"],
@@ -238,10 +237,6 @@
             ]}
         ];
 
-        if (performance.navigation.type === 1) {
-             ["chosen_service", "chosen_service_id", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
-        }
-
         const translations = {
             ar: {
                 navT1: "مركز الشحن", navT2: "الرسمي",
@@ -286,6 +281,10 @@
             const displayPrice = document.getElementById("display-price");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const quantity = parseFloat(qtyInput.value) || 0;
+            
+            // حفظ الكمية الحالية في التخزين المؤقت لتجنب فقدانها عند العودة
+            localStorage.setItem("temp_qty", qtyInput.value);
+            
             const total = unitPrice * quantity;
             displayPrice.innerText = `$${Number(total.toFixed(7))}`;
             return total;
@@ -315,7 +314,7 @@
             document.getElementById('btn-text').innerText = t.btn;
             document.getElementById('safe-text').innerText = t.safe;
 
-            // تحديث "الفئة المختارة" فوراً حسب اللغة
+            // تحديث "الفئة المختارة" حسب اللغة المختارة في الهيدر
             const sId = localStorage.getItem('chosen_service_id');
             const catSpan = document.getElementById("category");
             
@@ -333,11 +332,15 @@
                 catSpan.style.color = "#94a3b8";
             }
 
+            // استعادة القيم المدخلة
             const params = new URLSearchParams(window.location.search);
             const link = params.get('link') || localStorage.getItem("temp_link");
             if (link) document.getElementById("platformLink").value = decodeURIComponent(link);
+            
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-            if (localStorage.getItem("temp_qty")) document.getElementById("quantity").value = localStorage.getItem("temp_qty");
+            
+            const savedQty = localStorage.getItem("temp_qty");
+            if (savedQty) document.getElementById("quantity").value = savedQty;
             
             calculateTotalPrice();
         }
@@ -351,16 +354,23 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
-            document.getElementById("quantity").oninput = calculateTotalPrice;
+            
+            const qtyInput = document.getElementById("quantity");
+            qtyInput.addEventListener('input', calculateTotalPrice);
+
             document.getElementById("payBtn").onclick = async function() {
                 const link = document.getElementById("platformLink").value;
                 const email = document.getElementById("email").value;
-                const qty = parseFloat(document.getElementById("quantity").value) || 0;
+                const qty = parseFloat(qtyInput.value) || 0;
                 const service = localStorage.getItem("chosen_service");
                 const finalCharge = calculateTotalPrice();
 
                 let err = false;
-                const flash = (id) => { document.getElementById(id).classList.add('error-state'); err = true; setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); };
+                const flash = (id) => { 
+                    document.getElementById(id).classList.add('error-state'); 
+                    err = true; 
+                    setTimeout(()=>document.getElementById(id).classList.remove('error-state'), 1000); 
+                };
 
                 if (!link) flash('box-platform');
                 if (!service) flash('box-category');
@@ -373,9 +383,16 @@
                 this.disabled = true;
 
                 try {
-                    const data = { platformLink: link, category: service, quantity: qty, charge: `$${finalCharge.toFixed(7)}`, gmail: email };
+                    const data = { 
+                        platformLink: link, 
+                        category: service, 
+                        quantity: qty, 
+                        charge: `$${finalCharge.toFixed(7)}`, 
+                        gmail: email 
+                    };
                     await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
                     setTimeout(() => {
+                        // تنظيف الذاكرة بعد النجاح فقط
                         ["chosen_service", "chosen_service_id", "temp_link", "temp_email", "temp_qty", "service_price"].forEach(k => localStorage.removeItem(k));
                         location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                     }, 500);
@@ -384,8 +401,9 @@
         });
 
         window.addEventListener('pageshow', () => {
-            document.getElementById("payBtn").classList.remove('loading');
-            document.getElementById("payBtn").disabled = false;
+            const btn = document.getElementById("payBtn");
+            btn.classList.remove('loading');
+            btn.disabled = false;
             updateUI();
         });
     </script>
